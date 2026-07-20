@@ -1,0 +1,100 @@
+Folder PATH listing for volume Local Disk
+Volume serial number is C0AD-37BC
+G:.
+|   Directory.Build.props
+|   Directory.Packages.props
+|   ImanSoftware.Platform.slnx
+|   nuget.config
+|   tree-view-result.txt
+|   tree-view.bat
+|   
+\---src
+    \---ImanSoftware.Framework
+        |   ImanSoftware.Framework.csproj
+        |   
+        +---Abstractions
+        |   +---Caching
+        |   |       CacheServiceRegistration.cs
+        |   |       ICacheService.cs
+        |   |       
+        |   +---CurrentUserAccessor
+        |   |       CurrentUserAccessorRegistration.cs
+        |   |       ICurrentUserAccessor.cs
+        |   |       
+        |   +---DateTimeProvider
+        |   |       DateTimeProviderRegistration.cs
+        |   |       IDateTimeProvider.cs
+        |   |       
+        |   +---GuidGenerator
+        |   |       GuidGeneratorImpelementationType.cs
+        |   |       GuidGeneratorRegistration.cs
+        |   |       IGuidGenerator.cs
+        |   |       
+        |   \---Serialization
+        |           IJsonSerializer.cs
+        |           JsonSerializerRegistration.cs
+        |           SerializationDefaultImpelementationType.cs
+        |           
+        +---bin
+        |   \---Debug
+        |       \---net10.0
+        |               ImanSoftware.Framework.deps.json
+        |               ImanSoftware.Framework.dll
+        |               ImanSoftware.Framework.pdb
+        |               
+        +---Core
+        |   \---Results
+        |           AppError.cs
+        |           AppErrorType.cs
+        |           Result.cs
+        |           
+        +---FrameworkDependencyInjection
+        |       FrameworkDependencyInjection.cs
+        |       ImanFrameworkDependencyInjectionCustomImplementation.cs
+        |       ImanFrameworkDependencyInjectionOptions.cs
+        |       
+        +---Infrastructure
+        |   +---Caching
+        |   |       MemoryCacheService.cs
+        |   |       
+        |   +---CurrentUserAccessor
+        |   |       HttpContextUserAccessor.cs
+        |   |       
+        |   +---DateTimeProvider
+        |   |       DefaultDateTimeProvider.cs
+        |   |       
+        |   +---GuidGenerator
+        |   |       RandomGuidGenerator.cs
+        |   |       SequentialGuidGenerator.cs
+        |   |       
+        |   \---Serialization
+        |           NewtonsoftJsonSerializer.cs
+        |           SystemTextJsonSerializer.cs
+        |           
+        \---obj
+            |   ImanSoftware.Framework.csproj.nuget.dgspec.json
+            |   ImanSoftware.Framework.csproj.nuget.g.props
+            |   ImanSoftware.Framework.csproj.nuget.g.targets
+            |   project.assets.json
+            |   project.nuget.cache
+            |   
+            \---Debug
+                \---net10.0
+                    |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+                    |   ImanSoftware.Framework.AssemblyInfo.cs
+                    |   ImanSoftware.Framework.AssemblyInfoInputs.cache
+                    |   ImanSoftware.Framework.assets.cache
+                    |   ImanSoftware.Framework.csproj.AssemblyReference.cache
+                    |   ImanSoftware.Framework.csproj.CoreCompileInputs.cache
+                    |   ImanSoftware.Framework.csproj.FileListAbsolute.txt
+                    |   ImanSoftware.Framework.dll
+                    |   ImanSoftware.Framework.GeneratedMSBuildEditorConfig.editorconfig
+                    |   ImanSoftware.Framework.GlobalUsings.g.cs
+                    |   ImanSoftware.Framework.pdb
+                    |   
+                    +---ref
+                    |       ImanSoftware.Framework.dll
+                    |       
+                    \---refint
+                            ImanSoftware.Framework.dll
+                            
