@@ -14,4 +14,17 @@ public class ImanFrameworkDependencyInjectionCustomImplementation<TInterface>
                 customImplementation = value;
         }
     }
+
+
+    /// <summary>
+    /// Implicitly converts a Type to an instance of this class.
+    /// Allows writing: options.JwtCustomImplementation = typeof(MyCustomJwtService);
+    /// </summary>
+    public static implicit operator ImanFrameworkDependencyInjectionCustomImplementation<TInterface>(Type type)
+    {
+        return new()
+        {
+            CustomImplementation = type
+        };
+    }
 }

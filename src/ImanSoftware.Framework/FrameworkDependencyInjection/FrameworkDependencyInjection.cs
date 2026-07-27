@@ -2,7 +2,9 @@
 using ImanSoftware.Framework.Abstractions.CurrentUserAccessor;
 using ImanSoftware.Framework.Abstractions.DateTimeProvider;
 using ImanSoftware.Framework.Abstractions.GuidGenerator;
+using ImanSoftware.Framework.Abstractions.Jwt;
 using ImanSoftware.Framework.Abstractions.Serialization;
+using ImanSoftware.Framework.Infrastructure.Jwt;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImanSoftware.Framework.FrameworkDependencyInjection;
@@ -70,6 +72,19 @@ public static class FrameworkDependencyInjection
             CacheServiceRegistration.AddCacheService(
                 services,
                 options.CacheServiceCustomImplementation?.CustomImplementation);
+        }
+
+        // 6. JwtService
+        if (options.AddJwtService)
+        {
+            if(options.JwtCustomImplementation is null && options.JwtConfigureOptions is null)
+            {
+                throw new ArgumentException(message: "ImanSoftware.Abstractions.Jwt.IJwtService Needs Options For Registering Default Implementation.", paramName: nameof(options.JwtConfigureOptions));
+            }
+            JwtTokenServiceRegistration.AddJwtTokenService(
+                services,
+                options.JwtConfigureOptions,
+                options.JwtCustomImplementation?.CustomImplementation);
         }
 
         return services;

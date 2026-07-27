@@ -1,10 +1,14 @@
 Folder PATH listing for volume Local Disk
 Volume serial number is C0AD-37BC
 G:.
+|   .gitattributes
+|   .gitignore
 |   Directory.Build.props
 |   Directory.Packages.props
 |   ImanSoftware.Platform.slnx
+|   LICENSE.txt
 |   nuget.config
+|   README.md
 |   tree-view-result.txt
 |   tree-view.bat
 |   
@@ -30,10 +34,23 @@ G:.
         |   |       GuidGeneratorRegistration.cs
         |   |       IGuidGenerator.cs
         |   |       
+        |   +---Jwt
+        |   |       IJwtTokenService.cs
+        |   |       JwtTokenServiceRegistration.cs
+        |   |       
+        |   +---Logging
+        |   |       ILoggerAdapter.cs
+        |   |       LoggerAdapterRegistration.cs
+        |   |       
         |   \---Serialization
         |           IJsonSerializer.cs
         |           JsonSerializerRegistration.cs
         |           SerializationDefaultImpelementationType.cs
+        |           
+        +---AspNetCore
+        |   \---Middlewares
+        |           JwtMiddleware.cs
+        |           UseMiddlewareExtensions.cs
         |           
         +---bin
         |   \---Debug
@@ -43,6 +60,27 @@ G:.
         |               ImanSoftware.Framework.pdb
         |               
         +---Core
+        |   +---Exceptions
+        |   |       BadRequestException.cs
+        |   |       BusinessRuleException.cs
+        |   |       ConflictException.cs
+        |   |       ForbiddenException.cs
+        |   |       FrameworkException.cs
+        |   |       NotFoundException.cs
+        |   |       UnauthorizedException.cs
+        |   |       ValidationException.cs
+        |   |       
+        |   +---Extensions
+        |   |       DateTimeExtensions.cs
+        |   |       EnumerableExtensions.cs
+        |   |       EnumExtensions.cs
+        |   |       ExceptionExtensions.cs
+        |   |       ObjectExtensions.cs
+        |   |       StringExtensions.cs
+        |   |       
+        |   +---Jwt
+        |   |       JwtTokenValidationResult.cs
+        |   |       
         |   \---Results
         |           AppError.cs
         |           AppErrorType.cs
@@ -66,6 +104,13 @@ G:.
         |   +---GuidGenerator
         |   |       RandomGuidGenerator.cs
         |   |       SequentialGuidGenerator.cs
+        |   |       
+        |   +---Jwt
+        |   |       JwtOptions.cs
+        |   |       JwtTokenService.cs
+        |   |       
+        |   +---Logging
+        |   |       LoggerAdapter.cs
         |   |       
         |   \---Serialization
         |           NewtonsoftJsonSerializer.cs
@@ -91,6 +136,7 @@ G:.
                     |   ImanSoftware.Framework.GeneratedMSBuildEditorConfig.editorconfig
                     |   ImanSoftware.Framework.GlobalUsings.g.cs
                     |   ImanSoftware.Framework.pdb
+                    |   ImanSoftware.Framework.sourcelink.json
                     |   
                     +---ref
                     |       ImanSoftware.Framework.dll

@@ -1,7 +1,9 @@
 ﻿using ImanSoftware.Framework.Abstractions.Caching;
 using ImanSoftware.Framework.Abstractions.DateTimeProvider;
 using ImanSoftware.Framework.Abstractions.GuidGenerator;
+using ImanSoftware.Framework.Abstractions.Jwt;
 using ImanSoftware.Framework.Abstractions.Serialization;
+using ImanSoftware.Framework.Infrastructure.Jwt;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImanSoftware.Framework.FrameworkDependencyInjection;
@@ -37,5 +39,12 @@ public sealed class ImanFrameworkDependencyInjectionOptions
     #region CacheService
     public bool AddCacheService { get; set; } = false;
     public ImanFrameworkDependencyInjectionCustomImplementation<ICacheService>? CacheServiceCustomImplementation { get; set; }
+    #endregion
+
+
+    #region Jwt
+    public bool AddJwtService { get; set; } = false; 
+    public JwtOptions? JwtConfigureOptions { get; set; }
+    public ImanFrameworkDependencyInjectionCustomImplementation<IJwtTokenService>? JwtCustomImplementation { get; set; }
     #endregion
 }
