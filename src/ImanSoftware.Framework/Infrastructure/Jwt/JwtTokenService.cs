@@ -74,7 +74,7 @@ public class JwtTokenService : IJwtTokenService
                 ValidAudience = _options.Audience,
                 ValidateIssuerSigningKey = true,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_options.SecretKey)),
-                ValidateLifetime = false // ← اجازه می‌دهد توکن منقضی شده نیز خوانده شود
+                ValidateLifetime = false 
             };
 
             var handler = new JwtSecurityTokenHandler();

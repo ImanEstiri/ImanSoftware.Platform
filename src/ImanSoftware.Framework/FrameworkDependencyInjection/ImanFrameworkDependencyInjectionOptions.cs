@@ -1,4 +1,5 @@
 ﻿using ImanSoftware.Framework.Abstractions.Caching;
+using ImanSoftware.Framework.Abstractions.DataAccess;
 using ImanSoftware.Framework.Abstractions.DateTimeProvider;
 using ImanSoftware.Framework.Abstractions.GuidGenerator;
 using ImanSoftware.Framework.Abstractions.Jwt;
@@ -46,5 +47,12 @@ public sealed class ImanFrameworkDependencyInjectionOptions
     public bool AddJwtService { get; set; } = false; 
     public JwtOptions? JwtConfigureOptions { get; set; }
     public ImanFrameworkDependencyInjectionCustomImplementation<IJwtTokenService>? JwtCustomImplementation { get; set; }
+    #endregion
+
+
+    #region DataAccess
+    public bool AddDataAccess { get; set; } 
+    public string? ConnectionString { get; set; }
+    public Action<IServiceCollection>? DataAccessCustomRegistration { get; set; }
     #endregion
 }

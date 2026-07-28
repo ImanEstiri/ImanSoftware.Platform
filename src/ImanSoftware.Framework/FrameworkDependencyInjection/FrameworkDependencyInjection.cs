@@ -1,5 +1,6 @@
 ﻿using ImanSoftware.Framework.Abstractions.Caching;
 using ImanSoftware.Framework.Abstractions.CurrentUserAccessor;
+using ImanSoftware.Framework.Abstractions.DataAccess;
 using ImanSoftware.Framework.Abstractions.DateTimeProvider;
 using ImanSoftware.Framework.Abstractions.GuidGenerator;
 using ImanSoftware.Framework.Abstractions.Jwt;
@@ -29,7 +30,7 @@ public static class FrameworkDependencyInjection
         this IServiceCollection services,
         ImanFrameworkDependencyInjectionOptions options)
     {
-        if(options is null)
+        if (options is null)
             options = new ImanFrameworkDependencyInjectionOptions();
 
         // 1. DateTime Provider
@@ -77,7 +78,7 @@ public static class FrameworkDependencyInjection
         // 6. JwtService
         if (options.AddJwtService)
         {
-            if(options.JwtCustomImplementation is null && options.JwtConfigureOptions is null)
+            if (options.JwtCustomImplementation is null && options.JwtConfigureOptions is null)
             {
                 throw new ArgumentException(message: "ImanSoftware.Abstractions.Jwt.IJwtService Needs Options For Registering Default Implementation.", paramName: nameof(options.JwtConfigureOptions));
             }
@@ -85,6 +86,21 @@ public static class FrameworkDependencyInjection
                 services,
                 options.JwtConfigureOptions,
                 options.JwtCustomImplementation?.CustomImplementation);
+        }
+
+        // DataAccess
+        if (options.AddDataAccess)
+        {
+            if (options.DataAccessCustomRegistration is null )
+            {
+                // When using the default DataAccess implementation, ConnectionString must be provided.
+                ArgumentNullException.ThrowIfNullOrWhiteSpace(options.ConnectionString, nameof(options.ConnectionString));
+            }
+
+            DataAccessRegistration.AddDataAccess(
+                services,
+                options.ConnectionString!,
+                options.DataAccessCustomRegistration);
         }
 
         return services;
