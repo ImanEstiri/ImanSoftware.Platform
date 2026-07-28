@@ -2,6 +2,7 @@
 using ImanSoftware.Framework.Abstractions.CurrentUserAccessor;
 using ImanSoftware.Framework.Abstractions.DataAccess;
 using ImanSoftware.Framework.Abstractions.DateTimeProvider;
+using ImanSoftware.Framework.Abstractions.FileStorage;
 using ImanSoftware.Framework.Abstractions.GuidGenerator;
 using ImanSoftware.Framework.Abstractions.Jwt;
 using ImanSoftware.Framework.Abstractions.Serialization;
@@ -102,6 +103,21 @@ public static class FrameworkDependencyInjection
                 options.ConnectionString!,
                 options.DataAccessCustomRegistration);
         }
+
+        // 8. FileStorage
+        if (options.AddFileStorage)
+        {
+            if (options.FileStorageCustomRegistration is null && options.FileStorageConfigureOptions is null)
+            {
+                throw new ArgumentException("When using the default FileStorage implementation, FileStorageConfigureOptions must be provided. ");
+            }
+
+            FileStorageRegistration.AddFileStorage(
+                services,
+                options.FileStorageConfigureOptions!,
+                options.FileStorageCustomRegistration);
+        }
+
 
         return services;
     }

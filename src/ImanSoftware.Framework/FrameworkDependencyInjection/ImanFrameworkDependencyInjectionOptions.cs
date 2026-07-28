@@ -4,6 +4,7 @@ using ImanSoftware.Framework.Abstractions.DateTimeProvider;
 using ImanSoftware.Framework.Abstractions.GuidGenerator;
 using ImanSoftware.Framework.Abstractions.Jwt;
 using ImanSoftware.Framework.Abstractions.Serialization;
+using ImanSoftware.Framework.Infrastructure.FileStorage;
 using ImanSoftware.Framework.Infrastructure.Jwt;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -54,5 +55,12 @@ public sealed class ImanFrameworkDependencyInjectionOptions
     public bool AddDataAccess { get; set; } 
     public string? ConnectionString { get; set; }
     public Action<IServiceCollection>? DataAccessCustomRegistration { get; set; }
+    #endregion
+
+
+    #region FileStorage
+    public bool AddFileStorage { get; set; } 
+    public Action<LocalFileStorageOptions>? FileStorageConfigureOptions { get; set; }
+    public Action<IServiceCollection>? FileStorageCustomRegistration { get; set; }
     #endregion
 }
