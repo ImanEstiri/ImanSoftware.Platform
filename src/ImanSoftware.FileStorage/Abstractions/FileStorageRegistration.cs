@@ -21,10 +21,10 @@ public static class FileStorageRegistration
         }
         else
         {
-            // ثبت اینترفیس اصلی
+            // main
             services.TryAddScoped<IFileStorage, LocalFileStorage>();
 
-            // ثبت اینترفیس‌های جزئی (همگی به یک نمونه اشاره می‌کنند)
+            // small interfaces
             services.TryAddScoped<IFileUploader>(sp => sp.GetRequiredService<IFileStorage>());
             services.TryAddScoped<IFileDownloader>(sp => sp.GetRequiredService<IFileStorage>());
             services.TryAddScoped<IFileDeleter>(sp => sp.GetRequiredService<IFileStorage>());
