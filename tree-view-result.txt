@@ -13,134 +13,189 @@ G:.
 |   tree-view.bat
 |   
 \---src
-    \---ImanSoftware.Framework
-        |   ImanSoftware.Framework.csproj
+    +---ImanSoftware.Framework
+    |   |   ImanSoftware.Framework.csproj
+    |   |   
+    |   +---Abstractions
+    |   |   +---Caching
+    |   |   |       CacheServiceRegistration.cs
+    |   |   |       ICacheService.cs
+    |   |   |       
+    |   |   +---CurrentUserAccessor
+    |   |   |       CurrentUserAccessorRegistration.cs
+    |   |   |       ICurrentUserAccessor.cs
+    |   |   |       
+    |   |   +---DataAccess
+    |   |   |       DataAccessRegistration.cs
+    |   |   |       IDbConnectionFactory.cs
+    |   |   |       ISqlDataAccessor.cs
+    |   |   |       ITransactionScope.cs
+    |   |   |       
+    |   |   +---DateTimeProvider
+    |   |   |       DateTimeProviderRegistration.cs
+    |   |   |       IDateTimeProvider.cs
+    |   |   |       
+    |   |   +---FileStorage
+    |   |   |       FileStorageRegistration.cs
+    |   |   |       IFileDeleter.cs
+    |   |   |       IFileDownloader.cs
+    |   |   |       IFileInfoProvider.cs
+    |   |   |       IFileMover.cs
+    |   |   |       IFileStorage.cs
+    |   |   |       IFileUploader.cs
+    |   |   |       
+    |   |   +---GuidGenerator
+    |   |   |       GuidGeneratorImpelementationType.cs
+    |   |   |       GuidGeneratorRegistration.cs
+    |   |   |       IGuidGenerator.cs
+    |   |   |       
+    |   |   +---Jwt
+    |   |   |       IJwtTokenService.cs
+    |   |   |       JwtTokenServiceRegistration.cs
+    |   |   |       
+    |   |   +---Logging
+    |   |   |       ILoggerAdapter.cs
+    |   |   |       LoggerAdapterRegistration.cs
+    |   |   |       
+    |   |   \---Serialization
+    |   |           IJsonSerializer.cs
+    |   |           JsonSerializerRegistration.cs
+    |   |           SerializationDefaultImpelementationType.cs
+    |   |           
+    |   +---AspNetCore
+    |   |   \---Middlewares
+    |   |           JwtMiddleware.cs
+    |   |           UseMiddlewareExtensions.cs
+    |   |           
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Framework.deps.json
+    |   |               ImanSoftware.Framework.dll
+    |   |               ImanSoftware.Framework.pdb
+    |   |               
+    |   +---Core
+    |   |   +---Base
+    |   |   |       BaseEntity.cs
+    |   |   |       
+    |   |   +---Exceptions
+    |   |   |       BadRequestException.cs
+    |   |   |       BusinessRuleException.cs
+    |   |   |       ConflictException.cs
+    |   |   |       ForbiddenException.cs
+    |   |   |       FrameworkException.cs
+    |   |   |       NotFoundException.cs
+    |   |   |       UnauthorizedException.cs
+    |   |   |       ValidationException.cs
+    |   |   |       
+    |   |   +---Extensions
+    |   |   |       DateTimeExtensions.cs
+    |   |   |       EnumerableExtensions.cs
+    |   |   |       EnumExtensions.cs
+    |   |   |       ExceptionExtensions.cs
+    |   |   |       ObjectExtensions.cs
+    |   |   |       StringExtensions.cs
+    |   |   |       
+    |   |   +---FileStorage
+    |   |   |       FileMetadata.cs
+    |   |   |       
+    |   |   +---Jwt
+    |   |   |       JwtTokenValidationResult.cs
+    |   |   |       
+    |   |   \---Outcome
+    |   |           Outcome.cs
+    |   |           OutcomeError.cs
+    |   |           OutcomeErrorType.cs
+    |   |           
+    |   +---FrameworkDependencyInjection
+    |   |       FrameworkDependencyInjection.cs
+    |   |       ImanFrameworkDependencyInjectionCustomImplementation.cs
+    |   |       ImanFrameworkDependencyInjectionOptions.cs
+    |   |       
+    |   +---Infrastructure
+    |   |   +---Caching
+    |   |   |       MemoryCacheService.cs
+    |   |   |       
+    |   |   +---CurrentUserAccessor
+    |   |   |       HttpContextUserAccessor.cs
+    |   |   |       
+    |   |   +---DataAccess
+    |   |   |   \---Dapper
+    |   |   |           DapperConnectionFactory.cs
+    |   |   |           DapperDataAccessor.cs
+    |   |   |           DapperTransactionScope.cs
+    |   |   |           
+    |   |   +---DateTimeProvider
+    |   |   |       DefaultDateTimeProvider.cs
+    |   |   |       
+    |   |   +---FileStorage
+    |   |   |       LocalFileStorage.cs
+    |   |   |       LocalFileStorageOptions.cs
+    |   |   |       
+    |   |   +---GuidGenerator
+    |   |   |       RandomGuidGenerator.cs
+    |   |   |       SequentialGuidGenerator.cs
+    |   |   |       
+    |   |   +---Jwt
+    |   |   |       JwtOptions.cs
+    |   |   |       JwtTokenService.cs
+    |   |   |       
+    |   |   +---Logging
+    |   |   |       LoggerAdapter.cs
+    |   |   |       
+    |   |   \---Serialization
+    |   |           NewtonsoftJsonSerializer.cs
+    |   |           SystemTextJsonSerializer.cs
+    |   |           
+    |   \---obj
+    |       |   ImanSoftware.Framework.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.Framework.csproj.nuget.g.props
+    |       |   ImanSoftware.Framework.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.Framework.AssemblyInfo.cs
+    |               |   ImanSoftware.Framework.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.Framework.assets.cache
+    |               |   ImanSoftware.Framework.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.Framework.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.Framework.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.Framework.dll
+    |               |   ImanSoftware.Framework.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.Framework.GlobalUsings.g.cs
+    |               |   ImanSoftware.Framework.pdb
+    |               |   ImanSoftware.Framework.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.Framework.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.Framework.dll
+    |                       
+    \---ImanSoftware.Outcome
+        |   ImanSoftware.Outcome.csproj
         |   
-        +---Abstractions
-        |   +---Caching
-        |   |       CacheServiceRegistration.cs
-        |   |       ICacheService.cs
-        |   |       
-        |   +---CurrentUserAccessor
-        |   |       CurrentUserAccessorRegistration.cs
-        |   |       ICurrentUserAccessor.cs
-        |   |       
-        |   +---DateTimeProvider
-        |   |       DateTimeProviderRegistration.cs
-        |   |       IDateTimeProvider.cs
-        |   |       
-        |   +---GuidGenerator
-        |   |       GuidGeneratorImpelementationType.cs
-        |   |       GuidGeneratorRegistration.cs
-        |   |       IGuidGenerator.cs
-        |   |       
-        |   +---Jwt
-        |   |       IJwtTokenService.cs
-        |   |       JwtTokenServiceRegistration.cs
-        |   |       
-        |   +---Logging
-        |   |       ILoggerAdapter.cs
-        |   |       LoggerAdapterRegistration.cs
-        |   |       
-        |   \---Serialization
-        |           IJsonSerializer.cs
-        |           JsonSerializerRegistration.cs
-        |           SerializationDefaultImpelementationType.cs
-        |           
-        +---AspNetCore
-        |   \---Middlewares
-        |           JwtMiddleware.cs
-        |           UseMiddlewareExtensions.cs
-        |           
         +---bin
         |   \---Debug
         |       \---net10.0
-        |               ImanSoftware.Framework.deps.json
-        |               ImanSoftware.Framework.dll
-        |               ImanSoftware.Framework.pdb
-        |               
-        +---Core
-        |   +---Exceptions
-        |   |       BadRequestException.cs
-        |   |       BusinessRuleException.cs
-        |   |       ConflictException.cs
-        |   |       ForbiddenException.cs
-        |   |       FrameworkException.cs
-        |   |       NotFoundException.cs
-        |   |       UnauthorizedException.cs
-        |   |       ValidationException.cs
-        |   |       
-        |   +---Extensions
-        |   |       DateTimeExtensions.cs
-        |   |       EnumerableExtensions.cs
-        |   |       EnumExtensions.cs
-        |   |       ExceptionExtensions.cs
-        |   |       ObjectExtensions.cs
-        |   |       StringExtensions.cs
-        |   |       
-        |   +---Jwt
-        |   |       JwtTokenValidationResult.cs
-        |   |       
-        |   \---Results
-        |           AppError.cs
-        |           AppErrorType.cs
-        |           Result.cs
-        |           
-        +---FrameworkDependencyInjection
-        |       FrameworkDependencyInjection.cs
-        |       ImanFrameworkDependencyInjectionCustomImplementation.cs
-        |       ImanFrameworkDependencyInjectionOptions.cs
-        |       
-        +---Infrastructure
-        |   +---Caching
-        |   |       MemoryCacheService.cs
-        |   |       
-        |   +---CurrentUserAccessor
-        |   |       HttpContextUserAccessor.cs
-        |   |       
-        |   +---DateTimeProvider
-        |   |       DefaultDateTimeProvider.cs
-        |   |       
-        |   +---GuidGenerator
-        |   |       RandomGuidGenerator.cs
-        |   |       SequentialGuidGenerator.cs
-        |   |       
-        |   +---Jwt
-        |   |       JwtOptions.cs
-        |   |       JwtTokenService.cs
-        |   |       
-        |   +---Logging
-        |   |       LoggerAdapter.cs
-        |   |       
-        |   \---Serialization
-        |           NewtonsoftJsonSerializer.cs
-        |           SystemTextJsonSerializer.cs
-        |           
         \---obj
-            |   ImanSoftware.Framework.csproj.nuget.dgspec.json
-            |   ImanSoftware.Framework.csproj.nuget.g.props
-            |   ImanSoftware.Framework.csproj.nuget.g.targets
+            |   ImanSoftware.Outcome.csproj.nuget.dgspec.json
+            |   ImanSoftware.Outcome.csproj.nuget.g.props
+            |   ImanSoftware.Outcome.csproj.nuget.g.targets
             |   project.assets.json
             |   project.nuget.cache
             |   
             \---Debug
                 \---net10.0
                     |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
-                    |   ImanSoftware.Framework.AssemblyInfo.cs
-                    |   ImanSoftware.Framework.AssemblyInfoInputs.cache
-                    |   ImanSoftware.Framework.assets.cache
-                    |   ImanSoftware.Framework.csproj.AssemblyReference.cache
-                    |   ImanSoftware.Framework.csproj.CoreCompileInputs.cache
-                    |   ImanSoftware.Framework.csproj.FileListAbsolute.txt
-                    |   ImanSoftware.Framework.dll
-                    |   ImanSoftware.Framework.GeneratedMSBuildEditorConfig.editorconfig
-                    |   ImanSoftware.Framework.GlobalUsings.g.cs
-                    |   ImanSoftware.Framework.pdb
-                    |   ImanSoftware.Framework.sourcelink.json
+                    |   ImanSoftware.Outcome.AssemblyInfo.cs
+                    |   ImanSoftware.Outcome.AssemblyInfoInputs.cache
+                    |   ImanSoftware.Outcome.assets.cache
+                    |   ImanSoftware.Outcome.GeneratedMSBuildEditorConfig.editorconfig
+                    |   ImanSoftware.Outcome.GlobalUsings.g.cs
                     |   
                     +---ref
-                    |       ImanSoftware.Framework.dll
-                    |       
                     \---refint
-                            ImanSoftware.Framework.dll
-                            

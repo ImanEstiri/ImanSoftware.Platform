@@ -4,7 +4,28 @@
     <File Path="Directory.Packages.props" />
     <File Path="nuget.config" />
   </Folder>
-  <Folder Name="/src/">
+  <Folder Name="/src/" />
+  <Folder Name="/src/Components/" />
+  <Folder Name="/src/Core/">
+    <Project Path="src/ImanSoftware.Domain/ImanSoftware.Domain.csproj" Id="26d1c86a-99e3-441d-863d-1410eba99f9c" />
+    <Project Path="src/ImanSoftware.Extensions/ImanSoftware.Extensions.csproj" Id="b0b9a54b-314d-418d-b3fe-b314143440be" />
+    <Project Path="src/ImanSoftware.Outcome/ImanSoftware.Outcomes.csproj" Id="50f88865-214b-43a6-8bea-b6976f6787d7" />
+  </Folder>
+  <Folder Name="/src/Modules/">
+    <Project Path="src/ImanSoftware.Caching/ImanSoftware.Caching.csproj" Id="32d8de9a-9256-430e-9516-9e48cfc45a1d" />
+    <Project Path="src/ImanSoftware.CurrentUserAccessor/ImanSoftware.CurrentUserAccessor.csproj" Id="aba086c0-0d36-45e2-94b1-485fdf3c9e89" />
+    <Project Path="src/ImanSoftware.DataAccess/ImanSoftware.DataAccess.csproj" Id="75cf11e4-9a42-47d4-a1a4-fc2940176e46" />
+    <Project Path="src/ImanSoftware.DateTimeProvider/ImanSoftware.DateTimeProvider.csproj" Id="c584d237-3031-4cd2-8cb3-4bd3587c8815" />
+    <Project Path="src/ImanSoftware.FileStorage/ImanSoftware.FileStorage.csproj" Id="f46d1b66-a3ac-4ddc-9ad8-7499553a47f1" />
+    <Project Path="src/ImanSoftware.GuidGenerator/ImanSoftware.GuidGenerator.csproj" Id="42d53904-16e0-43d6-bcd7-738e2053c67b" />
+    <Project Path="src/ImanSoftware.Jwt/ImanSoftware.Jwt.csproj" Id="4b28a5e4-2cf7-4cb9-8408-3cf313e2912d" />
+    <Project Path="src/ImanSoftware.Logging/ImanSoftware.Logging.csproj" Id="349fd88e-9c93-47b7-a4fd-c588ced16536" />
+    <Project Path="src/ImanSoftware.Serialization/ImanSoftware.Serialization.csproj" Id="0536534d-d994-488a-935a-0a38adcff658" />
+  </Folder>
+  <Folder Name="/src/Providers/">
+    <Project Path="src/ImanSoftware.DataAccess.Dapper/ImanSoftware.DataAccess.Dapper.csproj" Id="ef57c1af-184b-4e6e-9302-8e14af426e05" />
+  </Folder>
+  <Folder Name="/src/Umbrella/">
     <Project Path="src/ImanSoftware.Framework/ImanSoftware.Framework.csproj" />
   </Folder>
 </Solution>
