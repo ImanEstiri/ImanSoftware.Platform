@@ -21,7 +21,6 @@
     <ProjectReference Include="..\ImanSoftware.Caching\ImanSoftware.Caching.csproj" />
     <ProjectReference Include="..\ImanSoftware.CurrentUserAccessor\ImanSoftware.CurrentUserAccessor.csproj" />
     <ProjectReference Include="..\ImanSoftware.DataAccess.Dapper\ImanSoftware.DataAccess.Dapper.csproj" />
-    <ProjectReference Include="..\ImanSoftware.DataAccess\ImanSoftware.DataAccess.csproj" />
     <ProjectReference Include="..\ImanSoftware.DateTimeProvider\ImanSoftware.DateTimeProvider.csproj" />
     <ProjectReference Include="..\ImanSoftware.Domain\ImanSoftware.Domain.csproj" />
     <ProjectReference Include="..\ImanSoftware.Extensions\ImanSoftware.Extensions.csproj" />
@@ -31,12 +30,6 @@
     <ProjectReference Include="..\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
     <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcomes.csproj" />
     <ProjectReference Include="..\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Abstractions\" />
-    <Folder Include="Core\" />
-    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
 </Project>

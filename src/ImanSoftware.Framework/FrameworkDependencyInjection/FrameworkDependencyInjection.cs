@@ -1,6 +1,7 @@
 ﻿using ImanSoftware.Caching;
 using ImanSoftware.CurrentUserAccessor;
 using ImanSoftware.DataAccess;
+using ImanSoftware.DataAccess.Dapper;
 using ImanSoftware.DateTimeProvider;
 using ImanSoftware.FileStorage;
 using ImanSoftware.GuidGenerator;
@@ -91,16 +92,26 @@ public static class FrameworkDependencyInjection
         // 7. DataAccess
         if (options.AddDataAccess)
         {
-            if (options.DataAccessCustomRegistration is null )
-            {
-                // When using the default DataAccess implementation, ConnectionString must be provided.
-                ArgumentNullException.ThrowIfNullOrWhiteSpace(options.ConnectionString, nameof(options.ConnectionString));
-            }
+            // When using the default DataAccess implementation, ConnectionString must be provided.
+            ArgumentException.ThrowIfNullOrWhiteSpace(options.DataAccessConnectionString, nameof(options.DataAccessConnectionString));
+
 
             DataAccessRegistration.AddDataAccess(
                 services,
-                options.ConnectionString!,
                 options.DataAccessCustomRegistration);
+        }
+
+        // 7.1. DataAccess.Dapper
+        if (options.AddDapperDataAccess)
+        {
+
+            // When using the default DataAccess implementation, ConnectionString must be provided.
+            ArgumentException.ThrowIfNullOrWhiteSpace(options.DapperConnectionString, nameof(options.DapperConnectionString));
+
+
+            DapperDataAccessRegistration.AddDapperDataAccess(
+                services,
+                options.DapperConnectionString);
         }
 
         // 8. FileStorage

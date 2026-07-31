@@ -51,8 +51,14 @@ public sealed class ImanFrameworkDependencyInjectionOptions
 
     #region DataAccess
     public bool AddDataAccess { get; set; } 
-    public string? ConnectionString { get; set; }
+    public string? DataAccessConnectionString { get; set; }
     public Action<IServiceCollection>? DataAccessCustomRegistration { get; set; }
+    #endregion
+
+
+    #region DataAccess.Dapper
+    public bool AddDapperDataAccess { get; set; } 
+    public string? DapperConnectionString { get; set; }
     #endregion
 
 
