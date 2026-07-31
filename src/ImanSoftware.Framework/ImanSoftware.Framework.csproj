@@ -17,4 +17,26 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ImanSoftware.Caching\ImanSoftware.Caching.csproj" />
+    <ProjectReference Include="..\ImanSoftware.CurrentUserAccessor\ImanSoftware.CurrentUserAccessor.csproj" />
+    <ProjectReference Include="..\ImanSoftware.DataAccess.Dapper\ImanSoftware.DataAccess.Dapper.csproj" />
+    <ProjectReference Include="..\ImanSoftware.DataAccess\ImanSoftware.DataAccess.csproj" />
+    <ProjectReference Include="..\ImanSoftware.DateTimeProvider\ImanSoftware.DateTimeProvider.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Domain\ImanSoftware.Domain.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Extensions\ImanSoftware.Extensions.csproj" />
+    <ProjectReference Include="..\ImanSoftware.FileStorage\ImanSoftware.FileStorage.csproj" />
+    <ProjectReference Include="..\ImanSoftware.GuidGenerator\ImanSoftware.GuidGenerator.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Jwt\ImanSoftware.Jwt.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcomes.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="Core\" />
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
+
 </Project>

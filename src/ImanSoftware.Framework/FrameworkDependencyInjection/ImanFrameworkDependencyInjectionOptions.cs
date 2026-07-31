@@ -1,11 +1,9 @@
-﻿using ImanSoftware.Framework.Abstractions.Caching;
-using ImanSoftware.Framework.Abstractions.DataAccess;
-using ImanSoftware.Framework.Abstractions.DateTimeProvider;
-using ImanSoftware.Framework.Abstractions.GuidGenerator;
-using ImanSoftware.Framework.Abstractions.Jwt;
-using ImanSoftware.Framework.Abstractions.Serialization;
-using ImanSoftware.Framework.Infrastructure.FileStorage;
-using ImanSoftware.Framework.Infrastructure.Jwt;
+﻿using ImanSoftware.Caching;
+using ImanSoftware.DateTimeProvider;
+using ImanSoftware.FileStorage;
+using ImanSoftware.GuidGenerator;
+using ImanSoftware.Jwt;
+using ImanSoftware.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace ImanSoftware.Framework.FrameworkDependencyInjection;
