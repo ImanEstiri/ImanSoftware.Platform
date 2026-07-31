@@ -6,21 +6,11 @@ public static class DataAccessRegistration
 {
     public static IServiceCollection AddDataAccess(
         this IServiceCollection services,
-        string connectionString,
-        Action<IServiceCollection>? customRegistration = null)
+        Action<IServiceCollection> customRegistration)
     {
-        if (string.IsNullOrWhiteSpace(connectionString))
-            throw new ArgumentException("Connection string is required.", nameof(connectionString));
+        ArgumentNullException.ThrowIfNull(customRegistration , paramName: "CustomRegistration for ImanSoftware.DataAccess");
 
-        if (customRegistration is not null)
-        {
-            customRegistration(services);
-        }
-        else
-        {
-            //services.TryAddSingleton<IDbConnectionFactory>(new DapperConnectionFactory(connectionString));
-            //services.TryAddScoped<ISqlDataAccessor, DapperDataAccessor>();
-        }
+        customRegistration(services);
 
         return services;
     }
