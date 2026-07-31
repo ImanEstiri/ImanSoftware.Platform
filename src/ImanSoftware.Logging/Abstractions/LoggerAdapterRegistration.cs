@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ImanSoftware.Logging;
 
@@ -14,9 +15,7 @@ internal static class LoggerAdapterRegistration
         }
         else
         {
-            // ثبت Open Generic برای LoggerAdapter
-            // ILoggerAdapter<> به LoggerAdapter<> نگاشت می‌شود
-            //services.TryAddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
+            services.TryAddSingleton(typeof(ILoggerAdapter<>), typeof(LoggerAdapter<>));
         }
 
         return services;

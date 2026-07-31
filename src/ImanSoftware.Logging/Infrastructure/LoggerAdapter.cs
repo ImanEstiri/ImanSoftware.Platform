@@ -1,7 +1,6 @@
-﻿using ImanSoftware.Logging;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 
-namespace ImanSoftware.Framework.Infrastructure.Logging;
+namespace ImanSoftware.Logging;
 
 /// <summary>
 /// Default implementation of ILoggerAdapter using Microsoft.Extensions.Logging.ILogger.
