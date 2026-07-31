@@ -13,140 +13,427 @@ G:.
 |   tree-view.bat
 |   
 \---src
+    +---ImanSoftware.Caching
+    |   |   ImanSoftware.Caching.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       CacheServiceRegistration.cs
+    |   |       ICacheService.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Caching.deps.json
+    |   |               ImanSoftware.Caching.dll
+    |   |               ImanSoftware.Caching.pdb
+    |   |               ImanSoftware.Serialization.dll
+    |   |               ImanSoftware.Serialization.pdb
+    |   |               
+    |   +---Infrastructure
+    |   |       MemoryCacheService.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.Caching.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.Caching.csproj.nuget.g.props
+    |       |   ImanSoftware.Caching.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoft.0D5F876E.Up2Date
+    |               |   ImanSoftware.Caching.AssemblyInfo.cs
+    |               |   ImanSoftware.Caching.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.Caching.assets.cache
+    |               |   ImanSoftware.Caching.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.Caching.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.Caching.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.Caching.dll
+    |               |   ImanSoftware.Caching.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.Caching.GlobalUsings.g.cs
+    |               |   ImanSoftware.Caching.pdb
+    |               |   ImanSoftware.Caching.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.Caching.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.Caching.dll
+    |                       
+    +---ImanSoftware.CurrentUserAccessor
+    |   |   ImanSoftware.CurrentUserAccessor.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       CurrentUserAccessorRegistration.cs
+    |   |       ICurrentUserAccessor.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.CurrentUserAccessor.deps.json
+    |   |               ImanSoftware.CurrentUserAccessor.dll
+    |   |               ImanSoftware.CurrentUserAccessor.pdb
+    |   |               
+    |   +---Infrastructure
+    |   |       HttpContextUserAccessor.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.CurrentUserAccessor.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.CurrentUserAccessor.csproj.nuget.g.props
+    |       |   ImanSoftware.CurrentUserAccessor.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.CurrentUserAccessor.AssemblyInfo.cs
+    |               |   ImanSoftware.CurrentUserAccessor.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.CurrentUserAccessor.assets.cache
+    |               |   ImanSoftware.CurrentUserAccessor.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.CurrentUserAccessor.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.CurrentUserAccessor.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.CurrentUserAccessor.dll
+    |               |   ImanSoftware.CurrentUserAccessor.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.CurrentUserAccessor.GlobalUsings.g.cs
+    |               |   ImanSoftware.CurrentUserAccessor.pdb
+    |               |   ImanSoftware.CurrentUserAccessor.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.CurrentUserAccessor.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.CurrentUserAccessor.dll
+    |                       
+    +---ImanSoftware.DataAccess
+    |   |   ImanSoftware.DataAccess.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       DataAccessRegistration.cs
+    |   |       IDbConnectionFactory.cs
+    |   |       ISqlDataAccessor.cs
+    |   |       ITransactionScope.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.DataAccess.deps.json
+    |   |               ImanSoftware.DataAccess.dll
+    |   |               ImanSoftware.DataAccess.pdb
+    |   |               ImanSoftware.Outcomes.dll
+    |   |               ImanSoftware.Outcomes.pdb
+    |   |               
+    |   \---obj
+    |       |   ImanSoftware.DataAccess.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.DataAccess.csproj.nuget.g.props
+    |       |   ImanSoftware.DataAccess.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoft.47AA3A8A.Up2Date
+    |               |   ImanSoftware.DataAccess.AssemblyInfo.cs
+    |               |   ImanSoftware.DataAccess.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.DataAccess.assets.cache
+    |               |   ImanSoftware.DataAccess.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.DataAccess.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.DataAccess.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.DataAccess.dll
+    |               |   ImanSoftware.DataAccess.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.DataAccess.GlobalUsings.g.cs
+    |               |   ImanSoftware.DataAccess.pdb
+    |               |   ImanSoftware.DataAccess.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.DataAccess.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.DataAccess.dll
+    |                       
+    +---ImanSoftware.DataAccess.Dapper
+    |   |   ImanSoftware.DataAccess.Dapper.csproj
+    |   |   
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.DataAccess.Dapper.deps.json
+    |   |               ImanSoftware.DataAccess.Dapper.dll
+    |   |               ImanSoftware.DataAccess.Dapper.pdb
+    |   |               ImanSoftware.DataAccess.dll
+    |   |               ImanSoftware.DataAccess.pdb
+    |   |               ImanSoftware.Outcomes.dll
+    |   |               ImanSoftware.Outcomes.pdb
+    |   |               
+    |   +---Infrastructure
+    |   |       DapperConnectionFactory.cs
+    |   |       DapperDataAccessor.cs
+    |   |       DapperTransactionScope.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.DataAccess.Dapper.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.DataAccess.Dapper.csproj.nuget.g.props
+    |       |   ImanSoftware.DataAccess.Dapper.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoft.775C9275.Up2Date
+    |               |   ImanSoftware.DataAccess.Dapper.AssemblyInfo.cs
+    |               |   ImanSoftware.DataAccess.Dapper.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.DataAccess.Dapper.assets.cache
+    |               |   ImanSoftware.DataAccess.Dapper.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.DataAccess.Dapper.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.DataAccess.Dapper.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.DataAccess.Dapper.dll
+    |               |   ImanSoftware.DataAccess.Dapper.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.DataAccess.Dapper.GlobalUsings.g.cs
+    |               |   ImanSoftware.DataAccess.Dapper.pdb
+    |               |   ImanSoftware.DataAccess.Dapper.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.DataAccess.Dapper.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.DataAccess.Dapper.dll
+    |                       
+    +---ImanSoftware.DateTimeProvider
+    |   |   ImanSoftware.DateTimeProvider.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       DateTimeProviderRegistration.cs
+    |   |       IDateTimeProvider.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.DateTimeProvider.deps.json
+    |   |               ImanSoftware.DateTimeProvider.dll
+    |   |               ImanSoftware.DateTimeProvider.pdb
+    |   |               
+    |   +---Infrastructure
+    |   |       DefaultDateTimeProvider.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.DateTimeProvider.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.DateTimeProvider.csproj.nuget.g.props
+    |       |   ImanSoftware.DateTimeProvider.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.DateTimeProvider.AssemblyInfo.cs
+    |               |   ImanSoftware.DateTimeProvider.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.DateTimeProvider.assets.cache
+    |               |   ImanSoftware.DateTimeProvider.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.DateTimeProvider.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.DateTimeProvider.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.DateTimeProvider.dll
+    |               |   ImanSoftware.DateTimeProvider.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.DateTimeProvider.GlobalUsings.g.cs
+    |               |   ImanSoftware.DateTimeProvider.pdb
+    |               |   ImanSoftware.DateTimeProvider.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.DateTimeProvider.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.DateTimeProvider.dll
+    |                       
+    +---ImanSoftware.Domain
+    |   |   ImanSoftware.Domain.csproj
+    |   |   
+    |   +---Base
+    |   |       BaseEntity.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Domain.deps.json
+    |   |               ImanSoftware.Domain.dll
+    |   |               ImanSoftware.Domain.pdb
+    |   |               
+    |   \---obj
+    |       |   ImanSoftware.Domain.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.Domain.csproj.nuget.g.props
+    |       |   ImanSoftware.Domain.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.Domain.AssemblyInfo.cs
+    |               |   ImanSoftware.Domain.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.Domain.assets.cache
+    |               |   ImanSoftware.Domain.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.Domain.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.Domain.dll
+    |               |   ImanSoftware.Domain.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.Domain.GlobalUsings.g.cs
+    |               |   ImanSoftware.Domain.pdb
+    |               |   ImanSoftware.Domain.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.Domain.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.Domain.dll
+    |                       
+    +---ImanSoftware.Extensions
+    |   |   ImanSoftware.Extensions.csproj
+    |   |   
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Extensions.deps.json
+    |   |               ImanSoftware.Extensions.dll
+    |   |               ImanSoftware.Extensions.pdb
+    |   |               
+    |   +---Extensions
+    |   |       DateTimeExtensions.cs
+    |   |       EnumerableExtensions.cs
+    |   |       EnumExtensions.cs
+    |   |       ExceptionExtensions.cs
+    |   |       ObjectExtensions.cs
+    |   |       StringExtensions.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.Extensions.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.Extensions.csproj.nuget.g.props
+    |       |   ImanSoftware.Extensions.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.Extensions.AssemblyInfo.cs
+    |               |   ImanSoftware.Extensions.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.Extensions.assets.cache
+    |               |   ImanSoftware.Extensions.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.Extensions.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.Extensions.dll
+    |               |   ImanSoftware.Extensions.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.Extensions.GlobalUsings.g.cs
+    |               |   ImanSoftware.Extensions.pdb
+    |               |   ImanSoftware.Extensions.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.Extensions.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.Extensions.dll
+    |                       
+    +---ImanSoftware.FileStorage
+    |   |   ImanSoftware.FileStorage.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       FileStorageRegistration.cs
+    |   |       IFileDeleter.cs
+    |   |       IFileDownloader.cs
+    |   |       IFileInfoProvider.cs
+    |   |       IFileMover.cs
+    |   |       IFileStorage.cs
+    |   |       IFileUploader.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.FileStorage.deps.json
+    |   |               ImanSoftware.FileStorage.dll
+    |   |               ImanSoftware.FileStorage.pdb
+    |   |               ImanSoftware.Logging.dll
+    |   |               ImanSoftware.Logging.pdb
+    |   |               ImanSoftware.Outcomes.dll
+    |   |               ImanSoftware.Outcomes.pdb
+    |   |               
+    |   +---Core
+    |   |       FileMetadata.cs
+    |   |       
+    |   +---Infrastructure
+    |   |       LocalFileStorage.cs
+    |   |       LocalFileStorageOptions.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.FileStorage.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.FileStorage.csproj.nuget.g.props
+    |       |   ImanSoftware.FileStorage.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoft.BD0FED5E.Up2Date
+    |               |   ImanSoftware.FileStorage.AssemblyInfo.cs
+    |               |   ImanSoftware.FileStorage.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.FileStorage.assets.cache
+    |               |   ImanSoftware.FileStorage.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.FileStorage.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.FileStorage.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.FileStorage.dll
+    |               |   ImanSoftware.FileStorage.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.FileStorage.GlobalUsings.g.cs
+    |               |   ImanSoftware.FileStorage.pdb
+    |               |   ImanSoftware.FileStorage.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.FileStorage.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.FileStorage.dll
+    |                       
     +---ImanSoftware.Framework
     |   |   ImanSoftware.Framework.csproj
     |   |   
     |   +---Abstractions
-    |   |   +---Caching
-    |   |   |       CacheServiceRegistration.cs
-    |   |   |       ICacheService.cs
-    |   |   |       
-    |   |   +---CurrentUserAccessor
-    |   |   |       CurrentUserAccessorRegistration.cs
-    |   |   |       ICurrentUserAccessor.cs
-    |   |   |       
-    |   |   +---DataAccess
-    |   |   |       DataAccessRegistration.cs
-    |   |   |       IDbConnectionFactory.cs
-    |   |   |       ISqlDataAccessor.cs
-    |   |   |       ITransactionScope.cs
-    |   |   |       
-    |   |   +---DateTimeProvider
-    |   |   |       DateTimeProviderRegistration.cs
-    |   |   |       IDateTimeProvider.cs
-    |   |   |       
-    |   |   +---FileStorage
-    |   |   |       FileStorageRegistration.cs
-    |   |   |       IFileDeleter.cs
-    |   |   |       IFileDownloader.cs
-    |   |   |       IFileInfoProvider.cs
-    |   |   |       IFileMover.cs
-    |   |   |       IFileStorage.cs
-    |   |   |       IFileUploader.cs
-    |   |   |       
-    |   |   +---GuidGenerator
-    |   |   |       GuidGeneratorImpelementationType.cs
-    |   |   |       GuidGeneratorRegistration.cs
-    |   |   |       IGuidGenerator.cs
-    |   |   |       
-    |   |   +---Jwt
-    |   |   |       IJwtTokenService.cs
-    |   |   |       JwtTokenServiceRegistration.cs
-    |   |   |       
-    |   |   +---Logging
-    |   |   |       ILoggerAdapter.cs
-    |   |   |       LoggerAdapterRegistration.cs
-    |   |   |       
-    |   |   \---Serialization
-    |   |           IJsonSerializer.cs
-    |   |           JsonSerializerRegistration.cs
-    |   |           SerializationDefaultImpelementationType.cs
-    |   |           
-    |   +---AspNetCore
-    |   |   \---Middlewares
-    |   |           JwtMiddleware.cs
-    |   |           UseMiddlewareExtensions.cs
-    |   |           
     |   +---bin
     |   |   \---Debug
     |   |       \---net10.0
+    |   |               ImanSoftware.Caching.dll
+    |   |               ImanSoftware.Caching.pdb
+    |   |               ImanSoftware.CurrentUserAccessor.dll
+    |   |               ImanSoftware.CurrentUserAccessor.pdb
+    |   |               ImanSoftware.DataAccess.Dapper.dll
+    |   |               ImanSoftware.DataAccess.Dapper.pdb
+    |   |               ImanSoftware.DataAccess.dll
+    |   |               ImanSoftware.DataAccess.pdb
+    |   |               ImanSoftware.DateTimeProvider.dll
+    |   |               ImanSoftware.DateTimeProvider.pdb
+    |   |               ImanSoftware.Domain.dll
+    |   |               ImanSoftware.Domain.pdb
+    |   |               ImanSoftware.Extensions.dll
+    |   |               ImanSoftware.Extensions.pdb
+    |   |               ImanSoftware.FileStorage.dll
+    |   |               ImanSoftware.FileStorage.pdb
     |   |               ImanSoftware.Framework.deps.json
     |   |               ImanSoftware.Framework.dll
     |   |               ImanSoftware.Framework.pdb
+    |   |               ImanSoftware.GuidGenerator.dll
+    |   |               ImanSoftware.GuidGenerator.pdb
+    |   |               ImanSoftware.Jwt.dll
+    |   |               ImanSoftware.Jwt.pdb
+    |   |               ImanSoftware.Logging.dll
+    |   |               ImanSoftware.Logging.pdb
+    |   |               ImanSoftware.Outcomes.dll
+    |   |               ImanSoftware.Outcomes.pdb
+    |   |               ImanSoftware.Serialization.dll
+    |   |               ImanSoftware.Serialization.pdb
     |   |               
     |   +---Core
-    |   |   +---Base
-    |   |   |       BaseEntity.cs
-    |   |   |       
-    |   |   +---Exceptions
-    |   |   |       BadRequestException.cs
-    |   |   |       BusinessRuleException.cs
-    |   |   |       ConflictException.cs
-    |   |   |       ForbiddenException.cs
-    |   |   |       FrameworkException.cs
-    |   |   |       NotFoundException.cs
-    |   |   |       UnauthorizedException.cs
-    |   |   |       ValidationException.cs
-    |   |   |       
-    |   |   +---Extensions
-    |   |   |       DateTimeExtensions.cs
-    |   |   |       EnumerableExtensions.cs
-    |   |   |       EnumExtensions.cs
-    |   |   |       ExceptionExtensions.cs
-    |   |   |       ObjectExtensions.cs
-    |   |   |       StringExtensions.cs
-    |   |   |       
-    |   |   +---FileStorage
-    |   |   |       FileMetadata.cs
-    |   |   |       
-    |   |   +---Jwt
-    |   |   |       JwtTokenValidationResult.cs
-    |   |   |       
-    |   |   \---Outcome
-    |   |           Outcome.cs
-    |   |           OutcomeError.cs
-    |   |           OutcomeErrorType.cs
-    |   |           
     |   +---FrameworkDependencyInjection
     |   |       FrameworkDependencyInjection.cs
     |   |       ImanFrameworkDependencyInjectionCustomImplementation.cs
     |   |       ImanFrameworkDependencyInjectionOptions.cs
     |   |       
     |   +---Infrastructure
-    |   |   +---Caching
-    |   |   |       MemoryCacheService.cs
-    |   |   |       
-    |   |   +---CurrentUserAccessor
-    |   |   |       HttpContextUserAccessor.cs
-    |   |   |       
-    |   |   +---DataAccess
-    |   |   |   \---Dapper
-    |   |   |           DapperConnectionFactory.cs
-    |   |   |           DapperDataAccessor.cs
-    |   |   |           DapperTransactionScope.cs
-    |   |   |           
-    |   |   +---DateTimeProvider
-    |   |   |       DefaultDateTimeProvider.cs
-    |   |   |       
-    |   |   +---FileStorage
-    |   |   |       LocalFileStorage.cs
-    |   |   |       LocalFileStorageOptions.cs
-    |   |   |       
-    |   |   +---GuidGenerator
-    |   |   |       RandomGuidGenerator.cs
-    |   |   |       SequentialGuidGenerator.cs
-    |   |   |       
-    |   |   +---Jwt
-    |   |   |       JwtOptions.cs
-    |   |   |       JwtTokenService.cs
-    |   |   |       
-    |   |   +---Logging
-    |   |   |       LoggerAdapter.cs
-    |   |   |       
-    |   |   \---Serialization
-    |   |           NewtonsoftJsonSerializer.cs
-    |   |           SystemTextJsonSerializer.cs
-    |   |           
     |   \---obj
     |       |   ImanSoftware.Framework.csproj.nuget.dgspec.json
     |       |   ImanSoftware.Framework.csproj.nuget.g.props
@@ -157,6 +444,7 @@ G:.
     |       \---Debug
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoft.0327F692.Up2Date
     |               |   ImanSoftware.Framework.AssemblyInfo.cs
     |               |   ImanSoftware.Framework.AssemblyInfoInputs.cache
     |               |   ImanSoftware.Framework.assets.cache
@@ -175,27 +463,265 @@ G:.
     |               \---refint
     |                       ImanSoftware.Framework.dll
     |                       
-    \---ImanSoftware.Outcome
-        |   ImanSoftware.Outcome.csproj
+    +---ImanSoftware.GuidGenerator
+    |   |   ImanSoftware.GuidGenerator.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       GuidGeneratorImpelementationType.cs
+    |   |       GuidGeneratorRegistration.cs
+    |   |       IGuidGenerator.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.GuidGenerator.deps.json
+    |   |               ImanSoftware.GuidGenerator.dll
+    |   |               ImanSoftware.GuidGenerator.pdb
+    |   |               
+    |   +---Infrastructure
+    |   |       RandomGuidGenerator.cs
+    |   |       SequentialGuidGenerator.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.GuidGenerator.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.GuidGenerator.csproj.nuget.g.props
+    |       |   ImanSoftware.GuidGenerator.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.GuidGenerator.AssemblyInfo.cs
+    |               |   ImanSoftware.GuidGenerator.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.GuidGenerator.assets.cache
+    |               |   ImanSoftware.GuidGenerator.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.GuidGenerator.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.GuidGenerator.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.GuidGenerator.dll
+    |               |   ImanSoftware.GuidGenerator.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.GuidGenerator.GlobalUsings.g.cs
+    |               |   ImanSoftware.GuidGenerator.pdb
+    |               |   ImanSoftware.GuidGenerator.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.GuidGenerator.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.GuidGenerator.dll
+    |                       
+    +---ImanSoftware.Jwt
+    |   |   ImanSoftware.Jwt.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       IJwtTokenService.cs
+    |   |       JwtTokenServiceRegistration.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Jwt.deps.json
+    |   |               ImanSoftware.Jwt.dll
+    |   |               ImanSoftware.Jwt.pdb
+    |   |               
+    |   +---Core
+    |   |       JwtTokenValidationResult.cs
+    |   |       
+    |   +---Infrastructure
+    |   |       JwtOptions.cs
+    |   |       JwtTokenService.cs
+    |   |       
+    |   +---Middlewares
+    |   |       JwtMiddleware.cs
+    |   |       UseMiddlewareExtensions.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.Jwt.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.Jwt.csproj.nuget.g.props
+    |       |   ImanSoftware.Jwt.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.Jwt.AssemblyInfo.cs
+    |               |   ImanSoftware.Jwt.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.Jwt.assets.cache
+    |               |   ImanSoftware.Jwt.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.Jwt.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.Jwt.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.Jwt.dll
+    |               |   ImanSoftware.Jwt.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.Jwt.GlobalUsings.g.cs
+    |               |   ImanSoftware.Jwt.pdb
+    |               |   ImanSoftware.Jwt.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.Jwt.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.Jwt.dll
+    |                       
+    +---ImanSoftware.Logging
+    |   |   ImanSoftware.Logging.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       ILoggerAdapter.cs
+    |   |       LoggerAdapterRegistration.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Logging.deps.json
+    |   |               ImanSoftware.Logging.dll
+    |   |               ImanSoftware.Logging.pdb
+    |   |               
+    |   +---Infrastructure
+    |   |       LoggerAdapter.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.Logging.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.Logging.csproj.nuget.g.props
+    |       |   ImanSoftware.Logging.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.Logging.AssemblyInfo.cs
+    |               |   ImanSoftware.Logging.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.Logging.assets.cache
+    |               |   ImanSoftware.Logging.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.Logging.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.Logging.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.Logging.dll
+    |               |   ImanSoftware.Logging.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.Logging.GlobalUsings.g.cs
+    |               |   ImanSoftware.Logging.pdb
+    |               |   ImanSoftware.Logging.sourcelink.json
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.Logging.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.Logging.dll
+    |                       
+    +---ImanSoftware.Outcome
+    |   |   ImanSoftware.Outcomes.csproj
+    |   |   
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |               ImanSoftware.Outcome.deps.json
+    |   |               ImanSoftware.Outcome.dll
+    |   |               ImanSoftware.Outcome.pdb
+    |   |               ImanSoftware.Outcomes.deps.json
+    |   |               ImanSoftware.Outcomes.dll
+    |   |               ImanSoftware.Outcomes.pdb
+    |   |               
+    |   +---Exceptions
+    |   |       BadRequestException.cs
+    |   |       BusinessRuleException.cs
+    |   |       ConflictException.cs
+    |   |       ForbiddenException.cs
+    |   |       FrameworkException.cs
+    |   |       NotFoundException.cs
+    |   |       UnauthorizedException.cs
+    |   |       ValidationException.cs
+    |   |       
+    |   +---obj
+    |   |   |   ImanSoftware.Outcome.csproj.nuget.dgspec.json
+    |   |   |   ImanSoftware.Outcome.csproj.nuget.g.props
+    |   |   |   ImanSoftware.Outcome.csproj.nuget.g.targets
+    |   |   |   ImanSoftware.Outcomes.csproj.nuget.dgspec.json
+    |   |   |   ImanSoftware.Outcomes.csproj.nuget.g.props
+    |   |   |   ImanSoftware.Outcomes.csproj.nuget.g.targets
+    |   |   |   project.assets.json
+    |   |   |   project.nuget.cache
+    |   |   |   
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |           |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |   |           |   ImanSoftware.Outcome.AssemblyInfo.cs
+    |   |           |   ImanSoftware.Outcome.AssemblyInfoInputs.cache
+    |   |           |   ImanSoftware.Outcome.assets.cache
+    |   |           |   ImanSoftware.Outcome.csproj.CoreCompileInputs.cache
+    |   |           |   ImanSoftware.Outcome.csproj.FileListAbsolute.txt
+    |   |           |   ImanSoftware.Outcome.dll
+    |   |           |   ImanSoftware.Outcome.GeneratedMSBuildEditorConfig.editorconfig
+    |   |           |   ImanSoftware.Outcome.GlobalUsings.g.cs
+    |   |           |   ImanSoftware.Outcome.pdb
+    |   |           |   ImanSoftware.Outcome.sourcelink.json
+    |   |           |   ImanSoftware.Outcomes.AssemblyInfo.cs
+    |   |           |   ImanSoftware.Outcomes.AssemblyInfoInputs.cache
+    |   |           |   ImanSoftware.Outcomes.assets.cache
+    |   |           |   ImanSoftware.Outcomes.csproj.CoreCompileInputs.cache
+    |   |           |   ImanSoftware.Outcomes.csproj.FileListAbsolute.txt
+    |   |           |   ImanSoftware.Outcomes.dll
+    |   |           |   ImanSoftware.Outcomes.GeneratedMSBuildEditorConfig.editorconfig
+    |   |           |   ImanSoftware.Outcomes.GlobalUsings.g.cs
+    |   |           |   ImanSoftware.Outcomes.pdb
+    |   |           |   ImanSoftware.Outcomes.sourcelink.json
+    |   |           |   
+    |   |           +---ref
+    |   |           |       ImanSoftware.Outcome.dll
+    |   |           |       ImanSoftware.Outcomes.dll
+    |   |           |       
+    |   |           \---refint
+    |   |                   ImanSoftware.Outcome.dll
+    |   |                   ImanSoftware.Outcomes.dll
+    |   |                   
+    |   \---Outcome
+    |           Outcome.cs
+    |           OutcomeError.cs
+    |           OutcomeErrorType.cs
+    |           
+    \---ImanSoftware.Serialization
+        |   ImanSoftware.Serialization.csproj
         |   
+        +---Abstractions
+        |       IJsonSerializer.cs
+        |       JsonSerializerRegistration.cs
+        |       SerializationDefaultImpelementationType.cs
+        |       
         +---bin
         |   \---Debug
         |       \---net10.0
+        |               ImanSoftware.Serialization.deps.json
+        |               ImanSoftware.Serialization.dll
+        |               ImanSoftware.Serialization.pdb
+        |               
+        +---Infrastructure
+        |       NewtonsoftJsonSerializer.cs
+        |       SystemTextJsonSerializer.cs
+        |       
         \---obj
-            |   ImanSoftware.Outcome.csproj.nuget.dgspec.json
-            |   ImanSoftware.Outcome.csproj.nuget.g.props
-            |   ImanSoftware.Outcome.csproj.nuget.g.targets
+            |   ImanSoftware.Serialization.csproj.nuget.dgspec.json
+            |   ImanSoftware.Serialization.csproj.nuget.g.props
+            |   ImanSoftware.Serialization.csproj.nuget.g.targets
             |   project.assets.json
             |   project.nuget.cache
             |   
             \---Debug
                 \---net10.0
                     |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
-                    |   ImanSoftware.Outcome.AssemblyInfo.cs
-                    |   ImanSoftware.Outcome.AssemblyInfoInputs.cache
-                    |   ImanSoftware.Outcome.assets.cache
-                    |   ImanSoftware.Outcome.GeneratedMSBuildEditorConfig.editorconfig
-                    |   ImanSoftware.Outcome.GlobalUsings.g.cs
+                    |   ImanSoftware.Serialization.AssemblyInfo.cs
+                    |   ImanSoftware.Serialization.AssemblyInfoInputs.cache
+                    |   ImanSoftware.Serialization.assets.cache
+                    |   ImanSoftware.Serialization.csproj.AssemblyReference.cache
+                    |   ImanSoftware.Serialization.csproj.CoreCompileInputs.cache
+                    |   ImanSoftware.Serialization.csproj.FileListAbsolute.txt
+                    |   ImanSoftware.Serialization.dll
+                    |   ImanSoftware.Serialization.GeneratedMSBuildEditorConfig.editorconfig
+                    |   ImanSoftware.Serialization.GlobalUsings.g.cs
+                    |   ImanSoftware.Serialization.pdb
+                    |   ImanSoftware.Serialization.sourcelink.json
                     |   
                     +---ref
+                    |       ImanSoftware.Serialization.dll
+                    |       
                     \---refint
+                            ImanSoftware.Serialization.dll
+                            
