@@ -1,5 +1,7 @@
 # ImanSoftware.Domain
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight foundation for building Domain-Driven Design (DDD) applications in .NET.
 
 `ImanSoftware.Domain` provides the essential building blocks required to implement a clean and maintainable domain layer. It includes base entities, value objects, aggregate roots, specifications, repositories, domain events, and common domain models while remaining infrastructure-independent.
@@ -257,6 +259,7 @@ public class Product : BaseEntity<Guid>
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

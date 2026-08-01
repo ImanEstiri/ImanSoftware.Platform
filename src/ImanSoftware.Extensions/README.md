@@ -1,5 +1,7 @@
 # ImanSoftware.Extensions
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight collection of useful .NET extension methods that reduce boilerplate code and simplify everyday development.
 
 `ImanSoftware.Extensions` provides a rich set of extension methods for the most commonly used .NET types, making your code cleaner, more expressive, and easier to maintain.
@@ -267,6 +269,7 @@ long unix = date.ToUnixTimestamp();
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

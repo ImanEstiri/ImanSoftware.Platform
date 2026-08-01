@@ -1,5 +1,7 @@
 # ImanSoftware.Outcome
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight and extensible **Result/Outcome** implementation for .NET that helps you manage application flow without relying on exceptions.
 
 `ImanSoftware.Outcome` provides a clean implementation of the **Result Pattern**, allowing methods to return success or failure states with meaningful error information instead of throwing exceptions for expected scenarios.
@@ -233,6 +235,7 @@ else
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

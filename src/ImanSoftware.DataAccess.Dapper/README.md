@@ -1,5 +1,7 @@
 # ImanSoftware.DataAccess.Dapper
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A high-performance Dapper implementation for **ImanSoftware.DataAccess**, providing fast, lightweight, and efficient SQL data access for .NET applications.
 
 `ImanSoftware.DataAccess.Dapper` implements the abstractions defined in **ImanSoftware.DataAccess** using **Dapper** and **Microsoft.Data.SqlClient**. It offers efficient query execution, automatic connection management, transaction support, and seamless integration with Dependency Injection.
@@ -234,6 +236,7 @@ await _db.QueryAsync<Product>(
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

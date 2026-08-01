@@ -1,5 +1,7 @@
 # ImanSoftware.CurrentUserAccessor
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight abstraction for accessing the currently authenticated user in ASP.NET Core with support for strongly typed user identifiers.
 
 `ImanSoftware.CurrentUserAccessor` provides a clean and testable way to access the authenticated user without depending directly on `IHttpContextAccessor` throughout your application. It supports automatic conversion of the `sub` claim into strongly typed user IDs such as `Guid`, `int`, `long`, `string`, and other primitive types.
@@ -199,6 +201,7 @@ This allows your business logic to be tested without an active HTTP request.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

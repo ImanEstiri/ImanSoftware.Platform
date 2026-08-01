@@ -1,5 +1,7 @@
 # ImanSoftware.Caching
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight and extensible caching abstraction for .NET with a default in-memory implementation.
 
 `ImanSoftware.Caching` provides a clean caching API that decouples your application from any specific cache provider. The default implementation uses `IMemoryCache` and integrates with `IJsonSerializer` for flexible object serialization.
@@ -222,6 +224,7 @@ This keeps your tests isolated from the underlying cache implementation.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

@@ -1,5 +1,7 @@
 # ImanSoftware.Jwt
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight and extensible JWT authentication library for .NET with token generation, validation, and ASP.NET Core middleware support.
 
 `ImanSoftware.Jwt` provides a clean abstraction over JWT operations, making it easy to generate, validate, and process JSON Web Tokens while integrating seamlessly with ASP.NET Core applications.
@@ -224,6 +226,7 @@ app.UseJwtAuthentication();
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

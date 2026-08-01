@@ -1,5 +1,7 @@
 # ImanSoftware.Serialization
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A flexible JSON serialization abstraction for .NET with support for both **System.Text.Json** and **Newtonsoft.Json**.
 
 `ImanSoftware.Serialization` provides a unified interface for JSON serialization and deserialization, allowing applications to switch between serialization engines without changing business logic. Choose the implementation that best fits your project while keeping your code clean and testable.
@@ -204,6 +206,7 @@ This keeps tests isolated from any specific serialization library.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

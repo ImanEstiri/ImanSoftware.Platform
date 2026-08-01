@@ -1,5 +1,7 @@
 # ImanSoftware.Framework
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > The complete **ImanSoftware** development framework for .NET. Install one package, register one service, and get access to the entire ecosystem.
 
 `ImanSoftware.Framework` is an umbrella package that bundles all ImanSoftware libraries into a single package. It simplifies application setup by automatically registering supported services and managing dependencies, allowing you to bootstrap a new project with minimal configuration.
@@ -208,6 +210,7 @@ This eliminates repetitive startup configuration across projects.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

@@ -1,5 +1,7 @@
 # ImanSoftware.Logging
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight logging abstraction for .NET built on top of `Microsoft.Extensions.Logging`, providing a clean, testable API with full support for scopes and log levels.
 
 `ImanSoftware.Logging` wraps the standard .NET logging infrastructure behind a simple adapter interface, making application code easier to test while remaining fully compatible with the Microsoft logging ecosystem.
@@ -208,6 +210,7 @@ This keeps unit tests simple and independent of the logging infrastructure.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

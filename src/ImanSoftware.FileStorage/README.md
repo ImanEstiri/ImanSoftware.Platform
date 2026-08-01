@@ -1,5 +1,7 @@
 # ImanSoftware.FileStorage
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight and extensible file storage abstraction for .NET with a built-in local file system implementation.
 
 `ImanSoftware.FileStorage` provides a unified API for managing files regardless of the underlying storage provider. It supports uploading, downloading, deleting, moving, copying, and retrieving file metadata while returning `Outcome` objects for consistent error handling.
@@ -250,6 +252,7 @@ var metadata =
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

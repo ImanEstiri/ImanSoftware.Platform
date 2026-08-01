@@ -1,5 +1,7 @@
 # ImanSoftware.DateTimeProvider
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight abstraction over `System.DateTime` for clean, testable, and dependency-injected date and time access.
 
 `ImanSoftware.DateTimeProvider` eliminates direct dependencies on `DateTime.Now` and `DateTime.Today` by providing a simple, injectable abstraction. This makes your applications easier to test, maintain, and extend.
@@ -171,6 +173,7 @@ Your business logic can now be tested without relying on the system clock.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

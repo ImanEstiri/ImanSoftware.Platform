@@ -1,5 +1,7 @@
 # ImanSoftware.DataAccess
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A lightweight and extensible data access abstraction for .NET with support for parameterized queries, stored procedures, transactions, and `Outcome`-based results.
 
 `ImanSoftware.DataAccess` provides a clean abstraction over SQL data access, allowing applications to execute queries and manage transactions without being tightly coupled to a specific implementation. All operations return `Outcome` objects, enabling consistent error handling without relying on exceptions for expected failures.
@@ -242,6 +244,7 @@ await transaction.CommitAsync();
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 

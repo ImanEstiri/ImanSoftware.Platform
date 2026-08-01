@@ -1,5 +1,7 @@
 # ImanSoftware.GuidGenerator
 
+**Version:** 1.0.0 | **Last Updated:** August 2026
+
 > A flexible and testable GUID generation library for .NET with support for both **Sequential** and **Random** GUIDs.
 
 `ImanSoftware.GuidGenerator` abstracts GUID generation behind a simple interface, allowing applications to use database-friendly sequential GUIDs or traditional random GUIDs through dependency injection.
@@ -186,6 +188,7 @@ This makes tests deterministic and repeatable.
 - .NET 7+
 - .NET 8+
 - .NET 9+
+- .NET 10.0+
 
 ---
 
