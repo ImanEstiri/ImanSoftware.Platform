@@ -10,4 +10,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>ImanSoftware.DateTimeProvider</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Abstraction over DateTime.Now to improve testability and control over time in your application.</Description>
+    <PackageTags>datetime;time;abstraction;testability;timeprovider</PackageTags>
+  </PropertyGroup>
+  
 </Project>
