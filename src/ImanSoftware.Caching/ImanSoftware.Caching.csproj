@@ -15,4 +15,13 @@
     <ProjectReference Include="..\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
   </ItemGroup>
 
+
+  <PropertyGroup>
+    <PackageId>ImanSoftware.Caching</PackageId>
+    <Version>1.0.0</Version>
+    <Description>In-memory caching abstraction built on IMemoryCache, with a clean GetOrSet pattern.</Description>
+    <PackageTags>caching;memory;cache;abstraction;in-memory</PackageTags>
+  </PropertyGroup>
+
+
 </Project>
