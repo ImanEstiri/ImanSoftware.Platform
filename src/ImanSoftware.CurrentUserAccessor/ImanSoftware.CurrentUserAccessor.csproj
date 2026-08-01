@@ -10,4 +10,13 @@
     <PackageReference Include="Microsoft.AspNetCore.Http" />
   </ItemGroup>
 
+
+  <PropertyGroup>
+    <PackageId>ImanSoftware.CurrentUserAccessor</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Access the current authenticated user via HttpContext with generic TUserId support (Guid, int, string).</Description>
+    <PackageTags>user;claims;authentication;httpcontext;currentuser</PackageTags>
+  </PropertyGroup>
+
+
 </Project>
