@@ -11,7 +11,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcomes.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
   </ItemGroup>
+
+
+  <PropertyGroup>
+    <PackageId>ImanSoftware.DataAccess</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Database-agnostic data access abstractions (connection factory, transaction scope, query executor).</Description>
+    <PackageTags>dataaccess;sql;abstraction;repository;database</PackageTags>
+  </PropertyGroup>
+
 
 </Project>
