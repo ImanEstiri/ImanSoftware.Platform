@@ -13,4 +13,8 @@
     <PackageTags>ddd;domain;entity;valueobject;aggregate;guard;core</PackageTags>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
+  </ItemGroup>
+
 </Project>
