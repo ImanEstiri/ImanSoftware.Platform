@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>ImanSoftware.Outcome</PackageId>
+    <Version>1.0.0</Version>
+    <Description>A lightweight Result/Outcome pattern implementation for .NET — consistent error handling without exceptions.</Description>
+    <PackageTags>result-pattern;outcome;error-handling;core;result</PackageTags>
+  </PropertyGroup>
+  
+</Project>
