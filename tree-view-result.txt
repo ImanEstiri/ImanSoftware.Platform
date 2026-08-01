@@ -15,6 +15,7 @@ G:.
 \---src
     +---ImanSoftware.Caching
     |   |   ImanSoftware.Caching.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       CacheServiceRegistration.cs
@@ -26,8 +27,10 @@ G:.
     |   |               ImanSoftware.Caching.deps.json
     |   |               ImanSoftware.Caching.dll
     |   |               ImanSoftware.Caching.pdb
+    |   |               ImanSoftware.Caching.xml
     |   |               ImanSoftware.Serialization.dll
     |   |               ImanSoftware.Serialization.pdb
+    |   |               ImanSoftware.Serialization.xml
     |   |               
     |   +---Infrastructure
     |   |       MemoryCacheService.cs
@@ -54,6 +57,7 @@ G:.
     |               |   ImanSoftware.Caching.GlobalUsings.g.cs
     |               |   ImanSoftware.Caching.pdb
     |               |   ImanSoftware.Caching.sourcelink.json
+    |               |   ImanSoftware.Caching.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.Caching.dll
@@ -63,6 +67,7 @@ G:.
     |                       
     +---ImanSoftware.CurrentUserAccessor
     |   |   ImanSoftware.CurrentUserAccessor.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       CurrentUserAccessorRegistration.cs
@@ -74,6 +79,7 @@ G:.
     |   |               ImanSoftware.CurrentUserAccessor.deps.json
     |   |               ImanSoftware.CurrentUserAccessor.dll
     |   |               ImanSoftware.CurrentUserAccessor.pdb
+    |   |               ImanSoftware.CurrentUserAccessor.xml
     |   |               
     |   +---Infrastructure
     |   |       HttpContextUserAccessor.cs
@@ -99,6 +105,7 @@ G:.
     |               |   ImanSoftware.CurrentUserAccessor.GlobalUsings.g.cs
     |               |   ImanSoftware.CurrentUserAccessor.pdb
     |               |   ImanSoftware.CurrentUserAccessor.sourcelink.json
+    |               |   ImanSoftware.CurrentUserAccessor.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.CurrentUserAccessor.dll
@@ -108,6 +115,7 @@ G:.
     |                       
     +---ImanSoftware.DataAccess
     |   |   ImanSoftware.DataAccess.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       DataAccessRegistration.cs
@@ -121,8 +129,10 @@ G:.
     |   |               ImanSoftware.DataAccess.deps.json
     |   |               ImanSoftware.DataAccess.dll
     |   |               ImanSoftware.DataAccess.pdb
-    |   |               ImanSoftware.Outcomes.dll
-    |   |               ImanSoftware.Outcomes.pdb
+    |   |               ImanSoftware.DataAccess.xml
+    |   |               ImanSoftware.Outcome.dll
+    |   |               ImanSoftware.Outcome.pdb
+    |   |               ImanSoftware.Outcome.xml
     |   |               
     |   \---obj
     |       |   ImanSoftware.DataAccess.csproj.nuget.dgspec.json
@@ -146,6 +156,7 @@ G:.
     |               |   ImanSoftware.DataAccess.GlobalUsings.g.cs
     |               |   ImanSoftware.DataAccess.pdb
     |               |   ImanSoftware.DataAccess.sourcelink.json
+    |               |   ImanSoftware.DataAccess.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.DataAccess.dll
@@ -155,6 +166,7 @@ G:.
     |                       
     +---ImanSoftware.DataAccess.Dapper
     |   |   ImanSoftware.DataAccess.Dapper.csproj
+    |   |   README.md
     |   |   
     |   +---bin
     |   |   \---Debug
@@ -162,11 +174,17 @@ G:.
     |   |               ImanSoftware.DataAccess.Dapper.deps.json
     |   |               ImanSoftware.DataAccess.Dapper.dll
     |   |               ImanSoftware.DataAccess.Dapper.pdb
+    |   |               ImanSoftware.DataAccess.Dapper.xml
     |   |               ImanSoftware.DataAccess.dll
     |   |               ImanSoftware.DataAccess.pdb
-    |   |               ImanSoftware.Outcomes.dll
-    |   |               ImanSoftware.Outcomes.pdb
+    |   |               ImanSoftware.DataAccess.xml
+    |   |               ImanSoftware.Outcome.dll
+    |   |               ImanSoftware.Outcome.pdb
+    |   |               ImanSoftware.Outcome.xml
     |   |               
+    |   +---DependencyInjection
+    |   |       DapperDataAccessRegistration.cs
+    |   |       
     |   +---Infrastructure
     |   |       DapperConnectionFactory.cs
     |   |       DapperDataAccessor.cs
@@ -194,6 +212,7 @@ G:.
     |               |   ImanSoftware.DataAccess.Dapper.GlobalUsings.g.cs
     |               |   ImanSoftware.DataAccess.Dapper.pdb
     |               |   ImanSoftware.DataAccess.Dapper.sourcelink.json
+    |               |   ImanSoftware.DataAccess.Dapper.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.DataAccess.Dapper.dll
@@ -203,6 +222,7 @@ G:.
     |                       
     +---ImanSoftware.DateTimeProvider
     |   |   ImanSoftware.DateTimeProvider.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       DateTimeProviderRegistration.cs
@@ -214,6 +234,7 @@ G:.
     |   |               ImanSoftware.DateTimeProvider.deps.json
     |   |               ImanSoftware.DateTimeProvider.dll
     |   |               ImanSoftware.DateTimeProvider.pdb
+    |   |               ImanSoftware.DateTimeProvider.xml
     |   |               
     |   +---Infrastructure
     |   |       DefaultDateTimeProvider.cs
@@ -239,6 +260,7 @@ G:.
     |               |   ImanSoftware.DateTimeProvider.GlobalUsings.g.cs
     |               |   ImanSoftware.DateTimeProvider.pdb
     |               |   ImanSoftware.DateTimeProvider.sourcelink.json
+    |               |   ImanSoftware.DateTimeProvider.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.DateTimeProvider.dll
@@ -248,6 +270,7 @@ G:.
     |                       
     +---ImanSoftware.Domain
     |   |   ImanSoftware.Domain.csproj
+    |   |   README.md
     |   |   
     |   +---Base
     |   |       BaseEntity.cs
@@ -258,6 +281,7 @@ G:.
     |   |               ImanSoftware.Domain.deps.json
     |   |               ImanSoftware.Domain.dll
     |   |               ImanSoftware.Domain.pdb
+    |   |               ImanSoftware.Domain.xml
     |   |               
     |   \---obj
     |       |   ImanSoftware.Domain.csproj.nuget.dgspec.json
@@ -279,6 +303,7 @@ G:.
     |               |   ImanSoftware.Domain.GlobalUsings.g.cs
     |               |   ImanSoftware.Domain.pdb
     |               |   ImanSoftware.Domain.sourcelink.json
+    |               |   ImanSoftware.Domain.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.Domain.dll
@@ -288,6 +313,7 @@ G:.
     |                       
     +---ImanSoftware.Extensions
     |   |   ImanSoftware.Extensions.csproj
+    |   |   README.md
     |   |   
     |   +---bin
     |   |   \---Debug
@@ -295,6 +321,7 @@ G:.
     |   |               ImanSoftware.Extensions.deps.json
     |   |               ImanSoftware.Extensions.dll
     |   |               ImanSoftware.Extensions.pdb
+    |   |               ImanSoftware.Extensions.xml
     |   |               
     |   +---Extensions
     |   |       DateTimeExtensions.cs
@@ -324,6 +351,7 @@ G:.
     |               |   ImanSoftware.Extensions.GlobalUsings.g.cs
     |               |   ImanSoftware.Extensions.pdb
     |               |   ImanSoftware.Extensions.sourcelink.json
+    |               |   ImanSoftware.Extensions.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.Extensions.dll
@@ -333,6 +361,7 @@ G:.
     |                       
     +---ImanSoftware.FileStorage
     |   |   ImanSoftware.FileStorage.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       FileStorageRegistration.cs
@@ -349,10 +378,13 @@ G:.
     |   |               ImanSoftware.FileStorage.deps.json
     |   |               ImanSoftware.FileStorage.dll
     |   |               ImanSoftware.FileStorage.pdb
+    |   |               ImanSoftware.FileStorage.xml
     |   |               ImanSoftware.Logging.dll
     |   |               ImanSoftware.Logging.pdb
-    |   |               ImanSoftware.Outcomes.dll
-    |   |               ImanSoftware.Outcomes.pdb
+    |   |               ImanSoftware.Logging.xml
+    |   |               ImanSoftware.Outcome.dll
+    |   |               ImanSoftware.Outcome.pdb
+    |   |               ImanSoftware.Outcome.xml
     |   |               
     |   +---Core
     |   |       FileMetadata.cs
@@ -383,6 +415,7 @@ G:.
     |               |   ImanSoftware.FileStorage.GlobalUsings.g.cs
     |               |   ImanSoftware.FileStorage.pdb
     |               |   ImanSoftware.FileStorage.sourcelink.json
+    |               |   ImanSoftware.FileStorage.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.FileStorage.dll
@@ -392,48 +425,60 @@ G:.
     |                       
     +---ImanSoftware.Framework
     |   |   ImanSoftware.Framework.csproj
+    |   |   README.md
     |   |   
-    |   +---Abstractions
     |   +---bin
     |   |   \---Debug
     |   |       \---net10.0
     |   |               ImanSoftware.Caching.dll
     |   |               ImanSoftware.Caching.pdb
+    |   |               ImanSoftware.Caching.xml
     |   |               ImanSoftware.CurrentUserAccessor.dll
     |   |               ImanSoftware.CurrentUserAccessor.pdb
+    |   |               ImanSoftware.CurrentUserAccessor.xml
     |   |               ImanSoftware.DataAccess.Dapper.dll
     |   |               ImanSoftware.DataAccess.Dapper.pdb
+    |   |               ImanSoftware.DataAccess.Dapper.xml
     |   |               ImanSoftware.DataAccess.dll
     |   |               ImanSoftware.DataAccess.pdb
+    |   |               ImanSoftware.DataAccess.xml
     |   |               ImanSoftware.DateTimeProvider.dll
     |   |               ImanSoftware.DateTimeProvider.pdb
+    |   |               ImanSoftware.DateTimeProvider.xml
     |   |               ImanSoftware.Domain.dll
     |   |               ImanSoftware.Domain.pdb
+    |   |               ImanSoftware.Domain.xml
     |   |               ImanSoftware.Extensions.dll
     |   |               ImanSoftware.Extensions.pdb
+    |   |               ImanSoftware.Extensions.xml
     |   |               ImanSoftware.FileStorage.dll
     |   |               ImanSoftware.FileStorage.pdb
+    |   |               ImanSoftware.FileStorage.xml
     |   |               ImanSoftware.Framework.deps.json
     |   |               ImanSoftware.Framework.dll
     |   |               ImanSoftware.Framework.pdb
+    |   |               ImanSoftware.Framework.xml
     |   |               ImanSoftware.GuidGenerator.dll
     |   |               ImanSoftware.GuidGenerator.pdb
+    |   |               ImanSoftware.GuidGenerator.xml
     |   |               ImanSoftware.Jwt.dll
     |   |               ImanSoftware.Jwt.pdb
+    |   |               ImanSoftware.Jwt.xml
     |   |               ImanSoftware.Logging.dll
     |   |               ImanSoftware.Logging.pdb
-    |   |               ImanSoftware.Outcomes.dll
-    |   |               ImanSoftware.Outcomes.pdb
+    |   |               ImanSoftware.Logging.xml
+    |   |               ImanSoftware.Outcome.dll
+    |   |               ImanSoftware.Outcome.pdb
+    |   |               ImanSoftware.Outcome.xml
     |   |               ImanSoftware.Serialization.dll
     |   |               ImanSoftware.Serialization.pdb
+    |   |               ImanSoftware.Serialization.xml
     |   |               
-    |   +---Core
     |   +---FrameworkDependencyInjection
     |   |       FrameworkDependencyInjection.cs
     |   |       ImanFrameworkDependencyInjectionCustomImplementation.cs
     |   |       ImanFrameworkDependencyInjectionOptions.cs
     |   |       
-    |   +---Infrastructure
     |   \---obj
     |       |   ImanSoftware.Framework.csproj.nuget.dgspec.json
     |       |   ImanSoftware.Framework.csproj.nuget.g.props
@@ -456,6 +501,7 @@ G:.
     |               |   ImanSoftware.Framework.GlobalUsings.g.cs
     |               |   ImanSoftware.Framework.pdb
     |               |   ImanSoftware.Framework.sourcelink.json
+    |               |   ImanSoftware.Framework.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.Framework.dll
@@ -465,6 +511,7 @@ G:.
     |                       
     +---ImanSoftware.GuidGenerator
     |   |   ImanSoftware.GuidGenerator.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       GuidGeneratorImpelementationType.cs
@@ -477,6 +524,7 @@ G:.
     |   |               ImanSoftware.GuidGenerator.deps.json
     |   |               ImanSoftware.GuidGenerator.dll
     |   |               ImanSoftware.GuidGenerator.pdb
+    |   |               ImanSoftware.GuidGenerator.xml
     |   |               
     |   +---Infrastructure
     |   |       RandomGuidGenerator.cs
@@ -503,6 +551,7 @@ G:.
     |               |   ImanSoftware.GuidGenerator.GlobalUsings.g.cs
     |               |   ImanSoftware.GuidGenerator.pdb
     |               |   ImanSoftware.GuidGenerator.sourcelink.json
+    |               |   ImanSoftware.GuidGenerator.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.GuidGenerator.dll
@@ -512,6 +561,7 @@ G:.
     |                       
     +---ImanSoftware.Jwt
     |   |   ImanSoftware.Jwt.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       IJwtTokenService.cs
@@ -523,6 +573,7 @@ G:.
     |   |               ImanSoftware.Jwt.deps.json
     |   |               ImanSoftware.Jwt.dll
     |   |               ImanSoftware.Jwt.pdb
+    |   |               ImanSoftware.Jwt.xml
     |   |               
     |   +---Core
     |   |       JwtTokenValidationResult.cs
@@ -556,6 +607,7 @@ G:.
     |               |   ImanSoftware.Jwt.GlobalUsings.g.cs
     |               |   ImanSoftware.Jwt.pdb
     |               |   ImanSoftware.Jwt.sourcelink.json
+    |               |   ImanSoftware.Jwt.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.Jwt.dll
@@ -565,6 +617,7 @@ G:.
     |                       
     +---ImanSoftware.Logging
     |   |   ImanSoftware.Logging.csproj
+    |   |   README.md
     |   |   
     |   +---Abstractions
     |   |       ILoggerAdapter.cs
@@ -576,6 +629,7 @@ G:.
     |   |               ImanSoftware.Logging.deps.json
     |   |               ImanSoftware.Logging.dll
     |   |               ImanSoftware.Logging.pdb
+    |   |               ImanSoftware.Logging.xml
     |   |               
     |   +---Infrastructure
     |   |       LoggerAdapter.cs
@@ -601,6 +655,7 @@ G:.
     |               |   ImanSoftware.Logging.GlobalUsings.g.cs
     |               |   ImanSoftware.Logging.pdb
     |               |   ImanSoftware.Logging.sourcelink.json
+    |               |   ImanSoftware.Logging.xml
     |               |   
     |               +---ref
     |               |       ImanSoftware.Logging.dll
@@ -609,7 +664,8 @@ G:.
     |                       ImanSoftware.Logging.dll
     |                       
     +---ImanSoftware.Outcome
-    |   |   ImanSoftware.Outcomes.csproj
+    |   |   ImanSoftware.Outcome.csproj
+    |   |   README.md
     |   |   
     |   +---bin
     |   |   \---Debug
@@ -617,9 +673,7 @@ G:.
     |   |               ImanSoftware.Outcome.deps.json
     |   |               ImanSoftware.Outcome.dll
     |   |               ImanSoftware.Outcome.pdb
-    |   |               ImanSoftware.Outcomes.deps.json
-    |   |               ImanSoftware.Outcomes.dll
-    |   |               ImanSoftware.Outcomes.pdb
+    |   |               ImanSoftware.Outcome.xml
     |   |               
     |   +---Exceptions
     |   |       BadRequestException.cs
@@ -635,9 +689,6 @@ G:.
     |   |   |   ImanSoftware.Outcome.csproj.nuget.dgspec.json
     |   |   |   ImanSoftware.Outcome.csproj.nuget.g.props
     |   |   |   ImanSoftware.Outcome.csproj.nuget.g.targets
-    |   |   |   ImanSoftware.Outcomes.csproj.nuget.dgspec.json
-    |   |   |   ImanSoftware.Outcomes.csproj.nuget.g.props
-    |   |   |   ImanSoftware.Outcomes.csproj.nuget.g.targets
     |   |   |   project.assets.json
     |   |   |   project.nuget.cache
     |   |   |   
@@ -654,24 +705,13 @@ G:.
     |   |           |   ImanSoftware.Outcome.GlobalUsings.g.cs
     |   |           |   ImanSoftware.Outcome.pdb
     |   |           |   ImanSoftware.Outcome.sourcelink.json
-    |   |           |   ImanSoftware.Outcomes.AssemblyInfo.cs
-    |   |           |   ImanSoftware.Outcomes.AssemblyInfoInputs.cache
-    |   |           |   ImanSoftware.Outcomes.assets.cache
-    |   |           |   ImanSoftware.Outcomes.csproj.CoreCompileInputs.cache
-    |   |           |   ImanSoftware.Outcomes.csproj.FileListAbsolute.txt
-    |   |           |   ImanSoftware.Outcomes.dll
-    |   |           |   ImanSoftware.Outcomes.GeneratedMSBuildEditorConfig.editorconfig
-    |   |           |   ImanSoftware.Outcomes.GlobalUsings.g.cs
-    |   |           |   ImanSoftware.Outcomes.pdb
-    |   |           |   ImanSoftware.Outcomes.sourcelink.json
+    |   |           |   ImanSoftware.Outcome.xml
     |   |           |   
     |   |           +---ref
     |   |           |       ImanSoftware.Outcome.dll
-    |   |           |       ImanSoftware.Outcomes.dll
     |   |           |       
     |   |           \---refint
     |   |                   ImanSoftware.Outcome.dll
-    |   |                   ImanSoftware.Outcomes.dll
     |   |                   
     |   \---Outcome
     |           Outcome.cs
@@ -680,6 +720,7 @@ G:.
     |           
     \---ImanSoftware.Serialization
         |   ImanSoftware.Serialization.csproj
+        |   README.md
         |   
         +---Abstractions
         |       IJsonSerializer.cs
@@ -692,6 +733,7 @@ G:.
         |               ImanSoftware.Serialization.deps.json
         |               ImanSoftware.Serialization.dll
         |               ImanSoftware.Serialization.pdb
+        |               ImanSoftware.Serialization.xml
         |               
         +---Infrastructure
         |       NewtonsoftJsonSerializer.cs
@@ -718,6 +760,7 @@ G:.
                     |   ImanSoftware.Serialization.GlobalUsings.g.cs
                     |   ImanSoftware.Serialization.pdb
                     |   ImanSoftware.Serialization.sourcelink.json
+                    |   ImanSoftware.Serialization.xml
                     |   
                     +---ref
                     |       ImanSoftware.Serialization.dll

@@ -9,7 +9,7 @@
   <Folder Name="/src/Core/">
     <Project Path="src/ImanSoftware.Domain/ImanSoftware.Domain.csproj" Id="26d1c86a-99e3-441d-863d-1410eba99f9c" />
     <Project Path="src/ImanSoftware.Extensions/ImanSoftware.Extensions.csproj" Id="b0b9a54b-314d-418d-b3fe-b314143440be" />
-    <Project Path="src/ImanSoftware.Outcome/ImanSoftware.Outcomes.csproj" Id="50f88865-214b-43a6-8bea-b6976f6787d7" />
+    <Project Path="src/ImanSoftware.Outcome/ImanSoftware.Outcome.csproj" Id="50f88865-214b-43a6-8bea-b6976f6787d7" />
   </Folder>
   <Folder Name="/src/Modules/">
     <Project Path="src/ImanSoftware.Caching/ImanSoftware.Caching.csproj" Id="32d8de9a-9256-430e-9516-9e48cfc45a1d" />
