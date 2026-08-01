@@ -10,4 +10,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>ImanSoftware.GuidGenerator</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Generates sequential (database-friendly) and random GUIDs with dependency injection support.</Description>
+    <PackageTags>guid;sequential;uuid;generator;database</PackageTags>
+  </PropertyGroup>
+  
 </Project>
