@@ -28,8 +28,15 @@
     <ProjectReference Include="..\ImanSoftware.GuidGenerator\ImanSoftware.GuidGenerator.csproj" />
     <ProjectReference Include="..\ImanSoftware.Jwt\ImanSoftware.Jwt.csproj" />
     <ProjectReference Include="..\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcomes.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
     <ProjectReference Include="..\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>ImanSoftware.Framework</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Umbrella package that bundles all ImanSoftware modules for a unified development experience.</Description>
+    <PackageTags>framework;all-in-one;umbrella;dotnet;imansoftware</PackageTags>
+  </PropertyGroup>
+  
 </Project>
