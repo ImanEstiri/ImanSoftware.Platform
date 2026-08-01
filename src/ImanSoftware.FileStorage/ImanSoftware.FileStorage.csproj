@@ -13,7 +13,14 @@
 
   <ItemGroup>
     <ProjectReference Include="..\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcomes.csproj" />
+    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>ImanSoftware.FileStorage</PackageId>
+    <Version>1.0.0</Version>
+    <Description>File storage abstraction for upload, download, delete, move, copy, and metadata operations (local file system included).</Description>
+    <PackageTags>filestorage;upload;download;storage;io</PackageTags>
+  </PropertyGroup>
+  
 </Project>
