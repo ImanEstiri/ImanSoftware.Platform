@@ -6,4 +6,12 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+
+  <PropertyGroup>
+    <PackageId>ImanSoftware.Extensions</PackageId>
+    <Version>1.0.0</Version>
+    <Description>Common extension methods for strings, DateTime, Enum, IEnumerable, Exception, and Object to reduce boilerplate code.</Description>
+    <PackageTags>extensions;helpers;utilities;dotnet;common;core</PackageTags>
+  </PropertyGroup>
+
 </Project>
