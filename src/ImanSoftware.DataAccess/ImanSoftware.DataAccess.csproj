@@ -11,9 +11,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
+    <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
-
 
   <PropertyGroup>
     <PackageId>ImanSoftware.DataAccess</PackageId>
