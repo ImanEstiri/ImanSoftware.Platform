@@ -89,7 +89,8 @@ Write-Host "==> Pushing to NuGet.org ..." -ForegroundColor Cyan
 dotnet nuget push $nupkg.FullName `
     --source https://api.nuget.org/v3/index.json `
     --api-key $ApiKey `
-    --skip-duplicate
+    --skip-duplicate `
+	--timeout 20
 
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Push failed."
