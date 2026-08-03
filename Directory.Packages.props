@@ -5,7 +5,19 @@
   <ItemGroup>
     
     <!--ImanSoftware Package Versioning-->
-    <PackageVersion Include="ImanSoftware.Outcome" Version="1.0.1" />
+    <PackageVersion Include="ImanSoftware.Outcome" Version="1.0.3" />
+    <PackageVersion Include="ImanSoftware.Domain" Version="1.0.1" />
+    <PackageVersion Include="ImanSoftware.Extensions" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.DateTimeProvider" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.GuidGenerator" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.CurrentUserAccessor" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.DataAccess" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.DataAccess.Dapper" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.Serialization" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.Jwt" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.Logging" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.Caching" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.FileStorage" Version="1.0.0" />
     
     
     <!--Common Packages-->
