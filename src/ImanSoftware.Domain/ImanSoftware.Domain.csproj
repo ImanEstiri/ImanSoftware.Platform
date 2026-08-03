@@ -14,7 +14,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
+    <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
 
 </Project>
