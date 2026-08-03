@@ -11,11 +11,11 @@
     <PackageReference Include="Microsoft.Data.SqlClient" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.DataAccess\ImanSoftware.DataAccess.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
-  </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="ImanSoftware.Outcome" />
+    <PackageReference Include="ImanSoftware.DataAccess" />
+  </ItemGroup>
 
   <PropertyGroup>
     <PackageId>ImanSoftware.DataAccess.Dapper</PackageId>
