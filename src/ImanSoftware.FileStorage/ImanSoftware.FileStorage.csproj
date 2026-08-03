@@ -12,13 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
-  </ItemGroup>
-  
-  <ItemGroup>
+    <PackageReference Include="ImanSoftware.Logging"/>
     <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
-
+  
   <PropertyGroup>
     <PackageId>ImanSoftware.FileStorage</PackageId>
     <Version>1.0.0</Version>
