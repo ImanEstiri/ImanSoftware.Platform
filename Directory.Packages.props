@@ -3,6 +3,12 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
+    
+    <!--ImanSoftware Package Versioning-->
+    <PackageVersion Include="ImanSoftware.Outcome" Version="1.0.1" />
+    
+    
+    <!--Common Packages-->
     <PackageVersion Include="Dapper" Version="2.1.79" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.10" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="7.0.2" />
