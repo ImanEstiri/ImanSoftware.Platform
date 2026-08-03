@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
+    <PackageReference Include="ImanSoftware.Serialization"/>
   </ItemGroup>
 
 
