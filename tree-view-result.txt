@@ -5,6 +5,7 @@ G:.
 |   .gitignore
 |   Directory.Build.props
 |   Directory.Packages.props
+|   icon.png
 |   ImanSoftware.Platform.slnx
 |   LICENSE.txt
 |   nuget.config
@@ -283,34 +284,43 @@ G:.
     |   |               ImanSoftware.Domain.pdb
     |   |               ImanSoftware.Domain.xml
     |   |               
-    |   \---obj
-    |       |   ImanSoftware.Domain.csproj.nuget.dgspec.json
-    |       |   ImanSoftware.Domain.csproj.nuget.g.props
-    |       |   ImanSoftware.Domain.csproj.nuget.g.targets
-    |       |   project.assets.json
-    |       |   project.nuget.cache
-    |       |   
-    |       \---Debug
-    |           \---net10.0
-    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
-    |               |   ImanSoftware.Domain.AssemblyInfo.cs
-    |               |   ImanSoftware.Domain.AssemblyInfoInputs.cache
-    |               |   ImanSoftware.Domain.assets.cache
-    |               |   ImanSoftware.Domain.csproj.CoreCompileInputs.cache
-    |               |   ImanSoftware.Domain.csproj.FileListAbsolute.txt
-    |               |   ImanSoftware.Domain.dll
-    |               |   ImanSoftware.Domain.GeneratedMSBuildEditorConfig.editorconfig
-    |               |   ImanSoftware.Domain.GlobalUsings.g.cs
-    |               |   ImanSoftware.Domain.pdb
-    |               |   ImanSoftware.Domain.sourcelink.json
-    |               |   ImanSoftware.Domain.xml
-    |               |   
-    |               +---ref
-    |               |       ImanSoftware.Domain.dll
-    |               |       
-    |               \---refint
-    |                       ImanSoftware.Domain.dll
-    |                       
+    |   +---obj
+    |   |   |   ImanSoftware.Domain.csproj.nuget.dgspec.json
+    |   |   |   ImanSoftware.Domain.csproj.nuget.g.props
+    |   |   |   ImanSoftware.Domain.csproj.nuget.g.targets
+    |   |   |   project.assets.json
+    |   |   |   project.nuget.cache
+    |   |   |   
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   |           |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |   |           |   ImanSoftware.Domain.AssemblyInfo.cs
+    |   |           |   ImanSoftware.Domain.AssemblyInfoInputs.cache
+    |   |           |   ImanSoftware.Domain.assets.cache
+    |   |           |   ImanSoftware.Domain.csproj.AssemblyReference.cache
+    |   |           |   ImanSoftware.Domain.csproj.CoreCompileInputs.cache
+    |   |           |   ImanSoftware.Domain.csproj.FileListAbsolute.txt
+    |   |           |   ImanSoftware.Domain.dll
+    |   |           |   ImanSoftware.Domain.GeneratedMSBuildEditorConfig.editorconfig
+    |   |           |   ImanSoftware.Domain.GlobalUsings.g.cs
+    |   |           |   ImanSoftware.Domain.pdb
+    |   |           |   ImanSoftware.Domain.sourcelink.json
+    |   |           |   ImanSoftware.Domain.xml
+    |   |           |   
+    |   |           +---ref
+    |   |           |       ImanSoftware.Domain.dll
+    |   |           |       
+    |   |           \---refint
+    |   |                   ImanSoftware.Domain.dll
+    |   |                   
+    |   \---ValueObjects
+    |           Address.cs
+    |           Coordinates.cs
+    |           DateRange.cs
+    |           EmailAddress.cs
+    |           Money.cs
+    |           PhoneNumber.cs
+    |           
     +---ImanSoftware.Extensions
     |   |   ImanSoftware.Extensions.csproj
     |   |   README.md
