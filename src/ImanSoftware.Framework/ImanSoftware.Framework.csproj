@@ -6,30 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Dapper" />
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <PackageReference Include="Microsoft.AspNetCore.Http" />
-    <PackageReference Include="Microsoft.Data.SqlClient" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
-    <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
-    <PackageReference Include="Newtonsoft.Json" />
-    <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
-  </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ImanSoftware.Caching\ImanSoftware.Caching.csproj" />
-    <ProjectReference Include="..\ImanSoftware.CurrentUserAccessor\ImanSoftware.CurrentUserAccessor.csproj" />
-    <ProjectReference Include="..\ImanSoftware.DataAccess.Dapper\ImanSoftware.DataAccess.Dapper.csproj" />
-    <ProjectReference Include="..\ImanSoftware.DateTimeProvider\ImanSoftware.DateTimeProvider.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Domain\ImanSoftware.Domain.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Extensions\ImanSoftware.Extensions.csproj" />
-    <ProjectReference Include="..\ImanSoftware.FileStorage\ImanSoftware.FileStorage.csproj" />
-    <ProjectReference Include="..\ImanSoftware.GuidGenerator\ImanSoftware.GuidGenerator.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Jwt\ImanSoftware.Jwt.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
-    <ProjectReference Include="..\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
+    <PackageReference Include="ImanSoftware.Outcome" />
+    <PackageReference Include="ImanSoftware.Domain" />
+    <PackageReference Include="ImanSoftware.Extensions" />
+    <PackageReference Include="ImanSoftware.Caching" />
+    <PackageReference Include="ImanSoftware.CurrentUserAccessor" />
+    <PackageReference Include="ImanSoftware.DataAccess.Dapper" />
+    <PackageReference Include="ImanSoftware.DateTimeProvider" />
+    <PackageReference Include="ImanSoftware.FileStorage" />
+    <PackageReference Include="ImanSoftware.GuidGenerator" />
+    <PackageReference Include="ImanSoftware.Jwt" />
+    <PackageReference Include="ImanSoftware.Logging" />
+    <PackageReference Include="ImanSoftware.Serialization" />
   </ItemGroup>
 
   <PropertyGroup>
