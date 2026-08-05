@@ -8,7 +8,7 @@
 
   <PropertyGroup>
     <PackageId>ImanSoftware.Domain</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Base DDD building blocks: Entity, ValueObject, AggregateRoot, Guard clauses, and domain event abstractions.</Description>
     <PackageTags>ddd;domain;entity;valueobject;aggregate;guard;core</PackageTags>
   </PropertyGroup>
