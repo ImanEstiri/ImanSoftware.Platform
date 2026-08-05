@@ -13,6 +13,7 @@
   </Folder>
   <Folder Name="/src/Modules/">
     <Project Path="src/ImanSoftware.Caching/ImanSoftware.Caching.csproj" Id="32d8de9a-9256-430e-9516-9e48cfc45a1d" />
+    <Project Path="src/ImanSoftware.CQRS/ImanSoftware.CQRS.csproj" Id="efa78527-b818-4559-92b3-d6e06452545a" />
     <Project Path="src/ImanSoftware.CurrentUserAccessor/ImanSoftware.CurrentUserAccessor.csproj" Id="aba086c0-0d36-45e2-94b1-485fdf3c9e89" />
     <Project Path="src/ImanSoftware.DataAccess/ImanSoftware.DataAccess.csproj" Id="75cf11e4-9a42-47d4-a1a4-fc2940176e46" />
     <Project Path="src/ImanSoftware.DateTimeProvider/ImanSoftware.DateTimeProvider.csproj" Id="c584d237-3031-4cd2-8cb3-4bd3587c8815" />
