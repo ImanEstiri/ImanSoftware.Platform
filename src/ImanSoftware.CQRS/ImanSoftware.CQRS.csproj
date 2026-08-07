@@ -10,4 +10,14 @@
     <PackageReference Include="MediatR" />
   </ItemGroup>
 
+
+
+  <PropertyGroup>
+    <PackageId>ImanSoftware.CQRS</PackageId>
+    <Version>1.0.0</Version>
+    <Description>A lightweight CQRS abstraction layer built on MediatR for .NET applications.Provides base interfaces (ICommand, IQuery, ICommandHandler, IQueryHandler) to implement the Command Query Responsibility Segregation pattern with minimal boilerplate.</Description>
+    <PackageTags>cqrs;mediatr;command;query;handler;mediator;clean-architecture;ddd;dotnet;aspnetcore</PackageTags>
+  </PropertyGroup>
+
+
 </Project>

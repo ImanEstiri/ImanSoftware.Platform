@@ -19,6 +19,10 @@ G:.
 |   |       ImanSoftware.Caching.1.0.0.nupkg
 |   |       ImanSoftware.Caching.1.0.0.snupkg
 |   |       
+|   +---ImanSoftware.CQRS
+|   |       ImanSoftware.CQRS.1.0.0.nupkg
+|   |       ImanSoftware.CQRS.1.0.0.snupkg
+|   |       
 |   +---ImanSoftware.CurrentUserAccessor
 |   |       ImanSoftware.CurrentUserAccessor.1.0.0.nupkg
 |   |       ImanSoftware.CurrentUserAccessor.1.0.0.snupkg
@@ -40,6 +44,8 @@ G:.
 |   |       ImanSoftware.Domain.1.0.0.snupkg
 |   |       ImanSoftware.Domain.1.0.1.nupkg
 |   |       ImanSoftware.Domain.1.0.1.snupkg
+|   |       ImanSoftware.Domain.1.0.2.nupkg
+|   |       ImanSoftware.Domain.1.0.2.snupkg
 |   |       
 |   +---ImanSoftware.Extensions
 |   |       ImanSoftware.Extensions.1.0.0.nupkg
@@ -158,6 +164,92 @@ G:.
     |               |       
     |               \---refint
     |                       ImanSoftware.Caching.dll
+    |                       
+    +---ImanSoftware.CQRS
+    |   |   ImanSoftware.CQRS.csproj
+    |   |   publish.bat
+    |   |   README.md
+    |   |   
+    |   +---Abstractions
+    |   |       ICommand.cs
+    |   |       ICommandHandler.cs
+    |   |       IQuery.cs
+    |   |       IQueryHandler.cs
+    |   |       
+    |   +---bin
+    |   |   +---Debug
+    |   |   |   \---net10.0
+    |   |   |           ImanSoftware.CQRS.deps.json
+    |   |   |           ImanSoftware.CQRS.dll
+    |   |   |           ImanSoftware.CQRS.pdb
+    |   |   |           ImanSoftware.CQRS.xml
+    |   |   |           
+    |   |   \---Release
+    |   |       \---net10.0
+    |   |               ImanSoftware.CQRS.deps.json
+    |   |               ImanSoftware.CQRS.dll
+    |   |               ImanSoftware.CQRS.pdb
+    |   |               ImanSoftware.CQRS.xml
+    |   |               
+    |   +---DependencyInjection
+    |   |       CqrsServiceCollectionExtensions.cs
+    |   |       
+    |   +---Infrastructure
+    |   |       MediatorExtensions.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.CQRS.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.CQRS.csproj.nuget.g.props
+    |       |   ImanSoftware.CQRS.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       +---Debug
+    |       |   \---net10.0
+    |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoftware.CQRS.AssemblyInfo.cs
+    |       |       |   ImanSoftware.CQRS.AssemblyInfoInputs.cache
+    |       |       |   ImanSoftware.CQRS.assets.cache
+    |       |       |   ImanSoftware.CQRS.csproj.AssemblyReference.cache
+    |       |       |   ImanSoftware.CQRS.csproj.CoreCompileInputs.cache
+    |       |       |   ImanSoftware.CQRS.csproj.FileListAbsolute.txt
+    |       |       |   ImanSoftware.CQRS.dll
+    |       |       |   ImanSoftware.CQRS.GeneratedMSBuildEditorConfig.editorconfig
+    |       |       |   ImanSoftware.CQRS.GlobalUsings.g.cs
+    |       |       |   ImanSoftware.CQRS.pdb
+    |       |       |   ImanSoftware.CQRS.sourcelink.json
+    |       |       |   ImanSoftware.CQRS.xml
+    |       |       |   
+    |       |       +---ref
+    |       |       |       ImanSoftware.CQRS.dll
+    |       |       |       
+    |       |       \---refint
+    |       |               ImanSoftware.CQRS.dll
+    |       |               
+    |       \---Release
+    |           |   ImanSoftware.CQRS.1.0.0.nuspec
+    |           |   ImanSoftware.CQRS.1.0.0.symbols.nuspec
+    |           |   
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.CQRS.AssemblyInfo.cs
+    |               |   ImanSoftware.CQRS.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.CQRS.assets.cache
+    |               |   ImanSoftware.CQRS.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.CQRS.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.CQRS.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.CQRS.dll
+    |               |   ImanSoftware.CQRS.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.CQRS.GlobalUsings.g.cs
+    |               |   ImanSoftware.CQRS.pdb
+    |               |   ImanSoftware.CQRS.sourcelink.json
+    |               |   ImanSoftware.CQRS.xml
+    |               |   
+    |               +---ref
+    |               |       ImanSoftware.CQRS.dll
+    |               |       
+    |               \---refint
+    |                       ImanSoftware.CQRS.dll
     |                       
     +---ImanSoftware.CurrentUserAccessor
     |   |   ImanSoftware.CurrentUserAccessor.csproj
@@ -490,6 +582,7 @@ G:.
     |   |   
     |   +---Base
     |   |       BaseEntity.cs
+    |   |       TaggedEntity.cs
     |   |       
     |   +---bin
     |   |   +---Debug
@@ -506,6 +599,9 @@ G:.
     |   |               ImanSoftware.Domain.pdb
     |   |               ImanSoftware.Domain.xml
     |   |               
+    |   +---Enums
+    |   |       TagType.cs
+    |   |       
     |   +---obj
     |   |   |   ImanSoftware.Domain.csproj.nuget.dgspec.json
     |   |   |   ImanSoftware.Domain.csproj.nuget.g.props
@@ -540,6 +636,8 @@ G:.
     |   |       |   ImanSoftware.Domain.1.0.0.symbols.nuspec
     |   |       |   ImanSoftware.Domain.1.0.1.nuspec
     |   |       |   ImanSoftware.Domain.1.0.1.symbols.nuspec
+    |   |       |   ImanSoftware.Domain.1.0.2.nuspec
+    |   |       |   ImanSoftware.Domain.1.0.2.symbols.nuspec
     |   |       |   
     |   |       \---net10.0
     |   |           |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -569,6 +667,7 @@ G:.
     |           EmailAddress.cs
     |           Money.cs
     |           PhoneNumber.cs
+    |           Tag.cs
     |           
     +---ImanSoftware.Extensions
     |   |   ImanSoftware.Extensions.csproj
