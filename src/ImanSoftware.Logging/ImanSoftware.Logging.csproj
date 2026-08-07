@@ -12,7 +12,7 @@
   
   <PropertyGroup>
     <PackageId>ImanSoftware.Logging</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>Structured logger adapter with ILogger abstraction, supporting scopes and standard log levels.</Description>
     <PackageTags>logging;logger;abstraction;structured-logging;diagnostics</PackageTags>
   </PropertyGroup>
