@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ImanSoftware.Logging;
 
-internal static class LoggerAdapterRegistration
+public static class LoggerAdapterRegistration
 {
     public static IServiceCollection AddLoggerAdapter(
         this IServiceCollection services,
