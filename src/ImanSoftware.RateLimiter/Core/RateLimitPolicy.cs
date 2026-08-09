@@ -7,5 +7,5 @@ public record RateLimitPolicy
 {
     public int Limit { get; init; }          // Maximum number of requests
     public int WindowSeconds { get; init; }  // Time window in seconds
-    public string? Strategy { get; init; }   // "FixedWindow", "SlidingWindow", "TokenBucket"
+    public RateLimiterStrategyType Strategy { get; init; } = RateLimiterStrategyType.FixedWindow;  // "FixedWindow", "SlidingWindow", "TokenBucket"
 }
