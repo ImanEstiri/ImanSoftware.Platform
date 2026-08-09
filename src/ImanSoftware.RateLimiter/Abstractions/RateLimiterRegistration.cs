@@ -1,11 +1,10 @@
-﻿// مسیر: Abstractions/RateLimiterRegistration.cs
-using ImanSoftware.RateLimiter.Infrastructure;
+﻿using ImanSoftware.RateLimiter.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ImanSoftware.RateLimiter;
 
-internal static class RateLimiterRegistration
+public static class RateLimiterRegistration
 {
     public static IServiceCollection AddRateLimiter(
         this IServiceCollection services,
