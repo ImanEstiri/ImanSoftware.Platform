@@ -70,6 +70,8 @@ G:.
 |   +---ImanSoftware.Logging
 |   |       ImanSoftware.Logging.1.0.0.nupkg
 |   |       ImanSoftware.Logging.1.0.0.snupkg
+|   |       ImanSoftware.Logging.1.0.1.nupkg
+|   |       ImanSoftware.Logging.1.0.1.snupkg
 |   |       
 |   +---ImanSoftware.Outcome
 |   |       ImanSoftware.Outcome.1.0.1.nupkg
@@ -1149,6 +1151,8 @@ G:.
     |       \---Release
     |           |   ImanSoftware.Logging.1.0.0.nuspec
     |           |   ImanSoftware.Logging.1.0.0.symbols.nuspec
+    |           |   ImanSoftware.Logging.1.0.1.nuspec
+    |           |   ImanSoftware.Logging.1.0.1.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -1264,6 +1268,44 @@ G:.
     |           OutcomeError.cs
     |           OutcomeErrorType.cs
     |           
+    +---ImanSoftware.RateLimiter
+    |   |   ImanSoftware.RateLimiter.csproj
+    |   |   
+    |   +---Abstractions
+    |   |       IRateLimiter.cs
+    |   |       
+    |   +---AspNetCore
+    |   |       RateLimiterMiddleware.cs
+    |   |       
+    |   +---bin
+    |   |   \---Debug
+    |   |       \---net10.0
+    |   +---Core
+    |   |       RateLimitResult.cs
+    |   |       
+    |   +---Infrastructure
+    |   |       InMemoryRateLimiter.cs
+    |   |       RateLimiterOptions.cs
+    |   |       
+    |   \---obj
+    |       |   ImanSoftware.RateLimiter.csproj.nuget.dgspec.json
+    |       |   ImanSoftware.RateLimiter.csproj.nuget.g.props
+    |       |   ImanSoftware.RateLimiter.csproj.nuget.g.targets
+    |       |   project.assets.json
+    |       |   project.nuget.cache
+    |       |   
+    |       \---Debug
+    |           \---net10.0
+    |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |               |   ImanSoftware.RateLimiter.AssemblyInfo.cs
+    |               |   ImanSoftware.RateLimiter.AssemblyInfoInputs.cache
+    |               |   ImanSoftware.RateLimiter.assets.cache
+    |               |   ImanSoftware.RateLimiter.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.RateLimiter.GeneratedMSBuildEditorConfig.editorconfig
+    |               |   ImanSoftware.RateLimiter.GlobalUsings.g.cs
+    |               |   
+    |               +---ref
+    |               \---refint
     \---ImanSoftware.Serialization
         |   ImanSoftware.Serialization.csproj
         |   publish.bat
