@@ -3,6 +3,8 @@
     <File Path="Directory.Build.props" />
     <File Path="Directory.Packages.props" />
     <File Path="nuget.config" />
+    <File Path="tree-view-result.txt" />
+    <File Path="tree-view.bat" />
   </Folder>
   <Folder Name="/src/" />
   <Folder Name="/src/Components/" />
@@ -21,6 +23,7 @@
     <Project Path="src/ImanSoftware.GuidGenerator/ImanSoftware.GuidGenerator.csproj" Id="42d53904-16e0-43d6-bcd7-738e2053c67b" />
     <Project Path="src/ImanSoftware.Jwt/ImanSoftware.Jwt.csproj" Id="4b28a5e4-2cf7-4cb9-8408-3cf313e2912d" />
     <Project Path="src/ImanSoftware.Logging/ImanSoftware.Logging.csproj" Id="349fd88e-9c93-47b7-a4fd-c588ced16536" />
+    <Project Path="src/ImanSoftware.RateLimiter/ImanSoftware.RateLimiter.csproj" Id="b266e139-c644-4b2f-ad29-4780a8a7968f" />
     <Project Path="src/ImanSoftware.Serialization/ImanSoftware.Serialization.csproj" Id="0536534d-d994-488a-935a-0a38adcff658" />
   </Folder>
   <Folder Name="/src/Providers/">
