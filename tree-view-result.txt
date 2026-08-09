@@ -81,6 +81,16 @@ G:.
 |   |       ImanSoftware.Outcome.1.0.3.nupkg
 |   |       ImanSoftware.Outcome.1.0.3.snupkg
 |   |       
+|   +---ImanSoftware.RateLimiter
+|   |       ImanSoftware.RateLimiter.1.0.0.nupkg
+|   |       ImanSoftware.RateLimiter.1.0.0.snupkg
+|   |       ImanSoftware.RateLimiter.1.0.1.nupkg
+|   |       ImanSoftware.RateLimiter.1.0.1.snupkg
+|   |       ImanSoftware.RateLimiter.1.0.2.nupkg
+|   |       ImanSoftware.RateLimiter.1.0.2.snupkg
+|   |       ImanSoftware.RateLimiter.1.0.3.nupkg
+|   |       ImanSoftware.RateLimiter.1.0.3.snupkg
+|   |       
 |   \---ImanSoftware.Serialization
 |           ImanSoftware.Serialization.1.0.0.nupkg
 |           ImanSoftware.Serialization.1.0.0.snupkg
@@ -1270,22 +1280,50 @@ G:.
     |           
     +---ImanSoftware.RateLimiter
     |   |   ImanSoftware.RateLimiter.csproj
+    |   |   publish.bat
+    |   |   README.md
     |   |   
     |   +---Abstractions
-    |   |       IRateLimiter.cs
+    |   |       IRateLimiterMetrics.cs
+    |   |       IRateLimiterPolicy.cs
     |   |       
-    |   +---AspNetCore
-    |   |       RateLimiterMiddleware.cs
+    |   +---Attributes
+    |   |       EnableImanRateLimitingAttribute.cs
     |   |       
     |   +---bin
-    |   |   \---Debug
+    |   |   +---Debug
+    |   |   |   \---net10.0
+    |   |   |           ImanSoftware.RateLimiter.deps.json
+    |   |   |           ImanSoftware.RateLimiter.dll
+    |   |   |           ImanSoftware.RateLimiter.pdb
+    |   |   |           ImanSoftware.RateLimiter.xml
+    |   |   |           
+    |   |   \---Release
     |   |       \---net10.0
+    |   |               ImanSoftware.RateLimiter.deps.json
+    |   |               ImanSoftware.RateLimiter.dll
+    |   |               ImanSoftware.RateLimiter.pdb
+    |   |               ImanSoftware.RateLimiter.xml
+    |   |               
     |   +---Core
-    |   |       RateLimitResult.cs
-    |   |       
+    |   |   +---Enums
+    |   |   |       RateLimiterStrategy.cs
+    |   |   |       RateLimitPartitionBy.cs
+    |   |   |       
+    |   |   \---Models
+    |   |           ImanRateLimiterOptions.cs
+    |   |           RateLimitHeaders.cs
+    |   |           RateLimitPolicy.cs
+    |   |           
     |   +---Infrastructure
-    |   |       InMemoryRateLimiter.cs
-    |   |       RateLimiterOptions.cs
+    |   |       DefaultRateLimiterPolicy.cs
+    |   |       RateLimiterConfiguration.cs
+    |   |       RateLimiterMetrics.cs
+    |   |       RateLimiterServiceCollectionExtensions.cs
+    |   |       
+    |   +---Middlewares
+    |   |       RateLimiterMiddleware.cs
+    |   |       UseRateLimiterExtensions.cs
     |   |       
     |   \---obj
     |       |   ImanSoftware.RateLimiter.csproj.nuget.dgspec.json
@@ -1294,18 +1332,59 @@ G:.
     |       |   project.assets.json
     |       |   project.nuget.cache
     |       |   
-    |       \---Debug
+    |       +---Debug
+    |       |   \---net10.0
+    |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoftware.RateLimiter.AssemblyInfo.cs
+    |       |       |   ImanSoftware.RateLimiter.AssemblyInfoInputs.cache
+    |       |       |   ImanSoftware.RateLimiter.assets.cache
+    |       |       |   ImanSoftware.RateLimiter.csproj.AssemblyReference.cache
+    |       |       |   ImanSoftware.RateLimiter.csproj.CoreCompileInputs.cache
+    |       |       |   ImanSoftware.RateLimiter.csproj.FileListAbsolute.txt
+    |       |       |   ImanSoftware.RateLimiter.dll
+    |       |       |   ImanSoftware.RateLimiter.GeneratedMSBuildEditorConfig.editorconfig
+    |       |       |   ImanSoftware.RateLimiter.GlobalUsings.g.cs
+    |       |       |   ImanSoftware.RateLimiter.pdb
+    |       |       |   ImanSoftware.RateLimiter.sourcelink.json
+    |       |       |   ImanSoftware.RateLimiter.xml
+    |       |       |   
+    |       |       +---ref
+    |       |       |       ImanSoftware.RateLimiter.dll
+    |       |       |       
+    |       |       \---refint
+    |       |               ImanSoftware.RateLimiter.dll
+    |       |               
+    |       \---Release
+    |           |   ImanSoftware.RateLimiter.1.0.0.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.0.symbols.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.1.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.1.symbols.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.2.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.2.symbols.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.3.nuspec
+    |           |   ImanSoftware.RateLimiter.1.0.3.symbols.nuspec
+    |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
     |               |   ImanSoftware.RateLimiter.AssemblyInfo.cs
     |               |   ImanSoftware.RateLimiter.AssemblyInfoInputs.cache
     |               |   ImanSoftware.RateLimiter.assets.cache
     |               |   ImanSoftware.RateLimiter.csproj.AssemblyReference.cache
+    |               |   ImanSoftware.RateLimiter.csproj.CoreCompileInputs.cache
+    |               |   ImanSoftware.RateLimiter.csproj.FileListAbsolute.txt
+    |               |   ImanSoftware.RateLimiter.dll
     |               |   ImanSoftware.RateLimiter.GeneratedMSBuildEditorConfig.editorconfig
     |               |   ImanSoftware.RateLimiter.GlobalUsings.g.cs
+    |               |   ImanSoftware.RateLimiter.pdb
+    |               |   ImanSoftware.RateLimiter.sourcelink.json
+    |               |   ImanSoftware.RateLimiter.xml
     |               |   
     |               +---ref
+    |               |       ImanSoftware.RateLimiter.dll
+    |               |       
     |               \---refint
+    |                       ImanSoftware.RateLimiter.dll
+    |                       
     \---ImanSoftware.Serialization
         |   ImanSoftware.Serialization.csproj
         |   publish.bat
