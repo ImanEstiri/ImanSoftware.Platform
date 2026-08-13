@@ -50,4 +50,10 @@ public static class EnumExtensions
     /// </summary>
     public static TEnum Parse<TEnum>(string value) where TEnum : struct, Enum
         => (TEnum)Enum.Parse(typeof(TEnum), value, true);
+
+    /// <summary>
+    /// Converts an enum value to a human-readable string by replacing underscores with spaces.
+    /// </summary>
+    public static string EnumToString(this Enum? value)
+        => value?.ToString().Replace("_", " ") ?? string.Empty;
 }
