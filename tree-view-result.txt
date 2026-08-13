@@ -50,6 +50,8 @@ G:.
 |   +---ImanSoftware.Extensions
 |   |       ImanSoftware.Extensions.1.0.0.nupkg
 |   |       ImanSoftware.Extensions.1.0.0.snupkg
+|   |       ImanSoftware.Extensions.1.0.1.nupkg
+|   |       ImanSoftware.Extensions.1.0.1.snupkg
 |   |       
 |   +---ImanSoftware.FileStorage
 |   |       ImanSoftware.FileStorage.1.0.0.nupkg
@@ -740,6 +742,8 @@ G:.
     |       \---Release
     |           |   ImanSoftware.Extensions.1.0.0.nuspec
     |           |   ImanSoftware.Extensions.1.0.0.symbols.nuspec
+    |           |   ImanSoftware.Extensions.1.0.1.nuspec
+    |           |   ImanSoftware.Extensions.1.0.1.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
