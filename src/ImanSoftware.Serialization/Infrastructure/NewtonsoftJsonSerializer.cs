@@ -6,7 +6,7 @@ namespace ImanSoftware.Serialization;
 /// <summary>
 /// Implementation of IJsonSerializer using Newtonsoft.Json.
 /// </summary>
-public class NewtonsoftJsonSerializer : IJsonSerializer
+public class NewtonsoftJsonSerializer : IImanJsonSerializer
 {
     private readonly JsonSerializerSettings _defaultSettings;
 
@@ -21,14 +21,16 @@ public class NewtonsoftJsonSerializer : IJsonSerializer
     }
 
     public string Serialize<T>(T value)
+        => Serialize(value, null);
+
+    public string Serialize<T>(T value, object? options = null)
     {
-        return JsonConvert.SerializeObject(value, _defaultSettings);
+        var settings = options as JsonSerializerSettings ?? _defaultSettings;
+        return JsonConvert.SerializeObject(value, settings);
     }
 
     public T? Deserialize<T>(string json)
-    {
-        return JsonConvert.DeserializeObject<T>(json, _defaultSettings);
-    }
+        => Deserialize<T>(json, null);
 
     public T? Deserialize<T>(string json, object? options = null)
     {

@@ -6,7 +6,7 @@ namespace ImanSoftware.Serialization;
 /// <summary>
 /// Default implementation of IJsonSerializer using System.Text.Json.
 /// </summary>
-internal class SystemTextJsonSerializer : IJsonSerializer
+internal class SystemTextJsonSerializer : IImanJsonSerializer
 {
     private readonly JsonSerializerOptions _defaultOptions;
 
@@ -20,14 +20,16 @@ internal class SystemTextJsonSerializer : IJsonSerializer
     }
 
     public string Serialize<T>(T value)
+        => Serialize(value, null);
+
+    public string Serialize<T>(T value, object? options = null)
     {
-        return JsonSerializer.Serialize(value, _defaultOptions);
+        var serializerOptions = options as JsonSerializerOptions ?? _defaultOptions;
+        return JsonSerializer.Serialize(value, serializerOptions);
     }
 
     public T? Deserialize<T>(string json)
-    {
-        return JsonSerializer.Deserialize<T>(json, _defaultOptions);
-    }
+        => Deserialize<T>(json, null);
 
     public T? Deserialize<T>(string json, object? options = null)
     {
