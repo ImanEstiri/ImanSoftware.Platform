@@ -96,6 +96,8 @@ G:.
 |   \---ImanSoftware.Serialization
 |           ImanSoftware.Serialization.1.0.0.nupkg
 |           ImanSoftware.Serialization.1.0.0.snupkg
+|           ImanSoftware.Serialization.1.0.1.nupkg
+|           ImanSoftware.Serialization.1.0.1.snupkg
 |           
 \---src
     +---ImanSoftware.Caching
@@ -135,6 +137,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.0D5F876E.Up2Date
     |       |       |   ImanSoftware.Caching.AssemblyInfo.cs
     |       |       |   ImanSoftware.Caching.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.Caching.assets.cache
@@ -221,6 +224,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.E2C41746.Up2Date
     |       |       |   ImanSoftware.CQRS.AssemblyInfo.cs
     |       |       |   ImanSoftware.CQRS.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.CQRS.assets.cache
@@ -302,6 +306,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.70A5AAFE.Up2Date
     |       |       |   ImanSoftware.CurrentUserAccessor.AssemblyInfo.cs
     |       |       |   ImanSoftware.CurrentUserAccessor.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.CurrentUserAccessor.assets.cache
@@ -382,6 +387,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.47AA3A8A.Up2Date
     |       |       |   ImanSoftware.DataAccess.AssemblyInfo.cs
     |       |       |   ImanSoftware.DataAccess.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.DataAccess.assets.cache
@@ -464,6 +470,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.775C9275.Up2Date
     |       |       |   ImanSoftware.DataAccess.Dapper.AssemblyInfo.cs
     |       |       |   ImanSoftware.DataAccess.Dapper.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.DataAccess.Dapper.assets.cache
@@ -545,6 +552,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.B5B5B424.Up2Date
     |       |       |   ImanSoftware.DateTimeProvider.AssemblyInfo.cs
     |       |       |   ImanSoftware.DateTimeProvider.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.DateTimeProvider.assets.cache
@@ -626,6 +634,7 @@ G:.
     |   |   +---Debug
     |   |   |   \---net10.0
     |   |   |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |   |   |       |   ImanSoft.38C32AE8.Up2Date
     |   |   |       |   ImanSoftware.Domain.AssemblyInfo.cs
     |   |   |       |   ImanSoftware.Domain.AssemblyInfoInputs.cache
     |   |   |       |   ImanSoftware.Domain.assets.cache
@@ -721,6 +730,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.A12C796F.Up2Date
     |       |       |   ImanSoftware.Extensions.AssemblyInfo.cs
     |       |       |   ImanSoftware.Extensions.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.Extensions.assets.cache
@@ -811,6 +821,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.BD0FED5E.Up2Date
     |       |       |   ImanSoftware.FileStorage.AssemblyInfo.cs
     |       |       |   ImanSoftware.FileStorage.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.FileStorage.assets.cache
@@ -890,6 +901,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.0327F692.Up2Date
     |       |       |   ImanSoftware.Framework.AssemblyInfo.cs
     |       |       |   ImanSoftware.Framework.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.Framework.assets.cache
@@ -973,6 +985,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.283C27F8.Up2Date
     |       |       |   ImanSoftware.GuidGenerator.AssemblyInfo.cs
     |       |       |   ImanSoftware.GuidGenerator.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.GuidGenerator.assets.cache
@@ -1062,6 +1075,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.5F04A12B.Up2Date
     |       |       |   ImanSoftware.Jwt.AssemblyInfo.cs
     |       |       |   ImanSoftware.Jwt.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.Jwt.assets.cache
@@ -1143,6 +1157,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.C51597BE.Up2Date
     |       |       |   ImanSoftware.Logging.AssemblyInfo.cs
     |       |       |   ImanSoftware.Logging.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.Logging.assets.cache
@@ -1229,6 +1244,7 @@ G:.
     |   |   +---Debug
     |   |   |   \---net10.0
     |   |   |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |   |   |       |   ImanSoft.3E01336F.Up2Date
     |   |   |       |   ImanSoftware.Outcome.AssemblyInfo.cs
     |   |   |       |   ImanSoftware.Outcome.AssemblyInfoInputs.cache
     |   |   |       |   ImanSoftware.Outcome.assets.cache
@@ -1339,6 +1355,7 @@ G:.
     |       +---Debug
     |       |   \---net10.0
     |       |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+    |       |       |   ImanSoft.24DDBAC5.Up2Date
     |       |       |   ImanSoftware.RateLimiter.AssemblyInfo.cs
     |       |       |   ImanSoftware.RateLimiter.AssemblyInfoInputs.cache
     |       |       |   ImanSoftware.RateLimiter.assets.cache
@@ -1395,7 +1412,7 @@ G:.
         |   README.md
         |   
         +---Abstractions
-        |       IJsonSerializer.cs
+        |       IImanJsonSerializer.cs
         |       JsonSerializerRegistration.cs
         |       SerializationDefaultImpelementationType.cs
         |       
@@ -1428,6 +1445,7 @@ G:.
             +---Debug
             |   \---net10.0
             |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
+            |       |   ImanSoft.424B358E.Up2Date
             |       |   ImanSoftware.Serialization.AssemblyInfo.cs
             |       |   ImanSoftware.Serialization.AssemblyInfoInputs.cache
             |       |   ImanSoftware.Serialization.assets.cache
@@ -1450,6 +1468,8 @@ G:.
             \---Release
                 |   ImanSoftware.Serialization.1.0.0.nuspec
                 |   ImanSoftware.Serialization.1.0.0.symbols.nuspec
+                |   ImanSoftware.Serialization.1.0.1.nuspec
+                |   ImanSoftware.Serialization.1.0.1.symbols.nuspec
                 |   
                 \---net10.0
                     |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
