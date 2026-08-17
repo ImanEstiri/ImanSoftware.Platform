@@ -13,7 +13,7 @@
 
   <PropertyGroup>
     <PackageId>ImanSoftware.Serialization</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Unified JSON serialization abstraction with providers for System.Text.Json and Newtonsoft.Json.</Description>
     <PackageTags>json;serialization;newtonsoft;systemtextjson;abstraction</PackageTags>
   </PropertyGroup>
