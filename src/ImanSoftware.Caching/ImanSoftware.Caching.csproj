@@ -18,7 +18,7 @@
 
   <PropertyGroup>
     <PackageId>ImanSoftware.Caching</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>In-memory caching abstraction built on IMemoryCache, with a clean GetOrSet pattern.</Description>
     <PackageTags>caching;memory;cache;abstraction;in-memory</PackageTags>
   </PropertyGroup>
