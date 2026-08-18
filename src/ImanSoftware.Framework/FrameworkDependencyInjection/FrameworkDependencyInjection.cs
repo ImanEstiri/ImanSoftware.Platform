@@ -62,7 +62,7 @@ public static class FrameworkDependencyInjection
         // 4. JsonSerializer
         if (options.AddJsonSerializer)
         {
-            JsonSerializerRegistration.AddJsonSerializer(
+            ImanJsonSerializerRegistration.AddImanSerialization(
                 services,
                 options.SerializationImplementationType,
                 options.JsonSerializerCustomImplementation?.CustomImplementation);

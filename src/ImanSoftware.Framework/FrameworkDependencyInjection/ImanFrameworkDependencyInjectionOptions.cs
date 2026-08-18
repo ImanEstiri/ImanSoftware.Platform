@@ -32,7 +32,7 @@ public sealed class ImanFrameworkDependencyInjectionOptions
     #region JsonSerializer
     public bool AddJsonSerializer { get; set; } = true;
     public SerializationDefaultImplementationType SerializationImplementationType { get; set; } = SerializationDefaultImplementationType.Newtonsoft;
-    public ImanFrameworkDependencyInjectionCustomImplementation<IJsonSerializer>? JsonSerializerCustomImplementation { get; set; }
+    public ImanFrameworkDependencyInjectionCustomImplementation<IImanJsonSerializer>? JsonSerializerCustomImplementation { get; set; }
     #endregion
 
 
