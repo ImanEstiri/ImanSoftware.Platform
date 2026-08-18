@@ -10,9 +10,9 @@ namespace ImanSoftware.Caching;
 internal class MemoryCacheService : ICacheService
 {
     private readonly IMemoryCache _memoryCache;
-    private readonly IJsonSerializer _jsonSerializer;
+    private readonly IImanJsonSerializer _jsonSerializer;
 
-    public MemoryCacheService(IMemoryCache memoryCache, IJsonSerializer jsonSerializer)
+    public MemoryCacheService(IMemoryCache memoryCache, IImanJsonSerializer jsonSerializer)
     {
         _memoryCache = memoryCache;
         _jsonSerializer = jsonSerializer;
