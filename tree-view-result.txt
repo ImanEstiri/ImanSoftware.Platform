@@ -18,6 +18,8 @@ G:.
 |   +---ImanSoftware.Caching
 |   |       ImanSoftware.Caching.1.0.0.nupkg
 |   |       ImanSoftware.Caching.1.0.0.snupkg
+|   |       ImanSoftware.Caching.1.0.1.nupkg
+|   |       ImanSoftware.Caching.1.0.1.snupkg
 |   |       
 |   +---ImanSoftware.CQRS
 |   |       ImanSoftware.CQRS.1.0.0.nupkg
@@ -60,6 +62,8 @@ G:.
 |   +---ImanSoftware.Framework
 |   |       ImanSoftware.Framework.1.0.0.nupkg
 |   |       ImanSoftware.Framework.1.0.0.snupkg
+|   |       ImanSoftware.Framework.1.0.1.nupkg
+|   |       ImanSoftware.Framework.1.0.1.snupkg
 |   |       
 |   +---ImanSoftware.GuidGenerator
 |   |       ImanSoftware.GuidGenerator.1.0.0.nupkg
@@ -98,6 +102,8 @@ G:.
 |           ImanSoftware.Serialization.1.0.0.snupkg
 |           ImanSoftware.Serialization.1.0.1.nupkg
 |           ImanSoftware.Serialization.1.0.1.snupkg
+|           ImanSoftware.Serialization.1.0.2.nupkg
+|           ImanSoftware.Serialization.1.0.2.snupkg
 |           
 \---src
     +---ImanSoftware.Caching
@@ -160,6 +166,8 @@ G:.
     |       \---Release
     |           |   ImanSoftware.Caching.1.0.0.nuspec
     |           |   ImanSoftware.Caching.1.0.0.symbols.nuspec
+    |           |   ImanSoftware.Caching.1.0.1.nuspec
+    |           |   ImanSoftware.Caching.1.0.1.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -924,6 +932,8 @@ G:.
     |       \---Release
     |           |   ImanSoftware.Framework.1.0.0.nuspec
     |           |   ImanSoftware.Framework.1.0.0.symbols.nuspec
+    |           |   ImanSoftware.Framework.1.0.1.nuspec
+    |           |   ImanSoftware.Framework.1.0.1.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -1432,6 +1442,7 @@ G:.
         |               ImanSoftware.Serialization.xml
         |               
         +---Infrastructure
+        |       JsonSerializerFactory.cs
         |       NewtonsoftJsonSerializer.cs
         |       SystemTextJsonSerializer.cs
         |       
@@ -1470,6 +1481,8 @@ G:.
                 |   ImanSoftware.Serialization.1.0.0.symbols.nuspec
                 |   ImanSoftware.Serialization.1.0.1.nuspec
                 |   ImanSoftware.Serialization.1.0.1.symbols.nuspec
+                |   ImanSoftware.Serialization.1.0.2.nuspec
+                |   ImanSoftware.Serialization.1.0.2.symbols.nuspec
                 |   
                 \---net10.0
                     |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
