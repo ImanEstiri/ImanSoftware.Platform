@@ -14,6 +14,7 @@
     <Project Path="src/ImanSoftware.Outcome/ImanSoftware.Outcome.csproj" Id="50f88865-214b-43a6-8bea-b6976f6787d7" />
   </Folder>
   <Folder Name="/src/Modules/">
+    <Project Path="src/ImanSoftware.Branding/ImanSoftware.Branding.csproj" Id="fa7c453a-f253-4222-96a7-068e4e6819eb" />
     <Project Path="src/ImanSoftware.Caching/ImanSoftware.Caching.csproj" Id="32d8de9a-9256-430e-9516-9e48cfc45a1d" />
     <Project Path="src/ImanSoftware.CQRS/ImanSoftware.CQRS.csproj" Id="efa78527-b818-4559-92b3-d6e06452545a" />
     <Project Path="src/ImanSoftware.CurrentUserAccessor/ImanSoftware.CurrentUserAccessor.csproj" Id="aba086c0-0d36-45e2-94b1-485fdf3c9e89" />
