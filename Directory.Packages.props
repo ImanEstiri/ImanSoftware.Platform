@@ -14,7 +14,7 @@
     <PackageVersion Include="ImanSoftware.DataAccess.Dapper" Version="1.0.0" />
     <PackageVersion Include="ImanSoftware.Serialization" Version="1.0.2" />
     <PackageVersion Include="ImanSoftware.Jwt" Version="1.0.0" />
-    <PackageVersion Include="ImanSoftware.Logging" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.Logging" Version="1.0.1" />
     <PackageVersion Include="ImanSoftware.Caching" Version="1.0.0" />
     <PackageVersion Include="ImanSoftware.FileStorage" Version="1.0.0" />
     <!--Common Packages-->
@@ -32,5 +32,6 @@
     <PackageVersion Include="Microsoft.AspNetCore.Http" Version="2.3.11" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.4" />
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.21.0" />
+    <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
   </ItemGroup>
 </Project>
