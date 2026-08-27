@@ -1,0 +1,73 @@
+@using ImanSoftware.Branding.Core
+@using ImanSoftware.Branding.Abstractions
+@inject IBrandingService BrandingService
+@inject IBrandingCache Cache
+
+@if (!string.IsNullOrEmpty(_badgeText))
+{
+    <div class="imansoftware-badge" @onclick="ShowModal">
+        <span>@_badgeText</span>
+        <span class="badge-dot">⚡</span>
+    </div>
+}
+
+@if (_showModal && _data is not null)
+{
+    <div class="modal-overlay" @onclick="CloseModal">
+        <div class="modal-content" @onclick:stopPropagation="true">
+            <h3>@_data.Brand</h3>
+            <p>توسعه‌دهنده: @_data.Developer</p>
+            <a href="@_data.Website" target="_blank">وبسایت</a>
+            <a href="tel:@_data.Phone">تلفن: @_data.Phone</a>
+            <a href="https://t.me/@_data.Telegram" target="_blank">تلگرام</a>
+            <a href="mailto:@_data.Email">ایمیل</a>
+            <a href="@_data.LinkedIn" target="_blank">لینکدین</a>
+            <p>نسخه: @_data.Version</p>
+            <button @onclick="CloseModal">بستن</button>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter] public string ProjectId { get; set; } = string.Empty;
+    [Parameter] public string? CustomBadgeText { get; set; }
+
+    private BadgeData? _data;
+    private string _badgeText = string.Empty;
+    private bool _showModal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (string.IsNullOrWhiteSpace(ProjectId))
+        {
+            _badgeText = CustomBadgeText ?? "ImanSoftware";
+            return;
+        }
+
+        var cacheKey = $"branding_{ProjectId}";
+        var cached = await Cache.GetAsync(cacheKey);
+        if (cached is not null)
+        {
+            _data = cached;
+            _badgeText = _data.BadgeText ?? CustomBadgeText ?? "ImanSoftware";
+            return;
+        }
+
+        try
+        {
+            _data = await BrandingService.GetBadgeDataAsync(ProjectId);
+            if (_data is not null)
+            {
+                await Cache.SetAsync(cacheKey, _data);
+                _badgeText = _data.BadgeText ?? CustomBadgeText ?? "ImanSoftware";
+                return;
+            }
+        }
+        catch { /* ignore */ }
+
+        _badgeText = CustomBadgeText ?? "Designed & Developed by ImanSoftware";
+    }
+
+    private void ShowModal() => _showModal = true;
+    private void CloseModal() => _showModal = false;
+}
