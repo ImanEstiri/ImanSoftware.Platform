@@ -15,8 +15,9 @@
     <PackageVersion Include="ImanSoftware.Serialization" Version="1.0.2" />
     <PackageVersion Include="ImanSoftware.Jwt" Version="1.0.0" />
     <PackageVersion Include="ImanSoftware.Logging" Version="1.0.1" />
-    <PackageVersion Include="ImanSoftware.Caching" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.Caching" Version="1.0.1" />
     <PackageVersion Include="ImanSoftware.FileStorage" Version="1.0.0" />
+    <PackageVersion Include="ImanSoftware.RateLimiter" Version="1.0.3" />
     <!--Common Packages-->
     <PackageVersion Include="Dapper" Version="2.1.79" />
     <PackageVersion Include="MediatR" Version="14.2.0" />
