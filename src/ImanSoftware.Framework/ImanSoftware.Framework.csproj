@@ -1,12 +1,9 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-
   <ItemGroup>
     <PackageReference Include="ImanSoftware.Outcome" />
     <PackageReference Include="ImanSoftware.Domain" />
@@ -21,12 +18,10 @@
     <PackageReference Include="ImanSoftware.Logging" />
     <PackageReference Include="ImanSoftware.Serialization" />
   </ItemGroup>
-
   <PropertyGroup>
     <PackageId>ImanSoftware.Framework</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.3</Version>
     <Description>Umbrella package that bundles all ImanSoftware modules for a unified development experience.</Description>
     <PackageTags>framework;all-in-one;umbrella;dotnet;imansoftware</PackageTags>
   </PropertyGroup>
-  
 </Project>
