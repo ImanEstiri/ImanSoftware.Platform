@@ -69,7 +69,11 @@ function Bump-PatchVersion {
 function Get-CsprojVersion {
     param([Parameter(Mandatory = $true)][string]$Path)
     [xml]$xml = Get-Content $Path
-    return $xml.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+    $value = $xml.Project.PropertyGroup.Version | Where-Object { $_ } | Select-Object -First 1
+    # Explicit cast: the pipeline above can hand back a wrapped value that
+    # later fails when assigned to an XmlAttribute (e.g. Directory.Packages.props),
+    # even though it prints/concatenates fine everywhere else.
+    return [string]$value
 }
 
 function Set-CsprojVersion {
@@ -84,7 +88,7 @@ function Set-CsprojVersion {
         throw "Could not find a <PropertyGroup> with a <Version> element in $Path"
     }
 
-    $propertyGroup.Version = $NewVersion
+    $propertyGroup.Version = [string]$NewVersion
     $xml.Save($Path)
 }
 
@@ -96,6 +100,89 @@ function Test-HasPackageReference {
     [xml]$xml = Get-Content $Path
     $refs = $xml.Project.ItemGroup.PackageReference | Where-Object { $_.Include -eq $Name }
     return [bool]$refs
+}
+
+# Runs an external process under a hard, PowerShell-enforced wall-clock timeout.
+# This exists because "dotnet nuget push --timeout N" only bounds the actual
+# upload request — the preceding service-index lookup (GET .../v3/index.json)
+# has its own internal ~100s timeout that --timeout does NOT control. If the
+# process doesn't exit in time we kill the whole process tree (dotnet can spawn
+# child processes) via taskkill /T /F so nothing is left running in the background.
+#
+# Uses System.Diagnostics.Process directly (not the Start-Process cmdlet) because
+# Start-Process -PassThru combined with output redirection can unreliably report
+# ExitCode even after the process has exited successfully.
+function ConvertTo-ArgumentString {
+    param([string[]]$Arguments)
+    return ($Arguments | ForEach-Object {
+        if ($_ -match '[\s"]') {
+            '"' + ($_ -replace '"', '\"') + '"'
+        } else {
+            $_
+        }
+    }) -join ' '
+}
+
+function Invoke-ProcessWithTimeout {
+    param(
+        [Parameter(Mandatory = $true)][string]$FilePath,
+        [Parameter(Mandatory = $true)][string[]]$ArgumentList,
+        [Parameter(Mandatory = $true)][int]$TimeoutSeconds
+    )
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName               = $FilePath
+    $psi.Arguments              = ConvertTo-ArgumentString -Arguments $ArgumentList
+    $psi.UseShellExecute        = $false
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError  = $true
+    $psi.CreateNoWindow         = $true
+
+    $proc = New-Object System.Diagnostics.Process
+    $proc.StartInfo = $psi
+
+    $stdOutBuilder = New-Object System.Text.StringBuilder
+    $stdErrBuilder = New-Object System.Text.StringBuilder
+
+    $outEvent = Register-ObjectEvent -InputObject $proc -EventName OutputDataReceived -Action {
+        if ($EventArgs.Data) { $Event.MessageData.AppendLine($EventArgs.Data) | Out-Null }
+    } -MessageData $stdOutBuilder
+
+    $errEvent = Register-ObjectEvent -InputObject $proc -EventName ErrorDataReceived -Action {
+        if ($EventArgs.Data) { $Event.MessageData.AppendLine($EventArgs.Data) | Out-Null }
+    } -MessageData $stdErrBuilder
+
+    try {
+        $proc.Start() | Out-Null
+        $proc.BeginOutputReadLine()
+        $proc.BeginErrorReadLine()
+
+        $exited = $proc.WaitForExit($TimeoutSeconds * 1000)
+
+        if (-not $exited) {
+            try {
+                Start-Process -FilePath "taskkill.exe" -ArgumentList "/PID $($proc.Id) /T /F" -NoNewWindow -Wait -ErrorAction SilentlyContinue | Out-Null
+            } catch {}
+            Start-Sleep -Milliseconds 300
+        } else {
+            # Blocks only until the already-exited process's streams finish flushing.
+            $proc.WaitForExit()
+        }
+    }
+    finally {
+        Unregister-Event -SourceIdentifier $outEvent.Name -ErrorAction SilentlyContinue
+        Unregister-Event -SourceIdentifier $errEvent.Name -ErrorAction SilentlyContinue
+        Remove-Job $outEvent, $errEvent -Force -ErrorAction SilentlyContinue
+    }
+
+    if ($stdOutBuilder.Length -gt 0) { Write-Host $stdOutBuilder.ToString().TrimEnd() }
+    if ($stdErrBuilder.Length -gt 0) { Write-Host $stdErrBuilder.ToString().TrimEnd() }
+
+    if (-not $exited) {
+        return [PSCustomObject]@{ TimedOut = $true; ExitCode = $null }
+    }
+
+    return [PSCustomObject]@{ TimedOut = $false; ExitCode = $proc.ExitCode }
 }
 
 # ===================================================================
@@ -199,14 +286,28 @@ try {
     # ---------------------------------------------------------------
 
     Write-Action "pushing package to nuget ..."
-    dotnet nuget push $nupkg.FullName `
-        --source https://api.nuget.org/v3/index.json `
-        --api-key $ApiKey `
-        --skip-duplicate `
-        --timeout 15
 
-    if ($LASTEXITCODE -ne 0) {
-        Write-Step "push failed or timed out (15s); removing the artifacts just built for v$version so the version isn't wasted."
+    $pushTimeoutSeconds = 15
+    $pushArgs = @(
+        'nuget', 'push', $nupkg.FullName,
+        '--source', 'https://api.nuget.org/v3/index.json',
+        '--api-key', $ApiKey,
+        '--skip-duplicate',
+        '--timeout', "$pushTimeoutSeconds"
+    )
+
+    $pushResult = Invoke-ProcessWithTimeout -FilePath 'dotnet' -ArgumentList $pushArgs -TimeoutSeconds $pushTimeoutSeconds
+
+    if ($pushResult.TimedOut) {
+        Write-Step "push did not finish within ${pushTimeoutSeconds}s; the dotnet process was forcefully terminated."
+        Add-Summary "Push timed out after ${pushTimeoutSeconds}s (process killed): $ProjectName v$version"
+    } elseif ($pushResult.ExitCode -ne 0) {
+        Write-Step "push failed (exit code $($pushResult.ExitCode))."
+        Add-Summary "Push failed (exit code $($pushResult.ExitCode)): $ProjectName v$version"
+    }
+
+    if ($pushResult.TimedOut -or $pushResult.ExitCode -ne 0) {
+        Write-Step "removing the artifacts just built for v$version so the version isn't wasted."
 
         if (Test-Path $nupkg.FullName) {
             Remove-Item $nupkg.FullName -Force
@@ -248,7 +349,7 @@ try {
             Write-Step "Directory.Packages.props already has $ProjectName = $version; nothing to change."
             Add-Summary "Directory.Packages.props: $ProjectName already at $version"
         } else {
-            $existingEntry.Version = $version
+            $existingEntry.Version = [string]$version
             $propsXml.Save($packagesPropsPath)
             Write-Step "updating $ProjectName in Directory.Packages.props from $oldPropsVersion to $version"
             Add-Summary "Directory.Packages.props updated: $ProjectName $oldPropsVersion -> $version"
