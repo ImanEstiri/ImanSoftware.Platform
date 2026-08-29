@@ -1,20 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <PropertyGroup>
     <PackageId>ImanSoftware.Domain</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.6</Version>
     <Description>Base DDD building blocks: Entity, ValueObject, AggregateRoot, Guard clauses, and domain event abstractions.</Description>
     <PackageTags>ddd;domain;entity;valueobject;aggregate;guard;core</PackageTags>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
-
 </Project>
