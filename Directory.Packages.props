@@ -5,7 +5,7 @@
   <ItemGroup>
     <!--ImanSoftware Package Versioning-->
     <PackageVersion Include="ImanSoftware.Outcome" Version="1.0.3" />
-    <PackageVersion Include="ImanSoftware.Domain" Version="1.0.2" />
+    <PackageVersion Include="ImanSoftware.Domain" Version="1.0.6" />
     <PackageVersion Include="ImanSoftware.Extensions" Version="1.0.1" />
     <PackageVersion Include="ImanSoftware.DateTimeProvider" Version="1.0.0" />
     <PackageVersion Include="ImanSoftware.GuidGenerator" Version="1.0.0" />
