@@ -1,6 +1,6 @@
 # 🚦 ImanSoftware.RateLimiter
 
-**Version:** 1.0.2 | **Last Updated:** August 2026
+**Version:** 1.0.3 | **Last Updated:** August 2026
 
 **A lightweight rate limiting library for ASP.NET Core applications.**
 
