@@ -1,6 +1,6 @@
 # ImanSoftware.Domain
 
-**Version:** 1.0.0 | **Last Updated:** August 2026
+**Version:** 1.0.6 | **Last Updated:** August 2026
 
 > A lightweight foundation for building Domain-Driven Design (DDD) applications in .NET.
 
