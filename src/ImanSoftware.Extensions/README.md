@@ -1,6 +1,6 @@
 # ImanSoftware.Extensions
 
-**Version:** 1.0.0 | **Last Updated:** August 2026
+**Version:** 1.0.1 | **Last Updated:** August 2026
 
 > A lightweight collection of useful .NET extension methods that reduce boilerplate code and simplify everyday development.
 
