@@ -1,27 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Caching.Memory" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="ImanSoftware.Serialization"/>
+    <PackageReference Include="ImanSoftware.Serialization" />
   </ItemGroup>
-
-
   <PropertyGroup>
     <PackageId>ImanSoftware.Caching</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>In-memory caching abstraction built on IMemoryCache, with a clean GetOrSet pattern.</Description>
     <PackageTags>caching;memory;cache;abstraction;in-memory</PackageTags>
   </PropertyGroup>
-
-
 </Project>

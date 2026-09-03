@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using ImanSoftware.Serialization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace ImanSoftware.Caching;
@@ -9,6 +10,7 @@ public static class CacheServiceRegistration
         this IServiceCollection services,
         Type? customImplementation = null)
     {
+        services.AddImanSerialization(ImplementationType: SerializationDefaultImplementationType.SystemText);
         services.AddMemoryCache();
         if (customImplementation is not null)
         {
