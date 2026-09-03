@@ -1,6 +1,6 @@
 # ImanSoftware.Serialization
 
-**Version:** 1.0.0 | **Last Updated:** August 2026
+**Version:** 1.0.2 | **Last Updated:** August 2026
 
 > A flexible JSON serialization abstraction for .NET with support for both **System.Text.Json** and **Newtonsoft.Json**.
 

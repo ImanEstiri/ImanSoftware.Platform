@@ -1,6 +1,6 @@
 # ImanSoftware.Outcome
 
-**Version:** 1.0.0 | **Last Updated:** August 2026
+**Version:** 1.0.3 | **Last Updated:** August 2026
 
 > A lightweight and extensible **Result/Outcome** implementation for .NET that helps you manage application flow without relying on exceptions.
 

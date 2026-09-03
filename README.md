@@ -1,6 +1,6 @@
 # 🚀 ImanSoftware.Framework
 
-**Version:** 1.0.0 | **Last Updated:** August 2026
+**Last Updated:** August 2026
 
 **A modular, production-ready .NET framework for building modern web applications with clean architecture, built-in best practices, and zero boilerplate.**
 
