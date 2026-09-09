@@ -82,13 +82,23 @@ public static class DateTimeExtensions
     private static readonly PersianCalendar PersianCalendar = new();
 
     /// <summary>
-    /// Converts a DateTime to Persian (Solar Hijri) date string.
+    /// Converts a DateTime? to a Persian (Solar Hijri) date string.
+    /// Returns defaultValue if the input is null.
     /// </summary>
-    public static string ToPersianDateString(this DateTime dateTime, string separator = "/")
+    /// <param name="dateTime">The nullable DateTime to convert.</param>
+    /// <param name="separator">Separator between year, month, and day (default: "/").</param>
+    /// <param name="defaultValue">Value to return if DateTime is null (default: string.Empty).</param>
+    public static string ToPersianDateString(
+        this DateTime? dateTime,
+        string separator = "/",
+        string defaultValue = "")
     {
-        int year = PersianCalendar.GetYear(dateTime);
-        int month = PersianCalendar.GetMonth(dateTime);
-        int day = PersianCalendar.GetDayOfMonth(dateTime);
+        if (!dateTime.HasValue)
+            return defaultValue;
+
+        int year = PersianCalendar.GetYear(dateTime.Value);
+        int month = PersianCalendar.GetMonth(dateTime.Value);
+        int day = PersianCalendar.GetDayOfMonth(dateTime.Value);
         return $"{year}{separator}{month:D2}{separator}{day:D2}";
     }
 
