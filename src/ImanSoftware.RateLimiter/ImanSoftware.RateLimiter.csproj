@@ -1,27 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <!-- Framework dependencies -->
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-
-    
     <PackageReference Include="ImanSoftware.OutCome" />
     <PackageReference Include="ImanSoftware.Logging" />
     <PackageReference Include="ImanSoftware.Extensions" />
   </ItemGroup>
-
-
   <PropertyGroup>
     <PackageId>ImanSoftware.RateLimiter</PackageId>
-    <Version>1.0.3</Version>
+    <Version>1.0.4</Version>
     <Description>Rate limiting abstraction with in-memory and distributed support.</Description>
     <PackageTags>ratelimiter;throttling;fixedwindow;tokenbucket;dotnet</PackageTags>
   </PropertyGroup>
-
 </Project>
