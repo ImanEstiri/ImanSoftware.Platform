@@ -1,4 +1,6 @@
 ﻿// Core/Extensions/DateTimeExtensions.cs
+using System.Globalization;
+
 namespace ImanSoftware.Extensions;
 
 public static class DateTimeExtensions
@@ -75,5 +77,66 @@ public static class DateTimeExtensions
         var age = today.Year - birthDate.Year;
         if (birthDate.Date > today.AddYears(-age)) age--;
         return age;
+    }
+
+    private static readonly PersianCalendar PersianCalendar = new();
+
+    /// <summary>
+    /// Converts a DateTime to Persian (Solar Hijri) date string.
+    /// </summary>
+    public static string ToPersianDateString(this DateTime dateTime, string separator = "/")
+    {
+        int year = PersianCalendar.GetYear(dateTime);
+        int month = PersianCalendar.GetMonth(dateTime);
+        int day = PersianCalendar.GetDayOfMonth(dateTime);
+        return $"{year}{separator}{month:D2}{separator}{day:D2}";
+    }
+
+    /// <summary>
+    /// Converts a Persian date string (yyyy/MM/dd) to DateTime.
+    /// </summary>
+    public static DateTime? ToGregorianDateTime(this string persianDate, string separator = "/")
+    {
+        var parts = persianDate.Split(separator);
+        if (parts.Length != 3)
+            return null;
+
+        if (!int.TryParse(parts[0], out int year) ||
+            !int.TryParse(parts[1], out int month) ||
+            !int.TryParse(parts[2], out int day))
+            return null;
+
+        try
+        {
+            return PersianCalendar.ToDateTime(year, month, day, 0, 0, 0, 0);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Gets the Persian month name.
+    /// </summary>
+    public static string GetPersianMonthName(this DateTime dateTime)
+    {
+        var month = PersianCalendar.GetMonth(dateTime);
+        return month switch
+        {
+            1 => "فروردین",
+            2 => "اردیبهشت",
+            3 => "خرداد",
+            4 => "تیر",
+            5 => "مرداد",
+            6 => "شهریور",
+            7 => "مهر",
+            8 => "آبان",
+            9 => "آذر",
+            10 => "دی",
+            11 => "بهمن",
+            12 => "اسفند",
+            _ => ""
+        };
     }
 }
