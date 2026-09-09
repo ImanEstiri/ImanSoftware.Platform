@@ -119,9 +119,12 @@ public static class DateTimeExtensions
     /// <summary>
     /// Gets the Persian month name.
     /// </summary>
-    public static string GetPersianMonthName(this DateTime dateTime)
+    public static string GetPersianMonthName(this DateTime? dateTime)
     {
-        var month = PersianCalendar.GetMonth(dateTime);
+        if (!dateTime.HasValue)
+            return string.Empty; // یا "نامشخص"
+
+        int month = PersianCalendar.GetMonth(dateTime.Value);
         return month switch
         {
             1 => "فروردین",
@@ -136,7 +139,7 @@ public static class DateTimeExtensions
             10 => "دی",
             11 => "بهمن",
             12 => "اسفند",
-            _ => ""
+            _ => string.Empty
         };
     }
 }
