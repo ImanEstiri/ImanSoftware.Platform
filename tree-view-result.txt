@@ -20,6 +20,12 @@ G:.
 |   |       ImanSoftware.Branding.1.0.0.snupkg
 |   |       ImanSoftware.Branding.1.0.1.nupkg
 |   |       ImanSoftware.Branding.1.0.1.snupkg
+|   |       ImanSoftware.Branding.1.0.10.nupkg
+|   |       ImanSoftware.Branding.1.0.10.snupkg
+|   |       ImanSoftware.Branding.1.0.11.nupkg
+|   |       ImanSoftware.Branding.1.0.11.snupkg
+|   |       ImanSoftware.Branding.1.0.12.nupkg
+|   |       ImanSoftware.Branding.1.0.12.snupkg
 |   |       ImanSoftware.Branding.1.0.2.nupkg
 |   |       ImanSoftware.Branding.1.0.2.snupkg
 |   |       ImanSoftware.Branding.1.0.3.nupkg
@@ -30,6 +36,12 @@ G:.
 |   |       ImanSoftware.Branding.1.0.5.snupkg
 |   |       ImanSoftware.Branding.1.0.6.nupkg
 |   |       ImanSoftware.Branding.1.0.6.snupkg
+|   |       ImanSoftware.Branding.1.0.7.nupkg
+|   |       ImanSoftware.Branding.1.0.7.snupkg
+|   |       ImanSoftware.Branding.1.0.8.nupkg
+|   |       ImanSoftware.Branding.1.0.8.snupkg
+|   |       ImanSoftware.Branding.1.0.9.nupkg
+|   |       ImanSoftware.Branding.1.0.9.snupkg
 |   |       
 |   +---ImanSoftware.Caching
 |   |       ImanSoftware.Caching.1.0.0.nupkg
@@ -157,10 +169,8 @@ G:.
     |   |       
     |   +---bin
     |   |   +---Debug
-    |   |   |   |   ImanSoftware.Branding.1.0.4.nupkg
-    |   |   |   |   ImanSoftware.Branding.1.0.4.snupkg
-    |   |   |   |   ImanSoftware.Branding.1.0.5.nupkg
-    |   |   |   |   ImanSoftware.Branding.1.0.5.snupkg
+    |   |   |   |   ImanSoftware.Branding.1.0.11.nupkg
+    |   |   |   |   ImanSoftware.Branding.1.0.11.snupkg
     |   |   |   |   
     |   |   |   \---net10.0
     |   |   |           ImanSoftware.Branding.deps.json
@@ -170,9 +180,13 @@ G:.
     |   |   |           ImanSoftware.Branding.staticwebassets.runtime.json
     |   |   |           ImanSoftware.Branding.xml
     |   |   |           
-    |   |   \---Release
-    |   |       |   ImanSoftware.Branding.1.0.4.nupkg
-    |   |       |   ImanSoftware.Branding.1.0.4.snupkg
+    |   |   \---release
+    |   |       |   ImanSoftware.Branding.1.0.10.nupkg
+    |   |       |   ImanSoftware.Branding.1.0.10.snupkg
+    |   |       |   ImanSoftware.Branding.1.0.11.nupkg
+    |   |       |   ImanSoftware.Branding.1.0.11.snupkg
+    |   |       |   ImanSoftware.Branding.1.0.9.nupkg
+    |   |       |   ImanSoftware.Branding.1.0.9.snupkg
     |   |       |   
     |   |       \---net10.0
     |   |               ImanSoftware.Branding.deps.json
@@ -184,7 +198,6 @@ G:.
     |   |               
     |   +---Components
     |   |       ImanSoftwareBadge.razor
-    |   |       ImanSoftwareBadge.razor.css
     |   |       
     |   +---Core
     |   |       BadgeData.cs
@@ -205,10 +218,8 @@ G:.
     |   |   |   project.nuget.cache
     |   |   |   
     |   |   +---Debug
-    |   |   |   |   ImanSoftware.Branding.1.0.4.nuspec
-    |   |   |   |   ImanSoftware.Branding.1.0.4.symbols.nuspec
-    |   |   |   |   ImanSoftware.Branding.1.0.5.nuspec
-    |   |   |   |   ImanSoftware.Branding.1.0.5.symbols.nuspec
+    |   |   |   |   ImanSoftware.Branding.1.0.11.nuspec
+    |   |   |   |   ImanSoftware.Branding.1.0.11.symbols.nuspec
     |   |   |   |   
     |   |   |   \---net10.0
     |   |   |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -226,7 +237,6 @@ G:.
     |   |   |       |   ImanSoftware.Branding.pdb
     |   |   |       |   ImanSoftware.Branding.sourcelink.json
     |   |   |       |   ImanSoftware.Branding.xml
-    |   |   |       |   rbcswa.dswa.cache.json
     |   |   |       |   rjsmcshtml.dswa.cache.json
     |   |   |       |   rjsmrazor.dswa.cache.json
     |   |   |       |   rpswa.dswa.cache.json
@@ -234,46 +244,31 @@ G:.
     |   |   |       |   staticwebassets.build.json
     |   |   |       |   staticwebassets.build.json.cache
     |   |   |       |   staticwebassets.development.json
-    |   |   |       |   staticwebassets.pack.json
     |   |   |       |   staticwebassets.references.upToDateCheck.txt
     |   |   |       |   staticwebassets.removed.txt
     |   |   |       |   swae.build.ex.cache
     |   |   |       |   ValidatableTypeAttribute.cs
     |   |   |       |   
-    |   |   |       +---compressed
-    |   |   |       |       cpwtjrejnp-{0}-4kl7rcfuvm-4kl7rcfuvm.gz
-    |   |   |       |       g0b6lqawbq-{0}-4kl7rcfuvm-4kl7rcfuvm.gz
-    |   |   |       |       
     |   |   |       +---ref
     |   |   |       |       ImanSoftware.Branding.dll
     |   |   |       |       
     |   |   |       +---refint
     |   |   |       |       ImanSoftware.Branding.dll
     |   |   |       |       
-    |   |   |       +---scopedcss
-    |   |   |       |   +---bundle
-    |   |   |       |   |       ImanSoftware.Branding.styles.css
-    |   |   |       |   |       
-    |   |   |       |   +---Components
-    |   |   |       |   |       ImanSoftwareBadge.razor.rz.scp.css
-    |   |   |       |   |       
-    |   |   |       |   \---projectbundle
-    |   |   |       |           ImanSoftware.Branding.bundle.scp.css
-    |   |   |       |           
     |   |   |       \---staticwebassets
     |   |   |               msbuild.build.ImanSoftware.Branding.props
     |   |   |               msbuild.buildMultiTargeting.ImanSoftware.Branding.props
     |   |   |               msbuild.buildTransitive.ImanSoftware.Branding.props
-    |   |   |               msbuild.ImanSoftware.Branding.Microsoft.AspNetCore.StaticWebAssetEndpoints.props
-    |   |   |               msbuild.ImanSoftware.Branding.Microsoft.AspNetCore.StaticWebAssets.props
     |   |   |               
-    |   |   \---Release
-    |   |       |   ImanSoftware.Branding.1.0.4.nuspec
-    |   |       |   ImanSoftware.Branding.1.0.4.symbols.nuspec
-    |   |       |   ImanSoftware.Branding.1.0.5.nuspec
-    |   |       |   ImanSoftware.Branding.1.0.5.symbols.nuspec
-    |   |       |   ImanSoftware.Branding.1.0.6.nuspec
-    |   |       |   ImanSoftware.Branding.1.0.6.symbols.nuspec
+    |   |   \---release
+    |   |       |   ImanSoftware.Branding.1.0.10.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.10.symbols.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.11.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.11.symbols.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.12.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.12.symbols.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.9.nuspec
+    |   |       |   ImanSoftware.Branding.1.0.9.symbols.nuspec
     |   |       |   
     |   |       \---net10.0
     |   |           |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
