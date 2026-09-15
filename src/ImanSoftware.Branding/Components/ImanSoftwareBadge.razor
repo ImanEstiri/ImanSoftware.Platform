@@ -1,66 +1,341 @@
-
+@namespace ImanSoftware.Branding
 @inject IBrandingService BrandingService
 @inject IBrandingCache Cache
 
-@if (!string.IsNullOrEmpty(_badgeText))
-{
-    <div class="imansoftware-badge" @onclick="ShowModal">
-        <span>@_badgeText</span>
-        <span class="badge-dot">⚡</span>
-    </div>
+@{
+    var toggleId = $"imansoftware-toggle-{ProjectId ?? "default"}";
 }
 
-@if (_showModal)
+@if (!string.IsNullOrEmpty(_badgeText))
 {
-    <div class="modal-overlay" @onclick="CloseModal">
-        <div class="modal-content" @onclick:stopPropagation="true">
+    <input type="checkbox" id="@toggleId" class="imansoftware-modal-toggle" />
+    <label for="@toggleId" class="imansoftware-badge">
+        <span>@_badgeText</span>
+        <span class="badge-dot">⚡</span>
+    </label>
+
+    <div class="imansoftware-modal-overlay">
+        <label for="@toggleId" class="imansoftware-modal-backdrop"></label>
+        <div class="imansoftware-modal-content">
+            <div class="imansoftware-modal-avatar">
+                <span>⚡</span>
+            </div>
             <h3>@_data.Brand</h3>
-            <p>توسعه‌دهنده: @_data.Developer</p>
+            <p class="modal-subtitle">توسعه‌دهنده: <strong>@_data.Developer</strong></p>
 
-            @if (!string.IsNullOrEmpty(_data.Website))
-            {
-                <a href="@_data.Website" target="_blank">وبسایت</a>
-            }
-            @if (!string.IsNullOrEmpty(_data.Phone))
-            {
-                <a href="tel:@_data.Phone">تلفن: @_data.Phone</a>
-            }
-            @if (!string.IsNullOrEmpty(_data.Telegram))
-            {
-                <a href="https://t.me/@_data.Telegram" target="_blank">تلگرام</a>
-            }
-            @if (!string.IsNullOrEmpty(_data.Email))
-            {
-                <a href="mailto:@_data.Email">ایمیل</a>
-            }
-            @if (!string.IsNullOrEmpty(_data.LinkedIn))
-            {
-                <a href="@_data.LinkedIn" target="_blank">لینکدین</a>
-            }
+            <div class="modal-links">
+                @if (!string.IsNullOrEmpty(_data.Website))
+                {
+                    <a href="@_data.Website" target="_blank" class="modal-link">
+                        <span>🌐</span> وبسایت
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(_data.Telegram))
+                {
+                    <a href="https://t.me/@_data.Telegram" target="_blank" class="modal-link">
+                        <span>✈️</span> تلگرام
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(_data.Email))
+                {
+                    <a href="mailto:@_data.Email" class="modal-link">
+                        <span>📧</span> ایمیل
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(_data.Phone))
+                {
+                    <a href="tel:@_data.Phone" class="modal-link">
+                        <span>📞</span> تماس
+                    </a>
+                }
+                @if (!string.IsNullOrEmpty(_data.LinkedIn))
+                {
+                    <a href="@_data.LinkedIn" target="_blank" class="modal-link">
+                        <span>💼</span> لینکدین
+                    </a>
+                }
+            </div>
 
-            <button @onclick="CloseModal">بستن</button>
+            <label for="@toggleId" class="modal-close-btn">بستن</label>
         </div>
     </div>
 }
 
+<style>
+    /* ========== Badge ========== */
+    .imansoftware-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        cursor: pointer;
+        padding: 6px 14px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border-radius: 20px;
+        font-size: 13px;
+        font-weight: 500;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        transition: all 0.3s ease;
+        user-select: none;
+        box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+        text-decoration: none;
+        margin: 0;
+    }
+
+        .imansoftware-badge:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.5);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .imansoftware-badge .badge-dot {
+            font-size: 14px;
+            animation: iman-pulse 2s infinite;
+        }
+
+    @@keyframes iman-pulse {
+        0%, 100% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.6;
+        }
+    }
+
+    /* ========== Checkbox (مخفی) ========== */
+    .imansoftware-modal-toggle {
+        display: none !important;
+        position: absolute;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* ================================================================
+           Modal Overlay
+           - همیشه display: flex است تا transitionها کار کنند
+           - با visibility + opacity مخفی/نمایان می‌شود
+           - هنگام بستن، visibility با تأخیر ۰.۴s غیرفعال می‌شود
+           ================================================================ */
+    .imansoftware-modal-overlay {
+        display: flex;
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        z-index: 2147483647 !important;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+        /* حالت مخفی */
+        visibility: hidden;
+        opacity: 0;
+        pointer-events: none;
+        /* انیمیشن بستن: opacity سریع، visibility با تأخیر */
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.4s;
+    }
+
+    .imansoftware-modal-toggle:checked ~ .imansoftware-modal-overlay {
+        visibility: visible;
+        opacity: 1;
+        pointer-events: auto;
+        /* انیمیشن باز شدن: visibility فوری */
+        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0s;
+    }
+
+    /* ================================================================
+           Backdrop
+           - بلور و رنگ پس‌زمینه به صورت نرم transition می‌شوند
+           ================================================================ */
+    .imansoftware-modal-backdrop {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        text-decoration: none;
+        cursor: pointer;
+        will-change: backdrop-filter, background-color;
+        /* حالت اولیه: کاملاً شفاف */
+        background: rgba(15, 15, 30, 0);
+        backdrop-filter: blur(0px) saturate(100%);
+        -webkit-backdrop-filter: blur(0px) saturate(100%);
+        transition: backdrop-filter 0.45s cubic-bezier(0.4, 0, 0.2, 1), -webkit-backdrop-filter 0.45s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .imansoftware-modal-toggle:checked ~ .imansoftware-modal-overlay .imansoftware-modal-backdrop {
+        background: rgb(15 15 30 / 75%);
+        backdrop-filter: blur(2px) saturate(180%);
+        -webkit-backdrop-filter: blur(2px) saturate(180%);
+    }
+
+    /* ================================================================
+           Modal Content
+           - با transform + opacity به صورت نرم ظاهر/ناپدید می‌شود
+           ================================================================ */
+    .imansoftware-modal-content {
+        position: relative;
+        background: rgba(255, 255, 255, 0.98);
+        padding: 32px 36px 28px;
+        border-radius: 20px;
+        max-width: 420px;
+        width: 100%;
+        box-shadow: 0 25px 70px rgba(0, 0, 0, 0.35), 0 0 0 1px rgba(255, 255, 255, 0.5) inset;
+        text-align: center;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        direction: rtl;
+        z-index: 1;
+        box-sizing: border-box;
+        /* حالت اولیه: کوچک و پایین‌تر */
+        transform: scale(0.92) translateY(20px);
+        opacity: 0;
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .imansoftware-modal-toggle:checked ~ .imansoftware-modal-overlay .imansoftware-modal-content {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+        transition-delay: 0.05s;
+    }
+
+    /* ========== Avatar ========== */
+    .imansoftware-modal-avatar {
+        width: 64px;
+        height: 64px;
+        margin: -60px auto 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5);
+        border: 4px solid #fff;
+        font-size: 28px;
+    }
+
+    .imansoftware-modal-content h3 {
+        margin: 0 0 6px 0;
+        color: #2d3748;
+        font-size: 22px;
+        font-weight: 700;
+    }
+
+    .imansoftware-modal-content .modal-subtitle {
+        margin: 0 0 20px 0;
+        color: #718096;
+        font-size: 14px;
+    }
+
+        .imansoftware-modal-content .modal-subtitle strong {
+            color: #667eea;
+            font-weight: 600;
+        }
+
+    /* ========== Links Grid ========== */
+    .imansoftware-modal-content .modal-links {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .imansoftware-modal-content .modal-link {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 10px 12px;
+        color: #4a5568;
+        background: #f7f8fc;
+        text-decoration: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+    }
+
+        .imansoftware-modal-content .modal-link:hover {
+            background: #667eea;
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.35);
+            text-decoration: none;
+        }
+
+        .imansoftware-modal-content .modal-link span {
+            font-size: 15px;
+        }
+
+    /* ========== Close Button ========== */
+    .imansoftware-modal-content .modal-close-btn {
+        display: block;
+        width: 100%;
+        padding: 12px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-family: inherit;
+        text-decoration: none;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+        .imansoftware-modal-content .modal-close-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.5);
+            color: #fff;
+            text-decoration: none;
+        }
+
+    /* ========== Responsive ========== */
+    @@media (max-width: 480px) {
+        .imansoftware-modal-content {
+            padding: 28px 22px 22px;
+            max-width: 100%;
+        }
+
+            .imansoftware-modal-content h3 {
+                font-size: 18px;
+            }
+
+            .imansoftware-modal-content .modal-links {
+                grid-template-columns: 1fr;
+            }
+
+        .imansoftware-badge {
+            font-size: 12px;
+            padding: 5px 12px;
+        }
+    }
+</style>
+
 @code {
-    [Parameter] public string ProjectId { get; set; } = string.Empty;
+    [Parameter] public string ProjectId { get; set; } = "default";
     [Parameter] public string? CustomBadgeText { get; set; }
 
-    // ✅ داده‌ی پیش‌فرض (اگر API پاسخ نداد)
     private static readonly BadgeData DefaultBadge = new(
         Developer: "Iman Estiri",
         Brand: "ImanSoftware",
         Website: "https://imansoftware.ir",
-        Phone: "",
-        Telegram: "imanestiri",
-        Email: "info@imansoftware.ir",
-        LinkedIn: "",
+        Phone: "+989330884150",
+        Telegram: "iman_estiri",
+        Email: "contact.imanestiri@gmail.com",
+        LinkedIn: "https://ir.linkedin.com/in/javad-estiri-bb3598229",
         BadgeText: "Designed & Developed by ImanSoftware");
 
     private BadgeData _data = DefaultBadge;
     private string _badgeText = string.Empty;
-    private bool _showModal;
 
     protected override async Task OnInitializedAsync()
     {
@@ -92,11 +367,7 @@
         }
         catch { /* ignore */ }
 
-        // ✅ اگر API پاسخ نداد، از داده‌ی پیش‌فرض استفاده کن
         _data = DefaultBadge;
         _badgeText = CustomBadgeText ?? DefaultBadge.BadgeText;
     }
-
-    private void ShowModal() => _showModal = true;
-    private void CloseModal() => _showModal = false;
 }
