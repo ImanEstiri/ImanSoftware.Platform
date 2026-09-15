@@ -1,6 +1,4 @@
-@namespace ImanSoftware.Branding
-@using ImanSoftware.Branding.Core
-@using ImanSoftware.Branding.Abstractions
+
 @inject IBrandingService BrandingService
 @inject IBrandingCache Cache
 
@@ -12,18 +10,34 @@
     </div>
 }
 
-@if (_showModal && _data is not null)
+@if (_showModal)
 {
     <div class="modal-overlay" @onclick="CloseModal">
         <div class="modal-content" @onclick:stopPropagation="true">
             <h3>@_data.Brand</h3>
             <p>توسعه‌دهنده: @_data.Developer</p>
-            <a href="@_data.Website" target="_blank">وبسایت</a>
-            <a href="tel:@_data.Phone">تلفن: @_data.Phone</a>
-            <a href="https://t.me/@_data.Telegram" target="_blank">تلگرام</a>
-            <a href="mailto:@_data.Email">ایمیل</a>
-            <a href="@_data.LinkedIn" target="_blank">لینکدین</a>
-            <p>نسخه: @_data.Version</p>
+
+            @if (!string.IsNullOrEmpty(_data.Website))
+            {
+                <a href="@_data.Website" target="_blank">وبسایت</a>
+            }
+            @if (!string.IsNullOrEmpty(_data.Phone))
+            {
+                <a href="tel:@_data.Phone">تلفن: @_data.Phone</a>
+            }
+            @if (!string.IsNullOrEmpty(_data.Telegram))
+            {
+                <a href="https://t.me/@_data.Telegram" target="_blank">تلگرام</a>
+            }
+            @if (!string.IsNullOrEmpty(_data.Email))
+            {
+                <a href="mailto:@_data.Email">ایمیل</a>
+            }
+            @if (!string.IsNullOrEmpty(_data.LinkedIn))
+            {
+                <a href="@_data.LinkedIn" target="_blank">لینکدین</a>
+            }
+
             <button @onclick="CloseModal">بستن</button>
         </div>
     </div>
@@ -33,7 +47,18 @@
     [Parameter] public string ProjectId { get; set; } = string.Empty;
     [Parameter] public string? CustomBadgeText { get; set; }
 
-    private BadgeData? _data;
+    // ✅ داده‌ی پیش‌فرض (اگر API پاسخ نداد)
+    private static readonly BadgeData DefaultBadge = new(
+        Developer: "Iman Estiri",
+        Brand: "ImanSoftware",
+        Website: "https://imansoftware.ir",
+        Phone: "",
+        Telegram: "imanestiri",
+        Email: "info@imansoftware.ir",
+        LinkedIn: "",
+        BadgeText: "Designed & Developed by ImanSoftware");
+
+    private BadgeData _data = DefaultBadge;
     private string _badgeText = string.Empty;
     private bool _showModal;
 
@@ -41,7 +66,7 @@
     {
         if (string.IsNullOrWhiteSpace(ProjectId))
         {
-            _badgeText = CustomBadgeText ?? "ImanSoftware";
+            _badgeText = CustomBadgeText ?? DefaultBadge.BadgeText;
             return;
         }
 
@@ -50,23 +75,26 @@
         if (cached is not null)
         {
             _data = cached;
-            _badgeText = _data.BadgeText ?? CustomBadgeText ?? "ImanSoftware";
+            _badgeText = _data.BadgeText ?? CustomBadgeText ?? DefaultBadge.BadgeText;
             return;
         }
 
         try
         {
-            _data = await BrandingService.GetBadgeDataAsync(ProjectId);
-            if (_data is not null)
+            var result = await BrandingService.GetBadgeDataAsync(ProjectId);
+            if (result is not null)
             {
+                _data = result;
                 await Cache.SetAsync(cacheKey, _data);
-                _badgeText = _data.BadgeText ?? CustomBadgeText ?? "ImanSoftware";
+                _badgeText = _data.BadgeText ?? CustomBadgeText ?? DefaultBadge.BadgeText;
                 return;
             }
         }
         catch { /* ignore */ }
 
-        _badgeText = CustomBadgeText ?? "Designed & Developed by ImanSoftware";
+        // ✅ اگر API پاسخ نداد، از داده‌ی پیش‌فرض استفاده کن
+        _data = DefaultBadge;
+        _badgeText = CustomBadgeText ?? DefaultBadge.BadgeText;
     }
 
     private void ShowModal() => _showModal = true;
