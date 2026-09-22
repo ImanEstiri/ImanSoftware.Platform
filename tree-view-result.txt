@@ -3,6 +3,8 @@ Volume serial number is C0AD-37BC
 G:.
 |   .gitattributes
 |   .gitignore
+|   code-dump-result.md
+|   code-dump.bat
 |   Directory.Build.props
 |   Directory.Packages.props
 |   icon.png
@@ -171,6 +173,8 @@ G:.
     |   |   +---Debug
     |   |   |   |   ImanSoftware.Branding.1.0.11.nupkg
     |   |   |   |   ImanSoftware.Branding.1.0.11.snupkg
+    |   |   |   |   ImanSoftware.Branding.1.0.12.nupkg
+    |   |   |   |   ImanSoftware.Branding.1.0.12.snupkg
     |   |   |   |   
     |   |   |   \---net10.0
     |   |   |           ImanSoftware.Branding.deps.json
@@ -220,6 +224,8 @@ G:.
     |   |   +---Debug
     |   |   |   |   ImanSoftware.Branding.1.0.11.nuspec
     |   |   |   |   ImanSoftware.Branding.1.0.11.symbols.nuspec
+    |   |   |   |   ImanSoftware.Branding.1.0.12.nuspec
+    |   |   |   |   ImanSoftware.Branding.1.0.12.symbols.nuspec
     |   |   |   |   
     |   |   |   \---net10.0
     |   |   |       |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -1007,12 +1013,17 @@ G:.
     |   |   
     |   +---Abstractions
     |   |       FileStorageRegistration.cs
+    |   |       FileTransferRegistration.cs
+    |   |       IDirectoryOperator.cs
     |   |       IFileDeleter.cs
     |   |       IFileDownloader.cs
     |   |       IFileInfoProvider.cs
     |   |       IFileMover.cs
+    |   |       IFileReader.cs
     |   |       IFileStorage.cs
+    |   |       IFileTransfer.cs
     |   |       IFileUploader.cs
+    |   |       IFileWriter.cs
     |   |       
     |   +---bin
     |   |   +---Debug
@@ -1033,8 +1044,9 @@ G:.
     |   |       FileMetadata.cs
     |   |       
     |   +---Infrastructure
+    |   |       FileTransferOptions.cs
     |   |       LocalFileStorage.cs
-    |   |       LocalFileStorageOptions.cs
+    |   |       LocalFileTransfer.cs
     |   |       
     |   \---obj
     |       |   ImanSoftware.FileStorage.csproj.nuget.dgspec.json
