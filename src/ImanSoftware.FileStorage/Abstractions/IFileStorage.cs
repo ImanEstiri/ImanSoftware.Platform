@@ -1,16 +1,16 @@
-﻿// مسیر: Abstractions/FileStorage/IFileStorage.cs
-namespace ImanSoftware.FileStorage;
+﻿namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Combined contract for full file storage operations.
-/// Inherits all individual file operation interfaces.
+/// General-purpose file storage operations.
+/// Works with any file path - no configuration required.
+/// Use <see cref="IFileTransfer"/> for upload/download operations.
 /// </summary>
 public interface IFileStorage :
-    IFileUploader,
-    IFileDownloader,
+    IFileReader,
+    IFileWriter,
     IFileDeleter,
+    IFileMover,
     IFileInfoProvider,
-    IFileMover
+    IDirectoryOperator
 {
-    // No additional methods needed - just composition
 }
