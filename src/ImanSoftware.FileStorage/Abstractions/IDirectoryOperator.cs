@@ -8,7 +8,7 @@ namespace ImanSoftware.FileStorage;
 public interface IDirectoryOperator
 {
     // ============================================================
-    // Instant checks (no I/O wait)
+    // Existence checks (sync, no I/O wait)
     // ============================================================
 
     /// <summary>
@@ -22,51 +22,67 @@ public interface IDirectoryOperator
     bool DirectoryExists(string path);
 
     // ============================================================
-    // Directory operations (async I/O)
+    // Directory operations
     // ============================================================
 
+    /// <summary>
+    /// Creates a directory (including all parent directories).
+    /// </summary>
     Task<Outcome> CreateDirectoryAsync(string path, CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Deletes a directory. Set <paramref name="recursive"/> to true to delete contents.
+    /// </summary>
     Task<Outcome> DeleteDirectoryAsync(string path, bool recursive = false, CancellationToken cancellationToken = default);
 
     // ============================================================
-    // File enumeration (async I/O)
+    // Enumeration (returns paths only - fast, lazy)
     // ============================================================
 
     /// <summary>
-    /// Enumerates files matching a single search pattern.
+    /// Enumerates files matching any of the given patterns.
     /// </summary>
-    Task<Outcome<IReadOnlyList<string>>> EnumerateFilesAsync(
-        string path,
-        string searchPattern = "*",
-        SearchOption searchOption = SearchOption.TopDirectoryOnly,
-        CancellationToken cancellationToken = default);
-
-    /// <summary>
-    /// Enumerates files matching any of the given search patterns.
-    /// Example: EnumerateFilesAsync(path, new[] { "*.log", "*.txt" }, SearchOption.AllDirectories)
-    /// </summary>
-    Task<Outcome<IReadOnlyList<string>>> EnumerateFilesAsync(
+    /// <param name="path">Root directory to search.</param>
+    /// <param name="searchPatterns">
+    /// Wildcard patterns (e.g., "*.log", "app-*.txt"). Pass <c>new[] { "*" }</c> to match all.
+    /// </param>
+    /// <param name="searchOption">Top directory only or all subdirectories.</param>
+    /// <example>
+    /// await storage.EnumerateFilesAsync(@"C:\Logs", new[] { "*.log", "*.txt" }, SearchOption.AllDirectories);
+    /// </example>
+    Task<Outcome<IEnumerable<string>>> EnumerateFilesAsync(
         string path,
         IEnumerable<string> searchPatterns,
         SearchOption searchOption = SearchOption.TopDirectoryOnly,
         CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Convenience method: finds files by extension(s).
-    /// Example: FindFilesAsync(path, includeSubdirectories: true, default, ".log", ".txt")
-    /// </summary>
-    Task<Outcome<IReadOnlyList<string>>> FindFilesAsync(
-        string path,
-        bool includeSubdirectories,
-        CancellationToken cancellationToken = default,
-        params string[] extensions);
-
-    /// <summary>
     /// Enumerates subdirectories.
     /// </summary>
-    Task<Outcome<IReadOnlyList<string>>> EnumerateDirectoriesAsync(
+    Task<Outcome<IEnumerable<string>>> EnumerateDirectoriesAsync(
         string path,
         string searchPattern = "*",
+        SearchOption searchOption = SearchOption.TopDirectoryOnly,
+        CancellationToken cancellationToken = default);
+
+    // ============================================================
+    // Search (returns metadata - slower, richer)
+    // ============================================================
+
+    /// <summary>
+    /// Searches files matching any of the given patterns and returns full metadata for each.
+    /// </summary>
+    /// <param name="path">Root directory to search.</param>
+    /// <param name="searchPatterns">
+    /// Wildcard patterns (e.g., "*.log", "app-*.txt"). Pass <c>new[] { "*" }</c> to match all.
+    /// </param>
+    /// <param name="searchOption">Top directory only or all subdirectories.</param>
+    /// <example>
+    /// await storage.SearchFilesAsync(@"C:\Logs", new[] { "*.log" }, SearchOption.AllDirectories);
+    /// </example>
+    Task<Outcome<IEnumerable<FileMetadata>>> SearchFilesAsync(
+        string path,
+        IEnumerable<string> searchPatterns,
         SearchOption searchOption = SearchOption.TopDirectoryOnly,
         CancellationToken cancellationToken = default);
 }
