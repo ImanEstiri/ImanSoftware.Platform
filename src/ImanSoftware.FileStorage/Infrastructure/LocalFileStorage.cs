@@ -12,6 +12,7 @@ internal sealed class LocalFileStorage : IFileStorage
     // ============================================================
     // IFileReader
     // ============================================================
+
     public async Task<Outcome<string>> ReadAllTextAsync(string path, CancellationToken cancellationToken = default)
     {
         try
@@ -77,6 +78,7 @@ internal sealed class LocalFileStorage : IFileStorage
     // ============================================================
     // IFileWriter
     // ============================================================
+
     public async Task<Outcome> WriteAllTextAsync(string path, string content, CancellationToken cancellationToken = default)
     {
         try
@@ -136,31 +138,36 @@ internal sealed class LocalFileStorage : IFileStorage
     // ============================================================
     // IFileDeleter
     // ============================================================
+
     public Task<Outcome> DeleteAsync(string filePath)
     {
         try
         {
             if (!File.Exists(filePath))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+                return Task.FromResult(Outcome.Failure(
+                    new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
 
             File.Delete(filePath);
             return Task.FromResult(Outcome.Successful());
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_DELETE_ERROR", OutcomeErrorType.Failure)));
+            return Task.FromResult(Outcome.Failure(
+                new OutcomeError(ex.Message, "FILE_DELETE_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
     // ============================================================
     // IFileMover
     // ============================================================
+
     public Task<Outcome> MoveAsync(string sourcePath, string destinationPath)
     {
         try
         {
             if (!File.Exists(sourcePath))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+                return Task.FromResult(Outcome.Failure(
+                    new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
 
             EnsureDirectory(Path.GetDirectoryName(destinationPath));
             File.Move(sourcePath, destinationPath);
@@ -168,7 +175,8 @@ internal sealed class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_MOVE_ERROR", OutcomeErrorType.Failure)));
+            return Task.FromResult(Outcome.Failure(
+                new OutcomeError(ex.Message, "FILE_MOVE_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
@@ -177,7 +185,8 @@ internal sealed class LocalFileStorage : IFileStorage
         try
         {
             if (!File.Exists(sourcePath))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+                return Task.FromResult(Outcome.Failure(
+                    new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
 
             EnsureDirectory(Path.GetDirectoryName(destinationPath));
             File.Copy(sourcePath, destinationPath, overwrite: true);
@@ -185,24 +194,29 @@ internal sealed class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_COPY_ERROR", OutcomeErrorType.Failure)));
+            return Task.FromResult(Outcome.Failure(
+                new OutcomeError(ex.Message, "FILE_COPY_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
     // ============================================================
     // IFileInfoProvider
     // ============================================================
+
     public Task<Outcome<FileMetadata>> GetMetadataAsync(string filePath)
     {
         try
         {
             if (!File.Exists(filePath))
-                return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+                return Task.FromResult(Outcome.Failure<FileMetadata>(
+                    new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
 
             var fileInfo = new FileInfo(filePath);
             var metadata = new FileMetadata
             {
+                FullPath = fileInfo.FullName,
                 FileName = fileInfo.Name,
+                Extension = fileInfo.Extension,
                 Size = fileInfo.Length,
                 ContentType = GetContentType(fileInfo.Extension),
                 CreatedAt = fileInfo.CreationTime,
@@ -213,13 +227,15 @@ internal sealed class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError(ex.Message, "FILE_METADATA_ERROR", OutcomeErrorType.Failure)));
+            return Task.FromResult(Outcome.Failure<FileMetadata>(
+                new OutcomeError(ex.Message, "FILE_METADATA_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
     // ============================================================
-    // IDirectoryOperator
+    // IDirectoryOperator - Existence checks
     // ============================================================
+
     public bool FileExists(string path)
     {
         try { return File.Exists(path); }
@@ -232,6 +248,10 @@ internal sealed class LocalFileStorage : IFileStorage
         catch { return false; }
     }
 
+    // ============================================================
+    // IDirectoryOperator - Directory operations
+    // ============================================================
+
     public Task<Outcome> CreateDirectoryAsync(string path, CancellationToken cancellationToken = default)
     {
         try
@@ -241,7 +261,8 @@ internal sealed class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "DIR_CREATE_ERROR", OutcomeErrorType.Failure)));
+            return Task.FromResult(Outcome.Failure(
+                new OutcomeError(ex.Message, "DIR_CREATE_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
@@ -250,107 +271,69 @@ internal sealed class LocalFileStorage : IFileStorage
         try
         {
             if (!Directory.Exists(path))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound)));
+                return Task.FromResult(Outcome.Failure(
+                    new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound)));
 
             Directory.Delete(path, recursive);
             return Task.FromResult(Outcome.Successful());
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "DIR_DELETE_ERROR", OutcomeErrorType.Failure)));
+            return Task.FromResult(Outcome.Failure(
+                new OutcomeError(ex.Message, "DIR_DELETE_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
-    public Task<Outcome<IReadOnlyList<string>>> EnumerateFilesAsync(
-        string path,
-        string searchPattern = "*",
-        SearchOption searchOption = SearchOption.TopDirectoryOnly,
-        CancellationToken cancellationToken = default)
-    {
-        try
-        {
-            if (!Directory.Exists(path))
-                return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(
-                    new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound)));
+    // ============================================================
+    // IDirectoryOperator - Enumerate files
+    // ============================================================
 
-            var files = Directory.EnumerateFiles(path, searchPattern, searchOption).ToList();
-            return Task.FromResult(Outcome.Successful<IReadOnlyList<string>>(files));
-        }
-        catch (Exception ex)
-        {
-            return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(
-                new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure)));
-        }
-    }
-
-    public Task<Outcome<IReadOnlyList<string>>> EnumerateFilesAsync(
+    public Task<Outcome<IEnumerable<string>>> EnumerateFilesAsync(
         string path,
         IEnumerable<string> searchPatterns,
         SearchOption searchOption = SearchOption.TopDirectoryOnly,
         CancellationToken cancellationToken = default)
     {
-        var patterns = searchPatterns?.Where(p => !string.IsNullOrWhiteSpace(p)).ToArray()
-                       ?? Array.Empty<string>();
-
-        if (patterns.Length == 0)
-            return EnumerateFilesAsync(path, "*", searchOption, cancellationToken);
-
-        if (patterns.Length == 1)
-            return EnumerateFilesAsync(path, patterns[0], searchOption, cancellationToken);
-
         try
         {
             if (!Directory.Exists(path))
-                return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(
+                return Task.FromResult(Outcome.Failure<IEnumerable<string>>(
                     new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound)));
 
-            var files = Directory.EnumerateFiles(path, "*", searchOption)
-                .Where(file => patterns.Any(p => MatchesPattern(file, p)))
-                .ToList();
+            var patterns = NormalizePatterns(searchPatterns);
 
-            return Task.FromResult(Outcome.Successful<IReadOnlyList<string>>(files));
+            // No pattern (or single "*"): enumerate all files - fastest path
+            if (patterns.Length == 1 && patterns[0] == "*")
+            {
+                var allFiles = Directory.EnumerateFiles(path, "*", searchOption);
+                return Task.FromResult(Outcome<IEnumerable<string>>.Successful(allFiles));
+            }
+
+            // Single pattern: use built-in
+            if (patterns.Length == 1)
+            {
+                var files = Directory.EnumerateFiles(path, patterns[0], searchOption);
+                return Task.FromResult(Outcome<IEnumerable<string>>.Successful(files));
+            }
+
+            // Multiple patterns: enumerate all then filter
+            var filtered = Directory.EnumerateFiles(path, "*", searchOption)
+                .Where(file => patterns.Any(p => MatchesPattern(file, p)));
+
+            return Task.FromResult(Outcome<IEnumerable<string>>.Successful(filtered));
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(
+            return Task.FromResult(Outcome.Failure<IEnumerable<string>>(
                 new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
-    public Task<Outcome<IReadOnlyList<string>>> FindFilesAsync(
-        string path,
-        bool includeSubdirectories,
-        CancellationToken cancellationToken = default,
-        params string[] extensions)
-    {
-        if (extensions is null || extensions.Length == 0)
-            return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(new OutcomeError(
-                "At least one extension is required.",
-                "NO_EXTENSION",
-                OutcomeErrorType.Validation)));
+    // ============================================================
+    // IDirectoryOperator - Enumerate directories
+    // ============================================================
 
-        // Normalize: ".log" | "log" | "*.log" → "*.log"
-        var patterns = extensions
-            .Where(e => !string.IsNullOrWhiteSpace(e))
-            .Select(e =>
-            {
-                var ext = e.Trim();
-                if (!ext.StartsWith("*.") && !ext.StartsWith("."))
-                    ext = "." + ext;
-                if (!ext.StartsWith("*"))
-                    ext = "*" + ext;
-                return ext;
-            })
-            .ToArray();
-
-        var searchOption = includeSubdirectories
-            ? SearchOption.AllDirectories
-            : SearchOption.TopDirectoryOnly;
-
-        return EnumerateFilesAsync(path, patterns, searchOption, cancellationToken);
-    }
-
-    public Task<Outcome<IReadOnlyList<string>>> EnumerateDirectoriesAsync(
+    public Task<Outcome<IEnumerable<string>>> EnumerateDirectoriesAsync(
         string path,
         string searchPattern = "*",
         SearchOption searchOption = SearchOption.TopDirectoryOnly,
@@ -359,22 +342,96 @@ internal sealed class LocalFileStorage : IFileStorage
         try
         {
             if (!Directory.Exists(path))
-                return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(
+                return Task.FromResult(Outcome.Failure<IEnumerable<string>>(
                     new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound)));
 
-            var directories = Directory.EnumerateDirectories(path, searchPattern, searchOption).ToList();
-            return Task.FromResult(Outcome.Successful<IReadOnlyList<string>>(directories));
+            var directories = Directory.EnumerateDirectories(path, searchPattern, searchOption);
+            return Task.FromResult(Outcome<IEnumerable<string>>.Successful(directories));
         }
         catch (Exception ex)
         {
-            return Task.FromResult(Outcome.Failure<IReadOnlyList<string>>(
+            return Task.FromResult(Outcome.Failure<IEnumerable<string>>(
                 new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure)));
+        }
+    }
+
+    // ============================================================
+    // IDirectoryOperator - Search files with metadata
+    // ============================================================
+
+    public Task<Outcome<IEnumerable<FileMetadata>>> SearchFilesAsync(
+        string path,
+        IEnumerable<string> searchPatterns,
+        SearchOption searchOption = SearchOption.TopDirectoryOnly,
+        CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return Task.FromResult(Outcome.Failure<IEnumerable<FileMetadata>>(
+                    new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound)));
+
+            var patterns = NormalizePatterns(searchPatterns);
+
+            // Determine which files to include
+            IEnumerable<string> matchedFiles;
+            if (patterns.Length == 1 && patterns[0] == "*")
+            {
+                matchedFiles = Directory.EnumerateFiles(path, "*", searchOption);
+            }
+            else if (patterns.Length == 1)
+            {
+                matchedFiles = Directory.EnumerateFiles(path, patterns[0], searchOption);
+            }
+            else
+            {
+                matchedFiles = Directory.EnumerateFiles(path, "*", searchOption)
+                    .Where(file => patterns.Any(p => MatchesPattern(file, p)));
+            }
+
+            // Build metadata list
+            var metadataList = new List<FileMetadata>();
+
+            foreach (var file in matchedFiles)
+            {
+                cancellationToken.ThrowIfCancellationRequested();
+
+                try
+                {
+                    var fileInfo = new FileInfo(file);
+                    metadataList.Add(new FileMetadata
+                    {
+                        FullPath = fileInfo.FullName,
+                        FileName = fileInfo.Name,
+                        Extension = fileInfo.Extension,
+                        Size = fileInfo.Length,
+                        ContentType = GetContentType(fileInfo.Extension),
+                        CreatedAt = fileInfo.CreationTime,
+                        LastModifiedAt = fileInfo.LastWriteTime
+                    });
+                }
+                catch
+                {
+                    // Skip files that cannot be accessed (permission, deleted, etc.)
+                }
+            }
+
+            return Task.FromResult(Outcome.Successful<IEnumerable<FileMetadata>>(metadataList));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Outcome.Failure<IEnumerable<FileMetadata>>(
+                new OutcomeError(ex.Message, "FILE_SEARCH_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
     // ============================================================
     // Private Helpers
     // ============================================================
+
+    /// <summary>
+    /// Ensures the parent directory exists before writing.
+    /// </summary>
     private static void EnsureDirectory(string? directory)
     {
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
@@ -382,7 +439,23 @@ internal sealed class LocalFileStorage : IFileStorage
     }
 
     /// <summary>
+    /// Normalizes the input patterns: trims, removes empty entries, defaults to "*" if empty.
+    /// </summary>
+    private static string[] NormalizePatterns(IEnumerable<string>? patterns)
+    {
+        var result = patterns?
+            .Where(p => !string.IsNullOrWhiteSpace(p))
+            .Select(p => p.Trim())
+            .Distinct()
+            .ToArray()
+            ?? Array.Empty<string>();
+
+        return result.Length == 0 ? new[] { "*" } : result;
+    }
+
+    /// <summary>
     /// Matches a file path against a wildcard pattern (e.g., "*.log").
+    /// Uses .NET's built-in FileSystemName matcher (fast, no regex).
     /// </summary>
     private static bool MatchesPattern(string filePath, string pattern)
     {
@@ -394,6 +467,9 @@ internal sealed class LocalFileStorage : IFileStorage
             ignoreCase: true);
     }
 
+    /// <summary>
+    /// Gets the MIME content type based on the file extension.
+    /// </summary>
     private static string GetContentType(string extension) => extension.ToLowerInvariant() switch
     {
         ".jpg" or ".jpeg" => "image/jpeg",
@@ -402,19 +478,38 @@ internal sealed class LocalFileStorage : IFileStorage
         ".bmp" => "image/bmp",
         ".svg" => "image/svg+xml",
         ".webp" => "image/webp",
+        ".ico" => "image/x-icon",
         ".pdf" => "application/pdf",
         ".txt" => "text/plain",
         ".json" => "application/json",
         ".xml" => "application/xml",
+        ".yaml" or ".yml" => "application/x-yaml",
         ".html" or ".htm" => "text/html",
         ".css" => "text/css",
         ".js" => "application/javascript",
+        ".ts" => "application/typescript",
         ".csv" => "text/csv",
+        ".md" => "text/markdown",
         ".zip" => "application/zip",
+        ".rar" => "application/x-rar-compressed",
+        ".7z" => "application/x-7z-compressed",
+        ".tar" => "application/x-tar",
+        ".gz" => "application/gzip",
         ".doc" => "application/msword",
         ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
         ".xls" => "application/vnd.ms-excel",
         ".xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+        ".ppt" => "application/vnd.ms-powerpoint",
+        ".pptx" => "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+        ".mp3" => "audio/mpeg",
+        ".mp4" => "video/mp4",
+        ".avi" => "video/x-msvideo",
+        ".mov" => "video/quicktime",
+        ".wav" => "audio/wav",
+        ".woff" => "font/woff",
+        ".woff2" => "font/woff2",
+        ".ttf" => "font/ttf",
+        ".otf" => "font/otf",
         _ => "application/octet-stream"
     };
 }
