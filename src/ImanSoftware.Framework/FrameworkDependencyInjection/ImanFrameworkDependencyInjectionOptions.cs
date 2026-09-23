@@ -62,9 +62,15 @@ public sealed class ImanFrameworkDependencyInjectionOptions
     #endregion
 
 
-    #region FileStorage
-    public bool AddFileStorage { get; set; } 
-    public Action<LocalFileStorageOptions>? FileStorageConfigureOptions { get; set; }
+    #region FileStorage (General Operations - no config needed)
+    public bool AddFileStorage { get; set; }
     public Action<IServiceCollection>? FileStorageCustomRegistration { get; set; }
+    #endregion
+
+
+    #region FileTransfer (Upload/Download - requires config)
+    public bool AddFileTransfer { get; set; }
+    public Action<FileTransferOptions>? FileTransferConfigureOptions { get; set; }
+    public Action<IServiceCollection>? FileTransferCustomRegistration { get; set; }
     #endregion
 }

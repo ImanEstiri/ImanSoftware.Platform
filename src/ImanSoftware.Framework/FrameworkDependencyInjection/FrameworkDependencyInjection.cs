@@ -114,18 +114,30 @@ public static class FrameworkDependencyInjection
                 options.DapperConnectionString);
         }
 
-        // 8. FileStorage
+        // 8. FileStorage (General Operations)
         if (options.AddFileStorage)
         {
-            if (options.FileStorageCustomRegistration is null && options.FileStorageConfigureOptions is null)
+            FileStorageRegistration.AddImanFileStorage(
+                services,
+                options.FileStorageCustomRegistration);
+        }
+
+        // 9. FileTransfer (Upload/Download)
+        if (options.AddFileTransfer)
+        {
+            if (options.FileTransferCustomRegistration is null && options.FileTransferConfigureOptions is null)
             {
-                throw new ArgumentException("When using the default FileStorage implementation, FileStorageConfigureOptions must be provided. ");
+                throw new ArgumentException(
+                    "When using the default FileTransfer implementation, FileTransferConfigureOptions must be provided.");
             }
 
-            FileStorageRegistration.AddFileStorage(
-                services,
-                options.FileStorageConfigureOptions!,
-                options.FileStorageCustomRegistration);
+            if (options.FileTransferConfigureOptions is not null)
+            {
+                FileTransferRegistration.AddImanFileTransfer(
+                    services,
+                    options.FileTransferConfigureOptions,
+                    options.FileTransferCustomRegistration);
+            }
         }
 
 
