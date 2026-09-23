@@ -1,5 +1,4 @@
-﻿// مسیر: Core/FileStorage/FileMetadata.cs
-namespace ImanSoftware.FileStorage;
+﻿namespace ImanSoftware.FileStorage;
 
 /// <summary>
 /// Represents metadata information of a stored file.

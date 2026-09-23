@@ -2,14 +2,13 @@
 
 /// <summary>
 /// Configuration options for the upload/download storage backend.
-/// Only used by <see cref="IFileTransfer"/>.
 /// </summary>
 public class FileTransferOptions
 {
     /// <summary>
     /// Root directory for storing uploaded files.
     /// </summary>
-    public string RootPath { get; set; } = "wwwroot/uploads";
+    public string RootPath { get; set; } = "uploads";
 
     /// <summary>
     /// Maximum allowed file size in bytes (default: 100 MB).
