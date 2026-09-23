@@ -1,23 +1,19 @@
-﻿using ImanSoftware.Logging;
+﻿using System.Security;
 using ImanSoftware.Outcomes;
-using Microsoft.Extensions.Options;
-using System.Security;
 
-namespace ImanSoftware.FileStorage;
+namespace ImanSoftware.FileStorage.Infrastructure;
 
 /// <summary>
 /// Local file system implementation of IFileTransfer.
 /// Requires configuration (RootPath, MaxFileSize, etc.).
 /// </summary>
-public class LocalFileTransfer : IFileTransfer
+internal sealed class LocalFileTransfer : IFileTransfer
 {
     private readonly FileTransferOptions _options;
-    private readonly ILoggerAdapter<LocalFileTransfer> _logger;
 
-    public LocalFileTransfer(IOptions<FileTransferOptions> options, ILoggerAdapter<LocalFileTransfer> logger)
+    public LocalFileTransfer(FileTransferOptions options)
     {
-        _options = options.Value;
-        _logger = logger;
+        _options = options ?? throw new ArgumentNullException(nameof(options));
 
         if (!Directory.Exists(_options.RootPath))
             Directory.CreateDirectory(_options.RootPath);
@@ -44,12 +40,10 @@ public class LocalFileTransfer : IFileTransfer
             using var output = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
             await fileStream.CopyToAsync(output);
 
-            _logger.LogInformation("File uploaded: {Path}", relativePath);
             return Outcome<string>.Successful(relativePath);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error uploading file: {FileName}", fileName);
             return Outcome.Failure<string>(new OutcomeError(ex.Message, "FILE_UPLOAD_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -76,7 +70,6 @@ public class LocalFileTransfer : IFileTransfer
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error downloading file: {Path}", filePath);
             return Task.FromResult(Outcome.Failure<Stream>(new OutcomeError(ex.Message, "FILE_DOWNLOAD_ERROR", OutcomeErrorType.Failure)));
         }
     }
@@ -95,7 +88,6 @@ public class LocalFileTransfer : IFileTransfer
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error reading bytes: {Path}", filePath);
             return Outcome.Failure<byte[]>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
         }
         finally

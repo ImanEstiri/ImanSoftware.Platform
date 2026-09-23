@@ -1,22 +1,15 @@
-﻿using ImanSoftware.FileStorage;
-using ImanSoftware.Logging;
+﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
 using ImanSoftware.Outcomes;
 
-namespace ImanSoftware.FileStorage;
+namespace ImanSoftware.FileStorage.Infrastructure;
 
 /// <summary>
 /// General-purpose file storage using the local file system.
 /// Works with any path (absolute or relative) - no settings required.
 /// </summary>
-public class LocalFileStorage : IFileStorage
+internal sealed class LocalFileStorage : IFileStorage
 {
-    private readonly ILoggerAdapter<LocalFileStorage> _logger;
-
-    public LocalFileStorage(ILoggerAdapter<LocalFileStorage> logger)
-    {
-        _logger = logger;
-    }
-
     // ============================================================
     // IFileReader
     // ============================================================
@@ -32,7 +25,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error reading text file: {Path}", path);
             return Outcome.Failure<string>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -49,7 +41,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error reading lines from file: {Path}", path);
             return Outcome.Failure<string[]>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -66,14 +57,13 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error reading bytes from file: {Path}", path);
             return Outcome.Failure<byte[]>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
         }
     }
 
     public async IAsyncEnumerable<string> ReadLinesAsync(
         string path,
-        [System.Runtime.CompilerServices.EnumeratorCancellation] CancellationToken cancellationToken = default)
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
     {
         using var reader = new StreamReader(path);
         while (!reader.EndOfStream)
@@ -98,7 +88,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error writing text file: {Path}", path);
             return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -113,7 +102,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error writing lines to file: {Path}", path);
             return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -128,7 +116,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error writing bytes to file: {Path}", path);
             return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -143,7 +130,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error appending to file: {Path}", path);
             return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -163,7 +149,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error deleting file: {Path}", filePath);
             return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_DELETE_ERROR", OutcomeErrorType.Failure)));
         }
     }
@@ -184,7 +169,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error moving file: {Src} → {Dst}", sourcePath, destinationPath);
             return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_MOVE_ERROR", OutcomeErrorType.Failure)));
         }
     }
@@ -202,7 +186,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error copying file: {Src} → {Dst}", sourcePath, destinationPath);
             return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_COPY_ERROR", OutcomeErrorType.Failure)));
         }
     }
@@ -231,7 +214,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error getting metadata: {Path}", filePath);
             return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError(ex.Message, "FILE_METADATA_ERROR", OutcomeErrorType.Failure)));
         }
     }
@@ -260,7 +242,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error creating directory: {Path}", path);
             return Outcome.Failure(new OutcomeError(ex.Message, "DIR_CREATE_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -277,7 +258,6 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error deleting directory: {Path}", path);
             return Outcome.Failure(new OutcomeError(ex.Message, "DIR_DELETE_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -297,9 +277,70 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error enumerating files in: {Path}", path);
             return Outcome.Failure<IEnumerable<string>>(new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure));
         }
+    }
+
+    public Outcome<IEnumerable<string>> EnumerateFiles(
+        string path,
+        IEnumerable<string> searchPatterns,
+        SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return Outcome.Failure<IEnumerable<string>>(new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            var patterns = searchPatterns?.Where(p => !string.IsNullOrWhiteSpace(p)).ToArray() ?? Array.Empty<string>();
+
+            if (patterns.Length == 0)
+                return EnumerateFiles(path, "*", searchOption);
+
+            if (patterns.Length == 1)
+                return EnumerateFiles(path, patterns[0], searchOption);
+
+            // چندین pattern: همه را بگیر و فیلتر کن
+            var allFiles = Directory.EnumerateFiles(path, "*", searchOption);
+            var filtered = allFiles.Where(file => patterns.Any(p => MatchesPattern(file, p)));
+
+            return Outcome<IEnumerable<string>>.Successful(filtered);
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<IEnumerable<string>>(new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public Outcome<IEnumerable<string>> FindFiles(
+        string path,
+        bool includeSubdirectories,
+        params string[] extensions)
+    {
+        if (extensions is null || extensions.Length == 0)
+            return Outcome.Failure<IEnumerable<string>>(new OutcomeError(
+                "At least one extension is required.",
+                "NO_EXTENSION",
+                OutcomeErrorType.Validation));
+
+        // تبدیل ".log" یا "log" یا "*.log" به "*.log"
+        var patterns = extensions
+            .Where(e => !string.IsNullOrWhiteSpace(e))
+            .Select(e =>
+            {
+                var ext = e.Trim();
+                if (!ext.StartsWith("*.") && !ext.StartsWith("."))
+                    ext = "." + ext;
+                if (!ext.StartsWith("*"))
+                    ext = "*" + ext;
+                return ext;
+            })
+            .ToArray();
+
+        var searchOption = includeSubdirectories
+            ? SearchOption.AllDirectories
+            : SearchOption.TopDirectoryOnly;
+
+        return EnumerateFiles(path, patterns, searchOption);
     }
 
     public Outcome<IEnumerable<string>> EnumerateDirectories(
@@ -317,18 +358,31 @@ public class LocalFileStorage : IFileStorage
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error enumerating directories in: {Path}", path);
             return Outcome.Failure<IEnumerable<string>>(new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure));
         }
     }
 
     // ============================================================
-    // Helpers
+    // Private Helpers
     // ============================================================
     private static void EnsureDirectory(string? directory)
     {
         if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
             Directory.CreateDirectory(directory);
+    }
+
+    /// <summary>
+    /// Matches a file path against a wildcard pattern (e.g., "*.log").
+    /// </summary>
+    private static bool MatchesPattern(string filePath, string pattern)
+    {
+        var fileName = Path.GetFileName(filePath);
+
+        // استفاده از FileSystemName.MatchesSimpleExpression (سریع و استاندارد)
+        return System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(
+            pattern,
+            fileName,
+            ignoreCase: true);
     }
 
     private static string GetContentType(string extension) => extension.ToLowerInvariant() switch
@@ -340,6 +394,9 @@ public class LocalFileStorage : IFileStorage
         ".txt" => "text/plain",
         ".json" => "application/json",
         ".xml" => "application/xml",
+        ".html" => "text/html",
+        ".css" => "text/css",
+        ".js" => "application/javascript",
         _ => "application/octet-stream"
     };
 }
