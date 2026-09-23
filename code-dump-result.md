@@ -2773,50 +2773,89 @@ public static class StringExtensions
 ### src > ImanSoftware.FileStorage > ImanSoftware.FileStorage 
 
 ```xml 
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
     <PackageReference Include="Microsoft.Extensions.Options" />
   </ItemGroup>
-
   <ItemGroup>
-    <PackageReference Include="ImanSoftware.Logging"/>
+    <PackageReference Include="ImanSoftware.Logging" />
     <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
-  
   <PropertyGroup>
     <PackageId>ImanSoftware.FileStorage</PackageId>
-    <Version>1.0.0</Version>
-    <Description>File storage abstraction for upload, download, delete, move, copy, and metadata operations (local file system included).</Description>
-    <PackageTags>filestorage;upload;download;storage;io</PackageTags>
+    <Version>2.0.0</Version>
+    <Description>General-purpose file operations (read, write, move, delete, enumerate, multi-pattern search) + optional upload/download backend.</Description>
+    <PackageTags>filestorage;upload;download;file;io;read;write;enumerate</PackageTags>
   </PropertyGroup>
-  
 </Project>
-
 ``` 
 
 
 ### src > ImanSoftware.FileStorage > Abstractions > FileStorageRegistration 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/FileStorageRegistration.cs
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ImanSoftware.FileStorage.Infrastructure;
 
 namespace ImanSoftware.FileStorage;
 
 public static class FileStorageRegistration
 {
-    public static IServiceCollection AddFileStorage(
+    /// <summary>
+    /// Registers general-purpose file storage operations.
+    /// No configuration needed - works with any file path.
+    /// </summary>
+    public static IServiceCollection AddImanFileStorage(
         this IServiceCollection services,
-        Action<LocalFileStorageOptions> configureOptions,
+        Action<IServiceCollection>? customRegistration = null)
+    {
+        if (customRegistration is not null)
+        {
+            customRegistration(services);
+        }
+        else
+        {
+            services.TryAddScoped<IFileStorage, LocalFileStorage>();
+
+            services.TryAddScoped<IFileReader>(sp => sp.GetRequiredService<IFileStorage>());
+            services.TryAddScoped<IFileWriter>(sp => sp.GetRequiredService<IFileStorage>());
+            services.TryAddScoped<IFileDeleter>(sp => sp.GetRequiredService<IFileStorage>());
+            services.TryAddScoped<IFileMover>(sp => sp.GetRequiredService<IFileStorage>());
+            services.TryAddScoped<IFileInfoProvider>(sp => sp.GetRequiredService<IFileStorage>());
+            services.TryAddScoped<IDirectoryOperator>(sp => sp.GetRequiredService<IFileStorage>());
+        }
+
+        return services;
+    }
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Abstractions > FileTransferRegistration 
+
+```csharp 
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using ImanSoftware.FileStorage.Infrastructure;
+
+namespace ImanSoftware.FileStorage;
+
+public static class FileTransferRegistration
+{
+    /// <summary>
+    /// Registers upload/download operations with the specified storage backend.
+    /// Requires configuration options (RootPath, MaxFileSize, ...).
+    /// </summary>
+    public static IServiceCollection AddImanFileTransfer(
+        this IServiceCollection services,
+        Action<FileTransferOptions> configureOptions,
         Action<IServiceCollection>? customRegistration = null)
     {
         ArgumentNullException.ThrowIfNull(configureOptions);
@@ -2829,15 +2868,9 @@ public static class FileStorageRegistration
         }
         else
         {
-            // main
-            services.TryAddScoped<IFileStorage, LocalFileStorage>();
-
-            // small interfaces
-            services.TryAddScoped<IFileUploader>(sp => sp.GetRequiredService<IFileStorage>());
-            services.TryAddScoped<IFileDownloader>(sp => sp.GetRequiredService<IFileStorage>());
-            services.TryAddScoped<IFileDeleter>(sp => sp.GetRequiredService<IFileStorage>());
-            services.TryAddScoped<IFileInfoProvider>(sp => sp.GetRequiredService<IFileStorage>());
-            services.TryAddScoped<IFileMover>(sp => sp.GetRequiredService<IFileStorage>());
+            services.TryAddScoped<IFileTransfer, LocalFileTransfer>();
+            services.TryAddScoped<IFileUploader>(sp => sp.GetRequiredService<IFileTransfer>());
+            services.TryAddScoped<IFileDownloader>(sp => sp.GetRequiredService<IFileTransfer>());
         }
 
         return services;
@@ -2846,22 +2879,70 @@ public static class FileStorageRegistration
 ``` 
 
 
-### src > ImanSoftware.FileStorage > Abstractions > IFileDeleter 
+### src > ImanSoftware.FileStorage > Abstractions > IDirectoryOperator 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/IFileDeleter.cs
-using ImanSoftware.Outcomes;
+﻿using ImanSoftware.Outcomes;
 
 namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Contract for deleting files from a storage system.
+/// Contract for directory and path-level operations.
+/// </summary>
+public interface IDirectoryOperator
+{
+    Outcome<bool> FileExists(string path);
+    Outcome<bool> DirectoryExists(string path);
+
+    Outcome CreateDirectory(string path);
+    Outcome DeleteDirectory(string path, bool recursive = false);
+
+    /// <summary>
+    /// Enumerates files matching a single search pattern.
+    /// </summary>
+    Outcome<IEnumerable<string>> EnumerateFiles(
+        string path,
+        string searchPattern = "*",
+        SearchOption searchOption = SearchOption.TopDirectoryOnly);
+
+    /// <summary>
+    /// Enumerates files matching any of the given search patterns.
+    /// Example: EnumerateFiles(path, new[] { "*.log", "*.txt" }, SearchOption.AllDirectories)
+    /// </summary>
+    Outcome<IEnumerable<string>> EnumerateFiles(
+        string path,
+        IEnumerable<string> searchPatterns,
+        SearchOption searchOption = SearchOption.TopDirectoryOnly);
+
+    /// <summary>
+    /// Convenience method: finds files by extension(s).
+    /// Example: FindFiles(path, includeSubdirectories: true, ".log", ".txt")
+    /// </summary>
+    Outcome<IEnumerable<string>> FindFiles(
+        string path,
+        bool includeSubdirectories,
+        params string[] extensions);
+
+    Outcome<IEnumerable<string>> EnumerateDirectories(
+        string path,
+        string searchPattern = "*",
+        SearchOption searchOption = SearchOption.TopDirectoryOnly);
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Abstractions > IFileDeleter 
+
+```csharp 
+﻿using ImanSoftware.Outcomes;
+
+namespace ImanSoftware.FileStorage;
+
+/// <summary>
+/// Contract for deleting files.
 /// </summary>
 public interface IFileDeleter
 {
-    /// <summary>
-    /// Deletes a file from the storage.
-    /// </summary>
     Task<Outcome> DeleteAsync(string filePath);
 }
 ``` 
@@ -2870,24 +2951,16 @@ public interface IFileDeleter
 ### src > ImanSoftware.FileStorage > Abstractions > IFileDownloader 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/IFileDownloader.cs
-using ImanSoftware.Outcomes;
+﻿using ImanSoftware.Outcomes;
 
 namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Contract for downloading files from a storage system.
+/// Contract for downloading files from a configured storage backend.
 /// </summary>
 public interface IFileDownloader
 {
-    /// <summary>
-    /// Downloads a file as a stream.
-    /// </summary>
     Task<Outcome<Stream>> DownloadAsync(string filePath);
-
-    /// <summary>
-    /// Downloads a file as a byte array.
-    /// </summary>
     Task<Outcome<byte[]>> DownloadBytesAsync(string filePath);
 }
 ``` 
@@ -2896,31 +2969,16 @@ public interface IFileDownloader
 ### src > ImanSoftware.FileStorage > Abstractions > IFileInfoProvider 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/IFileInfoProvider.cs
-using ImanSoftware.FileStorage;
-using ImanSoftware.Outcomes;
+﻿using ImanSoftware.Outcomes;
 
 namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Contract for retrieving file information and metadata.
+/// Contract for retrieving file metadata.
 /// </summary>
 public interface IFileInfoProvider
 {
-    /// <summary>
-    /// Checks if a file exists in the storage.
-    /// </summary>
-    Task<Outcome<bool>> ExistsAsync(string filePath);
-
-    /// <summary>
-    /// Retrieves metadata information of a file.
-    /// </summary>
     Task<Outcome<FileMetadata>> GetMetadataAsync(string filePath);
-
-    /// <summary>
-    /// Gets a public URL to access the file (if supported).
-    /// </summary>
-    Task<Outcome<string>> GetUrlAsync(string filePath);
 }
 ``` 
 
@@ -2928,8 +2986,7 @@ public interface IFileInfoProvider
 ### src > ImanSoftware.FileStorage > Abstractions > IFileMover 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/IFileMover.cs
-using ImanSoftware.Outcomes;
+﻿using ImanSoftware.Outcomes;
 
 namespace ImanSoftware.FileStorage;
 
@@ -2938,15 +2995,32 @@ namespace ImanSoftware.FileStorage;
 /// </summary>
 public interface IFileMover
 {
-    /// <summary>
-    /// Moves a file from source to destination.
-    /// </summary>
     Task<Outcome> MoveAsync(string sourcePath, string destinationPath);
+    Task<Outcome> CopyAsync(string sourcePath, string destinationPath);
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Abstractions > IFileReader 
+
+```csharp 
+﻿using ImanSoftware.Outcomes;
+
+namespace ImanSoftware.FileStorage;
+
+/// <summary>
+/// Contract for reading file content from any path.
+/// </summary>
+public interface IFileReader
+{
+    Task<Outcome<string>> ReadAllTextAsync(string path, CancellationToken cancellationToken = default);
+    Task<Outcome<string[]>> ReadAllLinesAsync(string path, CancellationToken cancellationToken = default);
+    Task<Outcome<byte[]>> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default);
 
     /// <summary>
-    /// Copies a file from source to destination.
+    /// Streams lines lazily (memory-efficient for large files).
     /// </summary>
-    Task<Outcome> CopyAsync(string sourcePath, string destinationPath);
+    IAsyncEnumerable<string> ReadLinesAsync(string path, CancellationToken cancellationToken = default);
 }
 ``` 
 
@@ -2954,21 +3028,43 @@ public interface IFileMover
 ### src > ImanSoftware.FileStorage > Abstractions > IFileStorage 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/IFileStorage.cs
+﻿namespace ImanSoftware.FileStorage;
+
+/// <summary>
+/// General-purpose file storage operations.
+/// Works with any file path - no configuration required.
+/// Use <see cref="IFileTransfer"/> for upload/download operations.
+/// </summary>
+public interface IFileStorage :
+    IFileReader,
+    IFileWriter,
+    IFileDeleter,
+    IFileMover,
+    IFileInfoProvider,
+    IDirectoryOperator
+{
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Abstractions > IFileTransfer 
+
+```csharp 
+﻿using ImanSoftware.Outcomes;
+
 namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Combined contract for full file storage operations.
-/// Inherits all individual file operation interfaces.
+/// Contract for upload/download operations that require a configured storage backend.
 /// </summary>
-public interface IFileStorage :
+public interface IFileTransfer :
     IFileUploader,
-    IFileDownloader,
-    IFileDeleter,
-    IFileInfoProvider,
-    IFileMover
+    IFileDownloader
 {
-    // No additional methods needed - just composition
+    /// <summary>
+    /// Gets a public URL to access the file.
+    /// </summary>
+    Task<Outcome<string>> GetUrlAsync(string filePath);
 }
 ``` 
 
@@ -2976,29 +3072,37 @@ public interface IFileStorage :
 ### src > ImanSoftware.FileStorage > Abstractions > IFileUploader 
 
 ```csharp 
-﻿// مسیر: Abstractions/FileStorage/IFileUploader.cs
-using ImanSoftware.Outcomes;
+﻿using ImanSoftware.Outcomes;
 
 namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Contract for uploading files to a storage system.
+/// Contract for uploading files to a configured storage backend.
 /// </summary>
 public interface IFileUploader
 {
-    /// <summary>
-    /// Uploads a file from a stream.
-    /// </summary>
-    /// <param name="fileStream">The file content as a stream.</param>
-    /// <param name="fileName">The name of the file (including extension).</param>
-    /// <param name="container">Optional container/folder name.</param>
-    /// <returns>The path or identifier of the stored file.</returns>
     Task<Outcome<string>> UploadAsync(Stream fileStream, string fileName, string? container = null);
-
-    /// <summary>
-    /// Uploads a file from a byte array.
-    /// </summary>
     Task<Outcome<string>> UploadAsync(byte[] fileBytes, string fileName, string? container = null);
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Abstractions > IFileWriter 
+
+```csharp 
+﻿using ImanSoftware.Outcomes;
+
+namespace ImanSoftware.FileStorage;
+
+/// <summary>
+/// Contract for writing content to files at any path.
+/// </summary>
+public interface IFileWriter
+{
+    Task<Outcome> WriteAllTextAsync(string path, string content, CancellationToken cancellationToken = default);
+    Task<Outcome> WriteAllLinesAsync(string path, IEnumerable<string> lines, CancellationToken cancellationToken = default);
+    Task<Outcome> WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default);
+    Task<Outcome> AppendAllTextAsync(string path, string content, CancellationToken cancellationToken = default);
 }
 ``` 
 
@@ -3006,8 +3110,7 @@ public interface IFileUploader
 ### src > ImanSoftware.FileStorage > Core > FileMetadata 
 
 ```csharp 
-﻿// مسیر: Core/FileStorage/FileMetadata.cs
-namespace ImanSoftware.FileStorage;
+﻿namespace ImanSoftware.FileStorage;
 
 /// <summary>
 /// Represents metadata information of a stored file.
@@ -3024,69 +3127,544 @@ public class FileMetadata
 ``` 
 
 
-### src > ImanSoftware.FileStorage > Infrastructure > LocalFileStorage 
+### src > ImanSoftware.FileStorage > Core > FileTransferOptions 
 
 ```csharp 
-﻿// مسیر: Infrastructure/FileStorage/LocalFileStorage.cs
-using ImanSoftware.FileStorage;
-using ImanSoftware.Logging;
-using ImanSoftware.Outcomes;
-using Microsoft.Extensions.Options;
-using System.Security;
+﻿namespace ImanSoftware.FileStorage;
+
+/// <summary>
+/// Configuration options for the upload/download storage backend.
+/// </summary>
+public class FileTransferOptions
+{
+    /// <summary>
+    /// Root directory for storing uploaded files.
+    /// </summary>
+    public string RootPath { get; set; } = "uploads";
+
+    /// <summary>
+    /// Maximum allowed file size in bytes (default: 100 MB).
+    /// </summary>
+    public long MaxFileSize { get; set; } = 100 * 1024 * 1024;
+
+    /// <summary>
+    /// Allowed file extensions (e.g., ".jpg", ".png"). Empty means all allowed.
+    /// </summary>
+    public string[] AllowedExtensions { get; set; } = Array.Empty<string>();
+
+    /// <summary>
+    /// Whether to create date-based subdirectories (e.g., 2024/01/15/).
+    /// </summary>
+    public bool UseDateSubdirectories { get; set; } = true;
+
+    /// <summary>
+    /// Base URL prefix for generated URLs (e.g., "/uploads").
+    /// </summary>
+    public string UrlBasePath { get; set; } = "/uploads";
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Factories > ImanFileStorageFactory 
+
+```csharp 
+﻿using ImanSoftware.FileStorage.Infrastructure;
 
 namespace ImanSoftware.FileStorage;
 
 /// <summary>
-/// Default implementation of IFileStorage using the local file system.
+/// Factory for creating file storage instances without dependency injection.
+/// Use this in simple scenarios (console apps, scripts, small utilities).
+/// For DI scenarios, use AddImanFileStorage() / AddImanFileTransfer().
 /// </summary>
-public class LocalFileStorage : IFileStorage
+public static class ImanFileStorageFactory
 {
-    private readonly LocalFileStorageOptions _options;
-    private readonly ILoggerAdapter<LocalFileStorage> _logger;
-
-    public LocalFileStorage(IOptions<LocalFileStorageOptions> options, ILoggerAdapter<LocalFileStorage> logger)
+    /// <summary>
+    /// Creates a general-purpose file storage instance (no configuration needed).
+    /// </summary>
+    public static IFileStorage CreateStorage()
     {
-        _options = options.Value;
-        _logger = logger;
+        return new LocalFileStorage();
+    }
 
-        // ایجاد پوشه‌ی ریشه در صورت عدم وجود
-        if (!Directory.Exists(_options.RootPath))
+    /// <summary>
+    /// Creates an upload/download file transfer instance with the given options.
+    /// </summary>
+    public static IFileTransfer CreateTransfer(Action<FileTransferOptions>? configure = null)
+    {
+        var options = new FileTransferOptions();
+        configure?.Invoke(options);
+        return new LocalFileTransfer(options);
+    }
+
+    /// <summary>
+    /// Creates an upload/download file transfer instance with explicit options.
+    /// </summary>
+    public static IFileTransfer CreateTransfer(FileTransferOptions options)
+    {
+        return new LocalFileTransfer(options);
+    }
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Infrastructure > LocalFileStorage 
+
+```csharp 
+﻿using System.Runtime.CompilerServices;
+using System.Text.RegularExpressions;
+using ImanSoftware.Outcomes;
+
+namespace ImanSoftware.FileStorage.Infrastructure;
+
+/// <summary>
+/// General-purpose file storage using the local file system.
+/// Works with any path (absolute or relative) - no settings required.
+/// </summary>
+internal sealed class LocalFileStorage : IFileStorage
+{
+    // ============================================================
+    // IFileReader
+    // ============================================================
+    public async Task<Outcome<string>> ReadAllTextAsync(string path, CancellationToken cancellationToken = default)
+    {
+        try
         {
-            Directory.CreateDirectory(_options.RootPath);
+            if (!File.Exists(path))
+                return Outcome.Failure<string>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            var content = await File.ReadAllTextAsync(path, cancellationToken);
+            return Outcome<string>.Successful(content);
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<string>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
         }
     }
 
-    #region IFileUploader Implementation
+    public async Task<Outcome<string[]>> ReadAllLinesAsync(string path, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (!File.Exists(path))
+                return Outcome.Failure<string[]>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound));
 
+            var lines = await File.ReadAllLinesAsync(path, cancellationToken);
+            return Outcome<string[]>.Successful(lines);
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<string[]>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public async Task<Outcome<byte[]>> ReadAllBytesAsync(string path, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            if (!File.Exists(path))
+                return Outcome.Failure<byte[]>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            var bytes = await File.ReadAllBytesAsync(path, cancellationToken);
+            return Outcome<byte[]>.Successful(bytes);
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<byte[]>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public async IAsyncEnumerable<string> ReadLinesAsync(
+        string path,
+        [EnumeratorCancellation] CancellationToken cancellationToken = default)
+    {
+        using var reader = new StreamReader(path);
+        while (!reader.EndOfStream)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            var line = await reader.ReadLineAsync(cancellationToken);
+            if (line is not null)
+                yield return line;
+        }
+    }
+
+    // ============================================================
+    // IFileWriter
+    // ============================================================
+    public async Task<Outcome> WriteAllTextAsync(string path, string content, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            EnsureDirectory(Path.GetDirectoryName(path));
+            await File.WriteAllTextAsync(path, content, cancellationToken);
+            return Outcome.Successful();
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public async Task<Outcome> WriteAllLinesAsync(string path, IEnumerable<string> lines, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            EnsureDirectory(Path.GetDirectoryName(path));
+            await File.WriteAllLinesAsync(path, lines, cancellationToken);
+            return Outcome.Successful();
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public async Task<Outcome> WriteAllBytesAsync(string path, byte[] bytes, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            EnsureDirectory(Path.GetDirectoryName(path));
+            await File.WriteAllBytesAsync(path, bytes, cancellationToken);
+            return Outcome.Successful();
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public async Task<Outcome> AppendAllTextAsync(string path, string content, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            EnsureDirectory(Path.GetDirectoryName(path));
+            await File.AppendAllTextAsync(path, content, cancellationToken);
+            return Outcome.Successful();
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure(new OutcomeError(ex.Message, "FILE_WRITE_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    // ============================================================
+    // IFileDeleter
+    // ============================================================
+    public Task<Outcome> DeleteAsync(string filePath)
+    {
+        try
+        {
+            if (!File.Exists(filePath))
+                return Task.FromResult(Outcome.Failure(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+
+            File.Delete(filePath);
+            return Task.FromResult(Outcome.Successful());
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_DELETE_ERROR", OutcomeErrorType.Failure)));
+        }
+    }
+
+    // ============================================================
+    // IFileMover
+    // ============================================================
+    public Task<Outcome> MoveAsync(string sourcePath, string destinationPath)
+    {
+        try
+        {
+            if (!File.Exists(sourcePath))
+                return Task.FromResult(Outcome.Failure(new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+
+            EnsureDirectory(Path.GetDirectoryName(destinationPath));
+            File.Move(sourcePath, destinationPath);
+            return Task.FromResult(Outcome.Successful());
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_MOVE_ERROR", OutcomeErrorType.Failure)));
+        }
+    }
+
+    public Task<Outcome> CopyAsync(string sourcePath, string destinationPath)
+    {
+        try
+        {
+            if (!File.Exists(sourcePath))
+                return Task.FromResult(Outcome.Failure(new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+
+            EnsureDirectory(Path.GetDirectoryName(destinationPath));
+            File.Copy(sourcePath, destinationPath, overwrite: true);
+            return Task.FromResult(Outcome.Successful());
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_COPY_ERROR", OutcomeErrorType.Failure)));
+        }
+    }
+
+    // ============================================================
+    // IFileInfoProvider
+    // ============================================================
+    public Task<Outcome<FileMetadata>> GetMetadataAsync(string filePath)
+    {
+        try
+        {
+            if (!File.Exists(filePath))
+                return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
+
+            var fileInfo = new FileInfo(filePath);
+            var metadata = new FileMetadata
+            {
+                FileName = fileInfo.Name,
+                Size = fileInfo.Length,
+                ContentType = GetContentType(fileInfo.Extension),
+                CreatedAt = fileInfo.CreationTime,
+                LastModifiedAt = fileInfo.LastWriteTime
+            };
+
+            return Task.FromResult(Outcome.Successful<FileMetadata>(metadata));
+        }
+        catch (Exception ex)
+        {
+            return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError(ex.Message, "FILE_METADATA_ERROR", OutcomeErrorType.Failure)));
+        }
+    }
+
+    // ============================================================
+    // IDirectoryOperator
+    // ============================================================
+    public Outcome<bool> FileExists(string path)
+    {
+        try { return Outcome<bool>.Successful(File.Exists(path)); }
+        catch (Exception ex) { return Outcome.Failure<bool>(new OutcomeError(ex.Message, "FILE_EXISTS_ERROR", OutcomeErrorType.Failure)); }
+    }
+
+    public Outcome<bool> DirectoryExists(string path)
+    {
+        try { return Outcome<bool>.Successful(Directory.Exists(path)); }
+        catch (Exception ex) { return Outcome.Failure<bool>(new OutcomeError(ex.Message, "DIR_EXISTS_ERROR", OutcomeErrorType.Failure)); }
+    }
+
+    public Outcome CreateDirectory(string path)
+    {
+        try
+        {
+            Directory.CreateDirectory(path);
+            return Outcome.Successful();
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure(new OutcomeError(ex.Message, "DIR_CREATE_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public Outcome DeleteDirectory(string path, bool recursive = false)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return Outcome.Failure(new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            Directory.Delete(path, recursive);
+            return Outcome.Successful();
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure(new OutcomeError(ex.Message, "DIR_DELETE_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public Outcome<IEnumerable<string>> EnumerateFiles(
+        string path,
+        string searchPattern = "*",
+        SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return Outcome.Failure<IEnumerable<string>>(new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            return Outcome<IEnumerable<string>>.Successful(
+                Directory.EnumerateFiles(path, searchPattern, searchOption));
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<IEnumerable<string>>(new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public Outcome<IEnumerable<string>> EnumerateFiles(
+        string path,
+        IEnumerable<string> searchPatterns,
+        SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return Outcome.Failure<IEnumerable<string>>(new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            var patterns = searchPatterns?.Where(p => !string.IsNullOrWhiteSpace(p)).ToArray() ?? Array.Empty<string>();
+
+            if (patterns.Length == 0)
+                return EnumerateFiles(path, "*", searchOption);
+
+            if (patterns.Length == 1)
+                return EnumerateFiles(path, patterns[0], searchOption);
+
+            // چندین pattern: همه را بگیر و فیلتر کن
+            var allFiles = Directory.EnumerateFiles(path, "*", searchOption);
+            var filtered = allFiles.Where(file => patterns.Any(p => MatchesPattern(file, p)));
+
+            return Outcome<IEnumerable<string>>.Successful(filtered);
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<IEnumerable<string>>(new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    public Outcome<IEnumerable<string>> FindFiles(
+        string path,
+        bool includeSubdirectories,
+        params string[] extensions)
+    {
+        if (extensions is null || extensions.Length == 0)
+            return Outcome.Failure<IEnumerable<string>>(new OutcomeError(
+                "At least one extension is required.",
+                "NO_EXTENSION",
+                OutcomeErrorType.Validation));
+
+        // تبدیل ".log" یا "log" یا "*.log" به "*.log"
+        var patterns = extensions
+            .Where(e => !string.IsNullOrWhiteSpace(e))
+            .Select(e =>
+            {
+                var ext = e.Trim();
+                if (!ext.StartsWith("*.") && !ext.StartsWith("."))
+                    ext = "." + ext;
+                if (!ext.StartsWith("*"))
+                    ext = "*" + ext;
+                return ext;
+            })
+            .ToArray();
+
+        var searchOption = includeSubdirectories
+            ? SearchOption.AllDirectories
+            : SearchOption.TopDirectoryOnly;
+
+        return EnumerateFiles(path, patterns, searchOption);
+    }
+
+    public Outcome<IEnumerable<string>> EnumerateDirectories(
+        string path,
+        string searchPattern = "*",
+        SearchOption searchOption = SearchOption.TopDirectoryOnly)
+    {
+        try
+        {
+            if (!Directory.Exists(path))
+                return Outcome.Failure<IEnumerable<string>>(new OutcomeError("Directory not found.", "DIR_NOT_FOUND", OutcomeErrorType.NotFound));
+
+            return Outcome<IEnumerable<string>>.Successful(
+                Directory.EnumerateDirectories(path, searchPattern, searchOption));
+        }
+        catch (Exception ex)
+        {
+            return Outcome.Failure<IEnumerable<string>>(new OutcomeError(ex.Message, "DIR_ENUM_ERROR", OutcomeErrorType.Failure));
+        }
+    }
+
+    // ============================================================
+    // Private Helpers
+    // ============================================================
+    private static void EnsureDirectory(string? directory)
+    {
+        if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            Directory.CreateDirectory(directory);
+    }
+
+    /// <summary>
+    /// Matches a file path against a wildcard pattern (e.g., "*.log").
+    /// </summary>
+    private static bool MatchesPattern(string filePath, string pattern)
+    {
+        var fileName = Path.GetFileName(filePath);
+
+        // استفاده از FileSystemName.MatchesSimpleExpression (سریع و استاندارد)
+        return System.IO.Enumeration.FileSystemName.MatchesSimpleExpression(
+            pattern,
+            fileName,
+            ignoreCase: true);
+    }
+
+    private static string GetContentType(string extension) => extension.ToLowerInvariant() switch
+    {
+        ".jpg" or ".jpeg" => "image/jpeg",
+        ".png" => "image/png",
+        ".gif" => "image/gif",
+        ".pdf" => "application/pdf",
+        ".txt" => "text/plain",
+        ".json" => "application/json",
+        ".xml" => "application/xml",
+        ".html" => "text/html",
+        ".css" => "text/css",
+        ".js" => "application/javascript",
+        _ => "application/octet-stream"
+    };
+}
+``` 
+
+
+### src > ImanSoftware.FileStorage > Infrastructure > LocalFileTransfer 
+
+```csharp 
+﻿using System.Security;
+using ImanSoftware.Outcomes;
+
+namespace ImanSoftware.FileStorage.Infrastructure;
+
+/// <summary>
+/// Local file system implementation of IFileTransfer.
+/// Requires configuration (RootPath, MaxFileSize, etc.).
+/// </summary>
+internal sealed class LocalFileTransfer : IFileTransfer
+{
+    private readonly FileTransferOptions _options;
+
+    public LocalFileTransfer(FileTransferOptions options)
+    {
+        _options = options ?? throw new ArgumentNullException(nameof(options));
+
+        if (!Directory.Exists(_options.RootPath))
+            Directory.CreateDirectory(_options.RootPath);
+    }
+
+    // ============================================================
+    // IFileUploader
+    // ============================================================
     public async Task<Outcome<string>> UploadAsync(Stream fileStream, string fileName, string? container = null)
     {
         try
         {
-            // اعتبارسنجی
-            var validationResult = ValidateFile(fileName, fileStream.Length);
-            if (!validationResult.IsSuccess)
-                return Outcome.Failure<string>(validationResult.Error);
+            var validation = ValidateFile(fileName, fileStream.Length);
+            if (!validation.IsSuccess)
+                return Outcome.Failure<string>(validation.Error);
 
-            var filePath = GenerateFilePath(fileName, container);
-            var fullPath = Path.Combine(_options.RootPath, filePath);
+            var relativePath = GenerateFilePath(fileName, container);
+            var fullPath = Path.Combine(_options.RootPath, relativePath);
 
-            // ایجاد پوشه‌ی مقصد در صورت عدم وجود
             var directory = Path.GetDirectoryName(fullPath);
             if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
-            {
                 Directory.CreateDirectory(directory);
-            }
 
-            // ذخیره‌سازی فایل
-            using var fileStreamOutput = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
-            await fileStream.CopyToAsync(fileStreamOutput);
+            using var output = new FileStream(fullPath, FileMode.Create, FileAccess.Write);
+            await fileStream.CopyToAsync(output);
 
-            _logger.LogInformation("File uploaded successfully: {FilePath}", filePath);
-            return Outcome<string>.Successful(filePath);
+            return Outcome<string>.Successful(relativePath);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error uploading file: {FileName}", fileName);
             return Outcome.Failure<string>(new OutcomeError(ex.Message, "FILE_UPLOAD_ERROR", OutcomeErrorType.Failure));
         }
     }
@@ -3097,25 +3675,23 @@ public class LocalFileStorage : IFileStorage
         return await UploadAsync(stream, fileName, container);
     }
 
-    #endregion
-
-    #region IFileDownloader Implementation
-
-    public async Task<Outcome<Stream>> DownloadAsync(string filePath)
+    // ============================================================
+    // IFileDownloader
+    // ============================================================
+    public Task<Outcome<Stream>> DownloadAsync(string filePath)
     {
         try
         {
             var fullPath = GetFullPath(filePath);
             if (!File.Exists(fullPath))
-                return Outcome.Failure<Stream>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound));
+                return Task.FromResult(Outcome.Failure<Stream>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
 
             var stream = new FileStream(fullPath, FileMode.Open, FileAccess.Read);
-            return Outcome.Successful<Stream>(stream);
+            return Task.FromResult(Outcome.Successful<Stream>(stream));
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error downloading file: {FilePath}", filePath);
-            return Outcome.Failure<Stream>(new OutcomeError(ex.Message, "FILE_DOWNLOAD_ERROR", OutcomeErrorType.Failure));
+            return Task.FromResult(Outcome.Failure<Stream>(new OutcomeError(ex.Message, "FILE_DOWNLOAD_ERROR", OutcomeErrorType.Failure)));
         }
     }
 
@@ -3127,13 +3703,12 @@ public class LocalFileStorage : IFileStorage
 
         try
         {
-            using var memoryStream = new MemoryStream();
-            await result.Data.CopyToAsync(memoryStream);
-            return Outcome<byte[]>.Successful(memoryStream.ToArray());
+            using var memory = new MemoryStream();
+            await result.Data.CopyToAsync(memory);
+            return Outcome<byte[]>.Successful(memory.ToArray());
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "Error reading file bytes: {FilePath}", filePath);
             return Outcome.Failure<byte[]>(new OutcomeError(ex.Message, "FILE_READ_ERROR", OutcomeErrorType.Failure));
         }
         finally
@@ -3142,163 +3717,35 @@ public class LocalFileStorage : IFileStorage
         }
     }
 
-    #endregion
-
-    #region IFileDeleter Implementation
-
-    public Task<Outcome> DeleteAsync(string filePath)
-    {
-        try
-        {
-            var fullPath = GetFullPath(filePath);
-            if (!File.Exists(fullPath))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
-
-            File.Delete(fullPath);
-            _logger.LogInformation("File deleted successfully: {FilePath}", filePath);
-            return Task.FromResult(Outcome.Successful());
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error deleting file: {FilePath}", filePath);
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_DELETE_ERROR", OutcomeErrorType.Failure)));
-        }
-    }
-
-    #endregion
-
-    #region IFileInfoProvider Implementation
-
-    public Task<Outcome<bool>> ExistsAsync(string filePath)
-    {
-        try
-        {
-            var fullPath = GetFullPath(filePath);
-            return Task.FromResult(Outcome<bool>.Successful(File.Exists(fullPath)));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error checking file existence: {FilePath}", filePath);
-            return Task.FromResult(Outcome.Failure<bool>(new OutcomeError(ex.Message, "FILE_EXISTS_ERROR", OutcomeErrorType.Failure)));
-        }
-    }
-
-    public Task<Outcome<FileMetadata>> GetMetadataAsync(string filePath)
-    {
-        try
-        {
-            var fullPath = GetFullPath(filePath);
-            if (!File.Exists(fullPath))
-                return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError("File not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
-
-            var fileInfo = new FileInfo(fullPath);
-            var metadata = new FileMetadata
-            {
-                FileName = Path.GetFileName(filePath),
-                Size = fileInfo.Length,
-                ContentType = GetContentType(Path.GetExtension(filePath)),
-                CreatedAt = fileInfo.CreationTime,
-                LastModifiedAt = fileInfo.LastWriteTime
-            };
-
-            return Task.FromResult(Outcome.Successful<FileMetadata>(metadata));
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting file metadata: {FilePath}", filePath);
-            return Task.FromResult(Outcome.Failure<FileMetadata>(new OutcomeError(ex.Message, "FILE_METADATA_ERROR", OutcomeErrorType.Failure)));
-        }
-    }
-
+    // ============================================================
+    // GetUrlAsync
+    // ============================================================
     public Task<Outcome<string>> GetUrlAsync(string filePath)
     {
-        // در Local File Storage، معمولاً URL نسبی یا کامل برمی‌گردد
-        // این بستگی به نحوه‌ی تنظیم Static Files در پروژه دارد
-        var url = $"/uploads/{filePath.Replace('\\', '/')}";
+        var url = $"{_options.UrlBasePath.TrimEnd('/')}/{filePath.Replace('\\', '/')}";
         return Task.FromResult(Outcome<string>.Successful(url));
     }
 
-    #endregion
-
-    #region IFileMover Implementation
-
-    public Task<Outcome> MoveAsync(string sourcePath, string destinationPath)
+    // ============================================================
+    // Helpers
+    // ============================================================
+    private string GetFullPath(string relativePath)
     {
-        try
-        {
-            var fullSource = GetFullPath(sourcePath);
-            var fullDest = GetFullPath(destinationPath);
+        var full = Path.GetFullPath(Path.Combine(_options.RootPath, relativePath));
+        var root = Path.GetFullPath(_options.RootPath);
 
-            if (!File.Exists(fullSource))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
-
-            // ایجاد پوشه‌ی مقصد
-            var destDirectory = Path.GetDirectoryName(fullDest);
-            if (!string.IsNullOrEmpty(destDirectory) && !Directory.Exists(destDirectory))
-            {
-                Directory.CreateDirectory(destDirectory);
-            }
-
-            File.Move(fullSource, fullDest);
-            _logger.LogInformation("File moved successfully: {Source} → {Destination}", sourcePath, destinationPath);
-            return Task.FromResult(Outcome.Successful());
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error moving file: {Source} → {Destination}", sourcePath, destinationPath);
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_MOVE_ERROR", OutcomeErrorType.Failure)));
-        }
-    }
-
-    public Task<Outcome> CopyAsync(string sourcePath, string destinationPath)
-    {
-        try
-        {
-            var fullSource = GetFullPath(sourcePath);
-            var fullDest = GetFullPath(destinationPath);
-
-            if (!File.Exists(fullSource))
-                return Task.FromResult(Outcome.Failure(new OutcomeError("Source file not found.", "FILE_NOT_FOUND", OutcomeErrorType.NotFound)));
-
-            var destDirectory = Path.GetDirectoryName(fullDest);
-            if (!string.IsNullOrEmpty(destDirectory) && !Directory.Exists(destDirectory))
-            {
-                Directory.CreateDirectory(destDirectory);
-            }
-
-            File.Copy(fullSource, fullDest, overwrite: true);
-            _logger.LogInformation("File copied successfully: {Source} → {Destination}", sourcePath, destinationPath);
-            return Task.FromResult(Outcome.Successful());
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error copying file: {Source} → {Destination}", sourcePath, destinationPath);
-            return Task.FromResult(Outcome.Failure(new OutcomeError(ex.Message, "FILE_COPY_ERROR", OutcomeErrorType.Failure)));
-        }
-    }
-
-    #endregion
-
-    #region Private Methods
-
-    private string GetFullPath(string filePath)
-    {
-        // جلوگیری از Path Traversal attacks
-        var normalizedPath = Path.GetFullPath(Path.Combine(_options.RootPath, filePath));
-        if (!normalizedPath.StartsWith(_options.RootPath, StringComparison.OrdinalIgnoreCase))
+        if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase))
             throw new SecurityException("Invalid path traversal attempt.");
 
-        return normalizedPath;
+        return full;
     }
 
     private string GenerateFilePath(string fileName, string? container)
     {
-        // ایجاد نام فایل یکتا با GUID
         var extension = Path.GetExtension(fileName);
         var uniqueName = $"{Guid.NewGuid():N}{extension}";
-
-        // ساخت مسیر
         var path = string.Empty;
+
         if (_options.UseDateSubdirectories)
         {
             var now = DateTime.Now;
@@ -3306,26 +3753,21 @@ public class LocalFileStorage : IFileStorage
         }
 
         if (!string.IsNullOrEmpty(container))
-        {
             path = Path.Combine(path, container);
-        }
 
         return Path.Combine(path, uniqueName);
     }
 
     private Outcome ValidateFile(string fileName, long fileSize)
     {
-        // بررسی حجم فایل
         if (fileSize > _options.MaxFileSize)
         {
             var sizeInMB = _options.MaxFileSize / (1024 * 1024);
             return Outcome.Failure(new OutcomeError(
                 $"File size exceeds maximum allowed ({sizeInMB} MB).",
-                "FILE_TOO_LARGE",
-                OutcomeErrorType.Validation));
+                "FILE_TOO_LARGE", OutcomeErrorType.Validation));
         }
 
-        // بررسی پسوند فایل
         if (_options.AllowedExtensions.Length > 0)
         {
             var extension = Path.GetExtension(fileName);
@@ -3333,68 +3775,12 @@ public class LocalFileStorage : IFileStorage
             {
                 return Outcome.Failure(new OutcomeError(
                     $"File extension '{extension}' is not allowed.",
-                    "FILE_EXTENSION_NOT_ALLOWED",
-                    OutcomeErrorType.Validation));
+                    "FILE_EXTENSION_NOT_ALLOWED", OutcomeErrorType.Validation));
             }
         }
 
         return Outcome.Successful();
     }
-
-    private string GetContentType(string extension)
-    {
-        return extension.ToLowerInvariant() switch
-        {
-            ".jpg" or ".jpeg" => "image/jpeg",
-            ".png" => "image/png",
-            ".gif" => "image/gif",
-            ".pdf" => "application/pdf",
-            ".doc" => "application/msword",
-            ".docx" => "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-            ".xls" => "application/vnd.ms-excel",
-            ".xlsx" => "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            ".txt" => "text/plain",
-            ".json" => "application/json",
-            ".xml" => "application/xml",
-            _ => "application/octet-stream"
-        };
-    }
-
-    #endregion
-}
-``` 
-
-
-### src > ImanSoftware.FileStorage > Infrastructure > LocalFileStorageOptions 
-
-```csharp 
-﻿// مسیر: Infrastructure/FileStorage/LocalFileStorageOptions.cs
-namespace ImanSoftware.FileStorage;
-
-/// <summary>
-/// Configuration options for LocalFileStorage.
-/// </summary>
-public class LocalFileStorageOptions
-{
-    /// <summary>
-    /// Root directory for storing files (e.g., "wwwroot/uploads").
-    /// </summary>
-    public string RootPath { get; set; } = "wwwroot/uploads";
-
-    /// <summary>
-    /// Maximum allowed file size in bytes (default: 100 MB).
-    /// </summary>
-    public long MaxFileSize { get; set; } = 100 * 1024 * 1024;
-
-    /// <summary>
-    /// Allowed file extensions (e.g., ".jpg", ".png", ".pdf"). Empty means all allowed.
-    /// </summary>
-    public string[] AllowedExtensions { get; set; } = Array.Empty<string>();
-
-    /// <summary>
-    /// Whether to create subdirectories based on date (e.g., 2024/01/15/).
-    /// </summary>
-    public bool UseDateSubdirectories { get; set; } = true;
 }
 ``` 
 
@@ -3424,7 +3810,7 @@ public class LocalFileStorageOptions
   </ItemGroup>
   <PropertyGroup>
     <PackageId>ImanSoftware.Framework</PackageId>
-    <Version>1.0.7</Version>
+    <Version>1.0.9</Version>
     <Description>Umbrella package that bundles all ImanSoftware modules for a unified development experience.</Description>
     <PackageTags>framework;all-in-one;umbrella;dotnet;imansoftware</PackageTags>
   </PropertyGroup>
@@ -3551,18 +3937,30 @@ public static class FrameworkDependencyInjection
                 options.DapperConnectionString);
         }
 
-        // 8. FileStorage
+        // 8. FileStorage (General Operations)
         if (options.AddFileStorage)
         {
-            if (options.FileStorageCustomRegistration is null && options.FileStorageConfigureOptions is null)
+            FileStorageRegistration.AddImanFileStorage(
+                services,
+                options.FileStorageCustomRegistration);
+        }
+
+        // 9. FileTransfer (Upload/Download)
+        if (options.AddFileTransfer)
+        {
+            if (options.FileTransferCustomRegistration is null && options.FileTransferConfigureOptions is null)
             {
-                throw new ArgumentException("When using the default FileStorage implementation, FileStorageConfigureOptions must be provided. ");
+                throw new ArgumentException(
+                    "When using the default FileTransfer implementation, FileTransferConfigureOptions must be provided.");
             }
 
-            FileStorageRegistration.AddFileStorage(
-                services,
-                options.FileStorageConfigureOptions!,
-                options.FileStorageCustomRegistration);
+            if (options.FileTransferConfigureOptions is not null)
+            {
+                FileTransferRegistration.AddImanFileTransfer(
+                    services,
+                    options.FileTransferConfigureOptions,
+                    options.FileTransferCustomRegistration);
+            }
         }
 
 
@@ -3676,10 +4074,16 @@ public sealed class ImanFrameworkDependencyInjectionOptions
     #endregion
 
 
-    #region FileStorage
-    public bool AddFileStorage { get; set; } 
-    public Action<LocalFileStorageOptions>? FileStorageConfigureOptions { get; set; }
+    #region FileStorage (General Operations - no config needed)
+    public bool AddFileStorage { get; set; }
     public Action<IServiceCollection>? FileStorageCustomRegistration { get; set; }
+    #endregion
+
+
+    #region FileTransfer (Upload/Download - requires config)
+    public bool AddFileTransfer { get; set; }
+    public Action<FileTransferOptions>? FileTransferConfigureOptions { get; set; }
+    public Action<IServiceCollection>? FileTransferCustomRegistration { get; set; }
     #endregion
 }
 
