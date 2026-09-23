@@ -4,7 +4,6 @@ namespace ImanSoftware.FileStorage;
 
 /// <summary>
 /// Contract for reading file content from any path.
-/// No settings needed - paths are used directly.
 /// </summary>
 public interface IFileReader
 {

@@ -4,7 +4,6 @@ namespace ImanSoftware.FileStorage;
 
 /// <summary>
 /// Contract for writing content to files at any path.
-/// No settings needed - paths are used directly.
 /// </summary>
 public interface IFileWriter
 {

@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using ImanSoftware.FileStorage.Infrastructure;
 
 namespace ImanSoftware.FileStorage;
 
@@ -21,7 +22,6 @@ public static class FileStorageRegistration
         {
             services.TryAddScoped<IFileStorage, LocalFileStorage>();
 
-            // Register all composed interfaces pointing to the same implementation
             services.TryAddScoped<IFileReader>(sp => sp.GetRequiredService<IFileStorage>());
             services.TryAddScoped<IFileWriter>(sp => sp.GetRequiredService<IFileStorage>());
             services.TryAddScoped<IFileDeleter>(sp => sp.GetRequiredService<IFileStorage>());
