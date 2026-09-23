@@ -102,6 +102,10 @@ G:.
 |   +---ImanSoftware.FileStorage
 |   |       ImanSoftware.FileStorage.1.0.0.nupkg
 |   |       ImanSoftware.FileStorage.1.0.0.snupkg
+|   |       ImanSoftware.FileStorage.1.0.1.nupkg
+|   |       ImanSoftware.FileStorage.1.0.1.snupkg
+|   |       ImanSoftware.FileStorage.2.0.0.nupkg
+|   |       ImanSoftware.FileStorage.2.0.0.snupkg
 |   |       
 |   +---ImanSoftware.Framework
 |   |       ImanSoftware.Framework.1.0.0.nupkg
@@ -114,6 +118,10 @@ G:.
 |   |       ImanSoftware.Framework.1.0.5.snupkg
 |   |       ImanSoftware.Framework.1.0.6.nupkg
 |   |       ImanSoftware.Framework.1.0.6.snupkg
+|   |       ImanSoftware.Framework.1.0.8.nupkg
+|   |       ImanSoftware.Framework.1.0.8.snupkg
+|   |       ImanSoftware.Framework.1.0.9.nupkg
+|   |       ImanSoftware.Framework.1.0.9.snupkg
 |   |       
 |   +---ImanSoftware.GuidGenerator
 |   |       ImanSoftware.GuidGenerator.1.0.0.nupkg
@@ -1042,9 +1050,12 @@ G:.
     |   |               
     |   +---Core
     |   |       FileMetadata.cs
+    |   |       FileTransferOptions.cs
+    |   |       
+    |   +---Factories
+    |   |       ImanFileStorageFactory.cs
     |   |       
     |   +---Infrastructure
-    |   |       FileTransferOptions.cs
     |   |       LocalFileStorage.cs
     |   |       LocalFileTransfer.cs
     |   |       
@@ -1081,6 +1092,10 @@ G:.
     |       \---Release
     |           |   ImanSoftware.FileStorage.1.0.0.nuspec
     |           |   ImanSoftware.FileStorage.1.0.0.symbols.nuspec
+    |           |   ImanSoftware.FileStorage.1.0.1.nuspec
+    |           |   ImanSoftware.FileStorage.1.0.1.symbols.nuspec
+    |           |   ImanSoftware.FileStorage.2.0.0.nuspec
+    |           |   ImanSoftware.FileStorage.2.0.0.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -1169,6 +1184,10 @@ G:.
     |           |   ImanSoftware.Framework.1.0.5.symbols.nuspec
     |           |   ImanSoftware.Framework.1.0.6.nuspec
     |           |   ImanSoftware.Framework.1.0.6.symbols.nuspec
+    |           |   ImanSoftware.Framework.1.0.8.nuspec
+    |           |   ImanSoftware.Framework.1.0.8.symbols.nuspec
+    |           |   ImanSoftware.Framework.1.0.9.nuspec
+    |           |   ImanSoftware.Framework.1.0.9.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
