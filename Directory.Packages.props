@@ -16,7 +16,7 @@
     <PackageVersion Include="ImanSoftware.Jwt" Version="1.0.0" />
     <PackageVersion Include="ImanSoftware.Logging" Version="1.0.1" />
     <PackageVersion Include="ImanSoftware.Caching" Version="1.0.2" />
-    <PackageVersion Include="ImanSoftware.FileStorage" Version="2.1.0" />
+    <PackageVersion Include="ImanSoftware.FileStorage" Version="2.1.1" />
     <PackageVersion Include="ImanSoftware.RateLimiter" Version="1.0.5" />
     <!--Common Packages-->
     <PackageVersion Include="Dapper" Version="2.1.79" />
@@ -35,6 +35,6 @@
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.21.0" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="ImanSoftware.Branding" Version="1.0.12" />
-    <PackageVersion Include="ImanSoftware.Framework" Version="1.0.9" />
+    <PackageVersion Include="ImanSoftware.Framework" Version="1.0.10" />
   </ItemGroup>
 </Project>
