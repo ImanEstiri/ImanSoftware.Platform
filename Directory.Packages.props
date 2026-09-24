@@ -35,6 +35,6 @@
     <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="8.21.0" />
     <PackageVersion Include="Microsoft.Extensions.Http" Version="8.0.0" />
     <PackageVersion Include="ImanSoftware.Branding" Version="1.0.12" />
-    <PackageVersion Include="ImanSoftware.Framework" Version="1.0.10" />
+    <PackageVersion Include="ImanSoftware.Framework" Version="1.0.11" />
   </ItemGroup>
 </Project>
