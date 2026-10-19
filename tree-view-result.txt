@@ -106,12 +106,20 @@ G:.
 |   |       ImanSoftware.FileStorage.1.0.1.snupkg
 |   |       ImanSoftware.FileStorage.2.0.0.nupkg
 |   |       ImanSoftware.FileStorage.2.0.0.snupkg
+|   |       ImanSoftware.FileStorage.2.1.0.nupkg
+|   |       ImanSoftware.FileStorage.2.1.0.snupkg
+|   |       ImanSoftware.FileStorage.2.1.1.nupkg
+|   |       ImanSoftware.FileStorage.2.1.1.snupkg
 |   |       
 |   +---ImanSoftware.Framework
 |   |       ImanSoftware.Framework.1.0.0.nupkg
 |   |       ImanSoftware.Framework.1.0.0.snupkg
 |   |       ImanSoftware.Framework.1.0.1.nupkg
 |   |       ImanSoftware.Framework.1.0.1.snupkg
+|   |       ImanSoftware.Framework.1.0.10.nupkg
+|   |       ImanSoftware.Framework.1.0.10.snupkg
+|   |       ImanSoftware.Framework.1.0.11.nupkg
+|   |       ImanSoftware.Framework.1.0.11.snupkg
 |   |       ImanSoftware.Framework.1.0.4.nupkg
 |   |       ImanSoftware.Framework.1.0.4.snupkg
 |   |       ImanSoftware.Framework.1.0.5.nupkg
@@ -1096,6 +1104,10 @@ G:.
     |           |   ImanSoftware.FileStorage.1.0.1.symbols.nuspec
     |           |   ImanSoftware.FileStorage.2.0.0.nuspec
     |           |   ImanSoftware.FileStorage.2.0.0.symbols.nuspec
+    |           |   ImanSoftware.FileStorage.2.1.0.nuspec
+    |           |   ImanSoftware.FileStorage.2.1.0.symbols.nuspec
+    |           |   ImanSoftware.FileStorage.2.1.1.nuspec
+    |           |   ImanSoftware.FileStorage.2.1.1.symbols.nuspec
     |           |   
     |           \---net10.0
     |               |   .NETCoreApp,Version=v10.0.AssemblyAttributes.cs
@@ -1178,6 +1190,10 @@ G:.
     |           |   ImanSoftware.Framework.1.0.0.symbols.nuspec
     |           |   ImanSoftware.Framework.1.0.1.nuspec
     |           |   ImanSoftware.Framework.1.0.1.symbols.nuspec
+    |           |   ImanSoftware.Framework.1.0.10.nuspec
+    |           |   ImanSoftware.Framework.1.0.10.symbols.nuspec
+    |           |   ImanSoftware.Framework.1.0.11.nuspec
+    |           |   ImanSoftware.Framework.1.0.11.symbols.nuspec
     |           |   ImanSoftware.Framework.1.0.4.nuspec
     |           |   ImanSoftware.Framework.1.0.4.symbols.nuspec
     |           |   ImanSoftware.Framework.1.0.5.nuspec
