@@ -1,713 +1,373 @@
-# 🚀 ImanSoftware.Framework
+# ImanSoftware Platform
 
-**Last Updated:** August 2026
+[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=dotnet)](https://dotnet.microsoft.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
+[![NuGet](https://img.shields.io/badge/NuGet-ImanSoftware-004880?logo=nuget)](https://www.nuget.org/profiles/ImanSoftware)
+[![Author](https://img.shields.io/badge/Author-Iman%20Estiri-blue)](https://github.com/ImanEstiri)
 
-**A modular, production-ready .NET framework for building modern web applications with clean architecture, built-in best practices, and zero boilerplate.**
+**Small, independent .NET libraries for the problems every backend project solves again and again: results and errors, CQRS, caching, data access, JWT, rate limiting, file storage, and more.**
 
-[![.NET](https://img.shields.io/badge/.NET-10.0-512BD4?logo=.net)](https://dotnet.microsoft.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE.txt)
-[![Author](https://img.shields.io/badge/Author-Iman%20Estiri-blue)](https://github.com/JavadEstiri)
-
----
-
-## 📖 Table of Contents
-
-- [Introduction](#-introduction)
-- [Features](#-features)
-- [Installation](#-installation)
-- [Quick Start](#-quick-start)
-- [Core Concepts](#-core-concepts)
-  - [Result Pattern](#-result-pattern)
-  - [Exception Handling](#️-exception-handling)
-  - [Extensions](#️-extensions-30-methods)
-- [Services & Configuration Options](#-services--configuration-options)
-  - [DateTime Provider](#-datetime-provider)
-  - [Guid Generator](#-guid-generator)
-  - [Current User Accessor](#-current-user-accessor)
-  - [JSON Serializer](#-json-serializer)
-  - [Cache Service](#️-cache-service-in-memory)
-  - [Logger Adapter](#-logger-adapter)
-  - [JWT Service & Middleware](#-jwt-service--middleware)
-  - [Data Access Layer](#️-data-access-layer-dapper)
-  - [File Storage](#-file-storage-local-file-system)
-- [Full Options Reference Table](#-full-options-reference-table)
-- [Custom Dependency Injection](#-custom-dependency-injection)
-- [Middleware](#-middleware)
-- [Testing](#-testing)
-- [Extending the Framework](#️-extending-the-framework)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Author & Support](#-author--support)
+Every module is its own NuGet package. Install only what you need, or use the umbrella package `ImanSoftware.Framework` to get the core modules with a single registration call.
 
 ---
 
-## 🎯 Introduction
+## Why this repo
 
-**ImanSoftware.Framework** is a lightweight yet powerful framework designed to accelerate development of ASP.NET Core applications. It provides a set of pre-built, battle-tested components that solve common problems in every project:
-
-- ✅ Consistent error handling with the **Result Pattern**
-- ✅ Built-in **Dependency Injection** with flexible, per-service configuration
-- ✅ **Security** (JWT authentication, password hashing)
-- ✅ **Data Access** with Dapper (Stored Procedures & Ad-hoc Queries)
-- ✅ **Caching**, **Logging**, **Serialization**, and more
-
-The framework follows **Clean Architecture** principles and is designed to be **extensible**, **testable**, and **developer-friendly**. Every service can be turned on/off and configured independently through a single strongly-typed options object.
+- **Pick only what you need.** Each package has a narrow purpose and a small dependency surface.
+- **Interface-first.** Every service is an interface with a default implementation you can replace, so everything is easy to mock in tests.
+- **One consistent style.** Errors flow through the `Outcome` type, services are registered with `Add...()` extension methods, and every default can be overridden.
+- **Built for real apps.** Sequential GUIDs for database-friendly keys, `Dapper` data access with transaction scopes, Persian (Jalali) date helpers, and more.
 
 ---
 
-## ✨ Features
+## Packages
 
-| Category | Services |
-|----------|----------|
-| **Core** | Result Pattern, Custom Exceptions, Guard Clauses, Base Classes (`Entity`, `ValueObject`, `AggregateRoot`) |
-| **DateTime** | `IDateTimeProvider` – abstracts `DateTime.Now` for testability |
-| **Identity** | `IGuidGenerator` (Sequential & Random), `ICurrentUserAccessor<TUserId>` |
-| **Serialization** | `IJsonSerializer` with `System.Text.Json` & `Newtonsoft.Json` support |
-| **Caching** | `ICacheService` with In-Memory provider (Redis-ready) |
-| **Logging** | `ILoggerAdapter<TCategoryName>` – structured logging abstraction |
-| **Security** | `IJwtTokenService` + `JwtMiddleware` for authentication |
-| **Data Access** | `ISqlDataAccessor` with Dapper (Stored Procedures, Queries, Transactions) |
-| **File Storage** | `IFileStorage` – Upload, Download, Delete, Move, Copy, Metadata |
-| **Utilities** | 30+ extension methods for `string`, `DateTime`, `Enum`, `IEnumerable`, `Exception` |
+| Package | NuGet | What it does |
+|---|---|---|
+| [`ImanSoftware.Outcome`](src/ImanSoftware.Outcome) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Outcome) | Result pattern (`Outcome`, `Outcome<T>`, `OutcomeError`) and typed exceptions that convert to results. |
+| [`ImanSoftware.CQRS`](src/ImanSoftware.CQRS) | ![v](https://img.shields.io/nuget/v/ImanSoftware.CQRS) | `ICommand`, `IQuery` and their handlers on top of MediatR. |
+| [`ImanSoftware.Domain`](src/ImanSoftware.Domain) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Domain) | `BaseEntity<TId>`, `TaggedEntity` and ready-made value objects: `Money`, `Address`, `Coordinates`, `DateRange`, `EmailAddress`, `PhoneNumber`, `Tag`. |
+| [`ImanSoftware.Extensions`](src/ImanSoftware.Extensions) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Extensions) | Extension methods for `string`, `DateTime` (including Persian calendar), `Enum`, `IEnumerable`, `Exception`, `object`. |
+| [`ImanSoftware.Caching`](src/ImanSoftware.Caching) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Caching) | `ICacheService` on `IMemoryCache` with `GetOrSet`. |
+| [`ImanSoftware.Serialization`](src/ImanSoftware.Serialization) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Serialization) | `IImanJsonSerializer` with `System.Text.Json` and `Newtonsoft.Json` providers. |
+| [`ImanSoftware.Logging`](src/ImanSoftware.Logging) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Logging) | `ILoggerAdapter<T>`: a thin logger abstraction with scopes and standard levels. |
+| [`ImanSoftware.DataAccess`](src/ImanSoftware.DataAccess) | ![v](https://img.shields.io/nuget/v/ImanSoftware.DataAccess) | Database-agnostic abstractions: `ISqlDataAccessor`, `IDbConnectionFactory`, `ITransactionScope`. |
+| [`ImanSoftware.DataAccess.Dapper`](src/ImanSoftware.DataAccess.Dapper) | ![v](https://img.shields.io/nuget/v/ImanSoftware.DataAccess.Dapper) | Dapper implementation of `ImanSoftware.DataAccess`. |
+| [`ImanSoftware.Jwt`](src/ImanSoftware.Jwt) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Jwt) | Token generation and validation, plus ASP.NET Core middleware. |
+| [`ImanSoftware.CurrentUserAccessor`](src/ImanSoftware.CurrentUserAccessor) | ![v](https://img.shields.io/nuget/v/ImanSoftware.CurrentUserAccessor) | `ICurrentUserAccessor<TUserId>` backed by `HttpContext`. |
+| [`ImanSoftware.RateLimiter`](src/ImanSoftware.RateLimiter) | ![v](https://img.shields.io/nuget/v/ImanSoftware.RateLimiter) | Named policies, four strategies, response headers, metrics. Built on ASP.NET Core rate limiting. |
+| [`ImanSoftware.FileStorage`](src/ImanSoftware.FileStorage) | ![v](https://img.shields.io/nuget/v/ImanSoftware.FileStorage) | Local file operations (`IFileStorage`) and upload/download (`IFileTransfer`), also usable without DI. |
+| [`ImanSoftware.GuidGenerator`](src/ImanSoftware.GuidGenerator) | ![v](https://img.shields.io/nuget/v/ImanSoftware.GuidGenerator) | Sequential (index-friendly) and random GUID generators. |
+| [`ImanSoftware.DateTimeProvider`](src/ImanSoftware.DateTimeProvider) | ![v](https://img.shields.io/nuget/v/ImanSoftware.DateTimeProvider) | `IDateTimeProvider` so time can be controlled in tests. |
+| [`ImanSoftware.Branding`](src/ImanSoftware.Branding) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Branding) | Blazor badge component (see the [note on remote data](#imansoftwarebranding)). |
+| [`ImanSoftware.Framework`](src/ImanSoftware.Framework) | ![v](https://img.shields.io/nuget/v/ImanSoftware.Framework) | Umbrella package: one `AddImanFramework(options)` call for the core modules. |
+
+> **Requirements:** .NET 10 SDK. All projects target `net10.0`.
+
+### How the packages relate
+
+```mermaid
+graph LR
+    Framework[Framework<br/>umbrella] --> Outcome & Domain & Extensions & Caching & CurrentUser[CurrentUserAccessor]
+    Framework --> Dapper[DataAccess.Dapper] & DateTime[DateTimeProvider] & FileStorage & Guid[GuidGenerator]
+    Framework --> Jwt & Logging & Serialization
+    Dapper --> DataAccess --> Outcome
+    Caching --> Serialization
+    Branding --> Caching & Logging
+    RateLimiter --> Outcome & Logging & Extensions
+```
+
+`CQRS`, `RateLimiter` and `Branding` are **not** part of the umbrella package; install them separately.
 
 ---
 
-## 📦 Installation
+## Installation
 
-### 1. Add the NuGet Package *(coming soon)*
+Install only what you need:
+
+```bash
+dotnet add package ImanSoftware.Outcome
+dotnet add package ImanSoftware.Caching
+dotnet add package ImanSoftware.DataAccess.Dapper
+```
+
+Or take the umbrella package for the core modules:
 
 ```bash
 dotnet add package ImanSoftware.Framework
 ```
 
-### 2. Or Reference the Project Directly
+---
 
-```xml
-<ProjectReference Include="..\ImanSoftware.Framework\ImanSoftware.Framework.csproj" />
+## Quick start
+
+### Outcome (result pattern)
+
+Return an `Outcome<T>` instead of throwing or returning `null`.
+
+```csharp
+using ImanSoftware.Outcomes;
+
+public Outcome<Product> GetProduct(int id)
+{
+    var product = _repository.Find(id);
+
+    return product is null
+        ? Outcome.Failure<Product>(new OutcomeError("Product not found", "PRODUCT_NOT_FOUND", OutcomeErrorType.NotFound))
+        : Outcome.Successful(product);
+}
+
+var result = GetProduct(42);
+
+if (result.IsSuccess)
+    Console.WriteLine(result.Data.Name);     // Data throws if the outcome is a failure
+else
+    Console.WriteLine($"{result.Error.Code}: {result.Error.Message}");
 ```
 
-### 3. Add Required NuGet Dependencies *(if using Central Package Management)*
+Typed exceptions derive from `FrameworkException` and convert to an outcome with `ex.ToResult()` or `ex.ToResult<T>()`. Error categories: `Failure`, `Validation`, `Problem`, `NotFound`, `Conflict`, `InquiryError`.
 
-```xml
-<!-- Directory.Packages.props -->
-<PackageVersion Include="Dapper" Version="2.1.35" />
-<PackageVersion Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
-<PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
-<PackageVersion Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
-<PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.0.0" />
-<PackageVersion Include="Microsoft.IdentityModel.Tokens" Version="7.0.0" />
-<PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-<PackageVersion Include="Microsoft.Data.SqlClient" Version="5.0.0" />
+### CQRS
+
+```csharp
+using ImanSoftware.CQRS;
+using ImanSoftware.CQRS.DependencyInjection;
+
+builder.Services.AddCqrs([typeof(Program).Assembly]);
+
+public record GetProductQuery(int Id) : IQuery<Outcome<Product>>;
+
+public class GetProductHandler : IQueryHandler<GetProductQuery, Outcome<Product>>
+{
+    public Task<Outcome<Product>> Handle(GetProductQuery query, CancellationToken ct) { /* ... */ }
+}
 ```
+
+### Caching
+
+```csharp
+using ImanSoftware.Caching;
+
+builder.Services.AddCacheService();
+
+var product = _cache.GetOrSet($"product:{id}", () => LoadProduct(id), TimeSpan.FromMinutes(5));
+```
+
+`AddCacheService()` registers `IMemoryCache`, the serializer, and an in-memory `ICacheService`. Pass a custom implementation type to plug in another provider (for example Redis).
+
+### Data access with Dapper
+
+```csharp
+using ImanSoftware.DataAccess.Dapper;
+
+builder.Services.AddDapperDataAccess(
+    builder.Configuration.GetConnectionString("DefaultConnection")
+    ?? throw new InvalidOperationException("Connection string 'DefaultConnection' was not found."));
+```
+
+```csharp
+public class ProductRepository(ISqlDataAccessor db)
+{
+    public Task<Outcome<Product>> GetAsync(int id) =>
+        db.QuerySingleAsync<Product>("GetProductById", new { Id = id }, CommandType.StoredProcedure);
+
+    public async Task<Outcome> UpdateStockAsync(int id, int stock)
+    {
+        var scope = await db.BeginTransactionAsync();
+        if (scope.IsFailure) return Outcome.Failure(scope.Error);
+
+        using var tx = scope.Data;
+        var result = await db.ExecuteAsync(
+            "UpdateProductStock", new { Id = id, Stock = stock },
+            CommandType.StoredProcedure, tx.Transaction);
+
+        if (result.IsFailure)
+        {
+            await tx.RollbackAsync();
+            return Outcome.Failure(result.Error);
+        }
+
+        await tx.CommitAsync();
+        return Outcome.Successful();
+    }
+}
+```
+
+Never commit real connection strings. Use user secrets or environment variables.
+
+### JWT
+
+```csharp
+using ImanSoftware.Jwt;
+using ImanSoftware.AspNetCore.Middlewares;
+
+builder.Services.AddJwtTokenService(new JwtOptions
+{
+    SecretKey = builder.Configuration["Jwt:SecretKey"]!,   // keep out of source control
+    Issuer = "MyApp",
+    Audience = "MyApp.Users",
+    ExpiryMinutes = 120
+});
+
+app.UseRouting();
+app.UseJwtAuthentication();   // reads the bearer token and sets HttpContext.User
+```
+
+```csharp
+string token = _jwt.GenerateToken([new Claim(ClaimTypes.NameIdentifier, userId.ToString())]);
+```
+
+### Rate limiting
+
+```csharp
+using ImanSoftware.RateLimiter;
+using ImanSoftware.RateLimiter.Core.Enums;
+using ImanSoftware.RateLimiter.Core.Models;
+using ImanSoftware.RateLimiter.Infrastructure;
+using ImanSoftware.RateLimiter.Attributes;
+
+builder.Services.AddImanRateLimiter(options =>
+{
+    options.DefaultPolicy = new RateLimitPolicy
+    {
+        PermitLimit = 100,
+        Window = TimeSpan.FromMinutes(1),
+        Strategy = RateLimiterStrategy.SlidingWindow,
+        PartitionBy = RateLimitPartitionBy.IpAddress
+    };
+
+    options.Policies["login"] = new RateLimitPolicy { PermitLimit = 5, Window = TimeSpan.FromMinutes(1) };
+});
+
+app.UseImanRateLimiter();
+
+[EnableImanRateLimiting(PolicyName = "login")]
+public class AuthController : ControllerBase { /* ... */ }
+```
+
+| Strategies | Partition keys |
+|---|---|
+| `FixedWindow`, `SlidingWindow`, `TokenBucket`, `Concurrency` | `IpAddress`, `UserId`, `ApiKey`, `Endpoint`, `Custom` |
+
+Responses include rate-limit headers by default. Limits are enforced in memory per application instance.
+
+### File storage
+
+```csharp
+using ImanSoftware.FileStorage;
+
+// With DI
+builder.Services.AddImanFileStorage();                       // IFileStorage: read, write, move, delete, enumerate
+builder.Services.AddImanFileTransfer(o =>                    // IFileTransfer: upload / download
+{
+    o.RootPath = "uploads";
+    o.MaxFileSize = 10 * 1024 * 1024;
+    o.AllowedExtensions = [".jpg", ".png", ".pdf"];
+});
+
+// Without DI (console apps, scripts)
+var storage = ImanFileStorageFactory.CreateStorage();
+var transfer = ImanFileStorageFactory.CreateTransfer(o => o.RootPath = "uploads");
+```
+
+### Smaller helpers
+
+```csharp
+using ImanSoftware.Extensions;
+
+"HelloWorld".ToSnakeCase();       // "hello_world"
+"Hello World".ToKebabCase();      // "hello-world"
+DateTime.Now.StartOfWeek();
+birthDate.Age();
+date.ToPersianDateString();       // Jalali calendar
+OrderStatus.Shipped.GetDescription();
+```
+
+```csharp
+builder.Services.AddCurrentUserAccessor();                   // ICurrentUserAccessor<TUserId>
+builder.Services.AddLoggerAdapter();                         // ILoggerAdapter<T>
+var userId = _currentUser.GetCurrentUserId();                // Guid? / int? / string?
+```
+
+### ImanSoftware.Branding
+
+```csharp
+using ImanSoftware.Branding.DependencyInjection;
+
+builder.Services.AddImanBranding();
+```
+
+```razor
+@using ImanSoftware.Branding
+<ImanSoftwareBadge ProjectId="your-project-id" />
+```
+
+The badge **requests its content from `https://imansoftware.ir/api/badge`** (3-second timeout, cached for 12 hours) and falls back to a built-in default text if the request fails. You can change the endpoint, cache duration and default text through `BrandingOptions`.
 
 ---
 
-## 🚀 Quick Start
+## The umbrella package
 
-### 1. Register the Framework in `Program.cs`
+`ImanSoftware.Framework` bundles Outcome, Domain, Extensions, Caching, CurrentUserAccessor, DataAccess.Dapper, DateTimeProvider, FileStorage, GuidGenerator, Jwt, Logging and Serialization, and registers them through one entry point:
 
 ```csharp
 using ImanSoftware.Framework.FrameworkDependencyInjection;
 
-var builder = WebApplication.CreateBuilder(args);
-
-// Register all framework services with default configurations
-builder.Services.AddImanFramework();
-
-var app = builder.Build();
-app.Run();
-```
-
-### 2. Use Services in Your Controllers or Services
-
-```csharp
-public class ProductService
-{
-    private readonly IDateTimeProvider _dateTime;
-    private readonly ILoggerAdapter<ProductService> _logger;
-    private readonly ISqlDataAccessor _db;
-
-    public ProductService(
-        IDateTimeProvider dateTime,
-        ILoggerAdapter<ProductService> logger,
-        ISqlDataAccessor db)
-    {
-        _dateTime = dateTime;
-        _logger = logger;
-        _db = db;
-    }
-
-    public async Task<Result<Product>> GetProductAsync(int id)
-    {
-        _logger.LogInformation("Fetching product {ProductId} at {Time}", id, _dateTime.Now);
-        return await _db.QuerySingleAsync<Product>("GetProductById", new { Id = id }, CommandType.StoredProcedure);
-    }
-}
-```
-
----
-
-## 🧩 Core Concepts
-
-### 📦 Result Pattern
-
-All operations return `Result` or `Result<T>` instead of throwing exceptions or returning `null`.
-
-```csharp
-public async Task<Result<Product>> GetProductAsync(int id)
-{
-    var product = await _db.QuerySingleAsync<Product>(...);
-    if (product.Data is null)
-        return Result<Product>.Failure(new AppError("Product not found", "NOT_FOUND", ErrorType.NotFound));
-
-    return product;
-}
-
-// Usage
-var result = await service.GetProductAsync(42);
-if (result.IsSuccess)
-{
-    var product = result.Data; // Safe to access
-}
-else
-{
-    Console.WriteLine($"Error: {result.Error.Message} ({result.Error.Code})");
-}
-```
-
-### 🛡️ Exception Handling
-
-Base exceptions convert to `Result` automatically.
-
-```csharp
-// Throw exception
-throw new NotFoundException($"Product {id} not found.");
-
-// Catch and convert to Result
-try { ... }
-catch (FrameworkException ex)
-{
-    return ex.ToResult(); // Returns Result.Failure
-}
-```
-
-### 🛠️ Extensions (30+ Methods)
-
-```csharp
-// String
-"hello world".ToCamelCase();           // "helloWorld"
-"HelloWorld".ToSnakeCase();            // "hello_world"
-"  hello  ".NormalizeWhitespace();     // "hello"
-
-// DateTime
-DateTime.Now.StartOfDay();             // 2024-01-01 00:00:00
-DateTime.Now.Age(birthDate);           // 25
-
-// Enum
-OrderStatus.Shipped.GetDescription();  // "Shipped"
-OrderStatus.Pending.ToInt();           // 1
-
-// IEnumerable
-var chunks = items.Chunk(10);          // Split into chunks of 10
-```
-
----
-
-## 🧰 Services & Configuration Options
-
-Every service in the framework is registered through the single `AddImanFramework(...)` extension method, configured via an instance of `ImanFrameworkDependencyInjectionOptions`. Each service exposes:
-
-1. An **`Add<Service>` boolean flag** to enable/disable it.
-2. Optional **configuration properties** (connection strings, JWT settings, implementation type, etc.).
-3. An optional **custom registration delegate** to override the default implementation.
-
-### 🕒 DateTime Provider
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddDateTimeProvider` | `bool` | `true` | Enables/disables the service |
-| `DateTimeProviderCustomRegistration` | `Action<IServiceCollection>` | `null` | Overrides the default implementation |
-
-```csharp
-// Register (default: enabled)
-builder.Services.AddImanFramework();
-
-// Use
-public class OrderService
-{
-    private readonly IDateTimeProvider _dateTime;
-    public OrderService(IDateTimeProvider dateTime) => _dateTime = dateTime;
-
-    public void CreateOrder()
-    {
-        var now = _dateTime.Now;   // Returns System.DateTime.Now
-        var today = _dateTime.Today;
-    }
-}
-```
-
-### 🆔 Guid Generator
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddGuidGenerator` | `bool` | `true` | Enables/disables the service |
-| `GuidGeneratorImplementationType` | `GuidGeneratorDefaultImplementationType` | `Sequential` | `Sequential` (DB-friendly) or `Random` |
-
-```csharp
-// Configuration
 builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
 {
-    AddGuidGenerator = true,
-    GuidGeneratorImplementationType = GuidGeneratorDefaultImplementationType.Sequential
-});
-
-// Use
-public class ProductService
-{
-    private readonly IGuidGenerator _guidGenerator;
-    public ProductService(IGuidGenerator guidGenerator) => _guidGenerator = guidGenerator;
-
-    public void CreateProduct()
-    {
-        var id = _guidGenerator.NewGuid(); // Sequential GUID (DB-friendly)
-    }
-}
-```
-
-### 👤 Current User Accessor
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddCurrentUserAccessor` | `bool` | `true` | Enables/disables the service (registered as an open generic `ICurrentUserAccessor<TUserId>`) |
-
-```csharp
-// Register (open generic)
-builder.Services.AddImanFramework();
-
-// Use with Guid
-public class ProfileService
-{
-    private readonly ICurrentUserAccessor<Guid> _userAccessor;
-    public ProfileService(ICurrentUserAccessor<Guid> userAccessor) => _userAccessor = userAccessor;
-
-    public void ShowProfile()
-    {
-        var userId = _userAccessor.GetCurrentUserId(); // Returns Guid
-        var user = _userAccessor.GetCurrentUser();      // Returns ClaimsPrincipal
-    }
-}
-
-// Use with int
-public class LegacyService
-{
-    private readonly ICurrentUserAccessor<int> _userAccessor;
-    // ...
-}
-```
-
-### 📦 JSON Serializer
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddJsonSerializer` | `bool` | `true` | Enables/disables the service |
-| `SerializationImplementationType` | `SerializationDefaultImplementationType` | `SystemTextJson` | `SystemTextJson` or `Newtonsoft` |
-
-```csharp
-// Configuration (choose System.Text.Json or Newtonsoft)
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddJsonSerializer = true,
-    SerializationImplementationType = SerializationDefaultImplementationType.SystemTextJson
-});
-
-// Use
-public class ProductService
-{
-    private readonly IJsonSerializer _json;
-    public ProductService(IJsonSerializer json) => _json = json;
-
-    public string Serialize(Product product) => _json.Serialize(product);
-    public Product? Deserialize(string json) => _json.Deserialize<Product>(json);
-}
-```
-
-### 🗄️ Cache Service (In-Memory)
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddCacheService` | `bool` | `false` | Enables/disables the service |
-| `CacheServiceCustomRegistration` | `Action<IServiceCollection>` | `null` | Overrides the default in-memory implementation (e.g., to plug in Redis) |
-
-```csharp
-// Register
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddCacheService = true
-});
-
-// Use
-public class ProductService
-{
-    private readonly ICacheService _cache;
-    public ProductService(ICacheService cache) => _cache = cache;
-
-    public async Task<Product> GetProductAsync(int id)
-    {
-        var key = $"product_{id}";
-        return _cache.GetOrSet(key, () => GetFromDatabase(id), TimeSpan.FromMinutes(5));
-    }
-}
-```
-
-### 📝 Logger Adapter
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddLoggerAdapter` | `bool` | `true` | Enables/disables the service (registered as an open generic `ILoggerAdapter<TCategoryName>`) |
-
-```csharp
-// Register (default: enabled)
-builder.Services.AddImanFramework();
-
-// Use
-public class ProductService
-{
-    private readonly ILoggerAdapter<ProductService> _logger;
-    public ProductService(ILoggerAdapter<ProductService> logger) => _logger = logger;
-
-    public async Task ProcessOrderAsync(Order order)
-    {
-        using (_logger.BeginScope(new { OrderId = order.Id }))
-        {
-            _logger.LogInformation("Starting order processing.");
-            // All logs inside this scope include OrderId
-        }
-    }
-}
-```
-
-### 🔐 JWT Service & Middleware
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddJwtService` | `bool` | `false` | Enables/disables the JWT token service |
-| `JwtConfigureOptions` | `JwtOptions` | `null` | `SecretKey`, `Issuer`, `Audience`, `ExpiryMinutes` |
-| `JwtCustomImplementation` | `Type` | `null` | Replaces the default `IJwtTokenService` implementation |
-
-**`appsettings.json`:**
-
-```json
-{
-  "Jwt": {
-    "SecretKey": "your-256-bit-secret-key-here",
-    "Issuer": "MyApp",
-    "Audience": "MyApp.Users",
-    "ExpiryMinutes": 120
-  }
-}
-```
-
-**Registration:**
-
-```csharp
-var jwtOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>()!;
-
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
+    AddCacheService = true,
     AddJwtService = true,
-    JwtConfigureOptions = jwtOptions
+    JwtConfigureOptions = builder.Configuration.GetSection("Jwt").Get<JwtOptions>(),
+    AddDapperDataAccess = true,
+    DapperConnectionString = builder.Configuration.GetConnectionString("DefaultConnection")
 });
 
-// Enable the middleware (must be called after UseRouting())
-app.UseJwtAuthentication(); // Extracts token & sets HttpContext.User
+builder.Services.AddLoggerAdapter();   // Logging is not registered by AddImanFramework
 ```
 
-**Usage:**
+| Option | Default | Notes |
+|---|---|---|
+| `AddDateTimeProvider` | `true` | `DateTimeProviderCustomImplementation` overrides it |
+| `AddGuidGenerator` | `true` | `GuidGeneratorImplementationType`: `Sequential` (default) or `Random` |
+| `AddCurrentUserAccessor` | `true` | Open generic `ICurrentUserAccessor<>` |
+| `AddJsonSerializer` | `true` | `SerializationImplementationType`: `Newtonsoft` (default) or `SystemText` |
+| `AddCacheService` | `false` | In-memory by default |
+| `AddJwtService` | `false` | Requires `JwtConfigureOptions` or a custom implementation |
+| `AddDataAccess` | `false` | Requires `DataAccessConnectionString` and a custom registration |
+| `AddDapperDataAccess` | `false` | Requires `DapperConnectionString` |
+| `AddFileStorage` | `false` | General file operations, no configuration needed |
+| `AddFileTransfer` | `false` | Requires `FileTransferConfigureOptions` (or a custom registration) |
 
-```csharp
-public class AuthService
-{
-    private readonly IJwtTokenService _jwt;
-    public AuthService(IJwtTokenService jwt) => _jwt = jwt;
-
-    public string Login(string username, string password)
-    {
-        // Validate user
-        var claims = new[] { new Claim(ClaimTypes.NameIdentifier, userId.ToString()) };
-        return _jwt.GenerateToken(claims);
-    }
-}
-```
-
-### 🗃️ Data Access Layer (Dapper)
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddDataAccess` | `bool` | `false` | Enables/disables the service |
-| `ConnectionString` | `string` | `null` | SQL Server connection string |
-| `DataAccessCustomRegistration` | `Action<IServiceCollection>` | `null` | Overrides the default `ISqlDataAccessor` implementation |
-
-**`appsettings.json`:**
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Server=.;Database=MyDb;User Id=sa;Password=MyPass;"
-  }
-}
-```
-
-**Registration:**
-
-```csharp
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddDataAccess = true,
-    ConnectionString = connectionString
-});
-```
-
-**Usage:**
-
-```csharp
-public class ProductService
-{
-    private readonly ISqlDataAccessor _db;
-    public ProductService(ISqlDataAccessor db) => _db = db;
-
-    // Stored Procedure
-    public async Task<Result<Product>> GetProductAsync(int id)
-    {
-        return await _db.QuerySingleAsync<Product>(
-            "GetProductById",
-            new { Id = id },
-            CommandType.StoredProcedure);
-    }
-
-    // Ad-hoc Query
-    public async Task<Result<IEnumerable<Product>>> GetActiveProductsAsync()
-    {
-        return await _db.QueryAsync<Product>(
-            "SELECT * FROM Products WHERE IsActive = 1",
-            commandType: CommandType.Text);
-    }
-
-    // Transaction
-    public async Task<Result> UpdateProductStockAsync(int productId, int newStock)
-    {
-        using var scope = await _db.BeginTransactionAsync();
-        if (!scope.IsSuccess) return Result.Failure(scope.Error);
-
-        try
-        {
-            var result = await _db.ExecuteAsync(
-                "UpdateProductStock",
-                new { ProductId = productId, NewStock = newStock },
-                CommandType.StoredProcedure,
-                scope.Data.Transaction);
-
-            if (!result.IsSuccess)
-            {
-                await scope.Data.RollbackAsync();
-                return Result.Failure(result.Error);
-            }
-
-            await scope.Data.CommitAsync();
-            return Result.Successful();
-        }
-        catch
-        {
-            await scope.Data.RollbackAsync();
-            throw;
-        }
-    }
-}
-```
-
-### 📁 File Storage (Local File System)
-
-| Option | Type | Default | Description |
-|---|---|---|---|
-| `AddFileStorage` | `bool` | `false` | Enables/disables the service *(coming soon)* |
-| `FileStorageOptions.RootPath` | `string` | `null` | Root directory for stored files |
-
-```csharp
-// Register (coming soon)
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddFileStorage = true,
-    FileStorageOptions = new FileStorageOptions
-    {
-        RootPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/uploads")
-    }
-});
-
-// Use
-public class FileService
-{
-    private readonly IFileStorage _fileStorage;
-    public FileService(IFileStorage fileStorage) => _fileStorage = fileStorage;
-
-    public async Task<Result<string>> UploadAsync(IFormFile file)
-    {
-        using var stream = file.OpenReadStream();
-        return await _fileStorage.UploadAsync(stream, file.FileName);
-    }
-}
-```
+To replace a default, set the matching `...CustomImplementation` property (`typeof(MyService)`) or `...CustomRegistration` delegate.
 
 ---
 
-## 📋 Full Options Reference Table
+## Build from source
 
-All options below belong to `ImanFrameworkDependencyInjectionOptions`, passed into `builder.Services.AddImanFramework(options)`.
-
-| Option | Type | Default | Belongs to Service | Purpose |
-|---|---|---|---|---|
-| `AddDateTimeProvider` | `bool` | `true` | DateTime Provider | Enable/disable `IDateTimeProvider` |
-| `DateTimeProviderCustomRegistration` | `Action<IServiceCollection>` | `null` | DateTime Provider | Custom implementation |
-| `AddGuidGenerator` | `bool` | `true` | Guid Generator | Enable/disable `IGuidGenerator` |
-| `GuidGeneratorImplementationType` | `GuidGeneratorDefaultImplementationType` | `Sequential` | Guid Generator | Choose `Sequential` or `Random` |
-| `AddCurrentUserAccessor` | `bool` | `true` | Current User Accessor | Enable/disable `ICurrentUserAccessor<TUserId>` |
-| `AddJsonSerializer` | `bool` | `true` | JSON Serializer | Enable/disable `IJsonSerializer` |
-| `SerializationImplementationType` | `SerializationDefaultImplementationType` | `SystemTextJson` | JSON Serializer | Choose `SystemTextJson` or `Newtonsoft` |
-| `AddCacheService` | `bool` | `false` | Cache Service | Enable/disable `ICacheService` |
-| `CacheServiceCustomRegistration` | `Action<IServiceCollection>` | `null` | Cache Service | Plug in Redis or another provider |
-| `AddLoggerAdapter` | `bool` | `true` | Logger Adapter | Enable/disable `ILoggerAdapter<TCategoryName>` |
-| `AddJwtService` | `bool` | `false` | JWT Service | Enable/disable `IJwtTokenService` |
-| `JwtConfigureOptions` | `JwtOptions` | `null` | JWT Service | `SecretKey`, `Issuer`, `Audience`, `ExpiryMinutes` |
-| `JwtCustomImplementation` | `Type` | `null` | JWT Service | Replace default implementation (type-based) |
-| `AddDataAccess` | `bool` | `false` | Data Access | Enable/disable `ISqlDataAccessor` |
-| `ConnectionString` | `string` | `null` | Data Access | SQL Server connection string |
-| `DataAccessCustomRegistration` | `Action<IServiceCollection>` | `null` | Data Access | Custom data-access implementation |
-| `AddFileStorage` | `bool` | `false` | File Storage | Enable/disable `IFileStorage` *(coming soon)* |
-| `FileStorageOptions` | `FileStorageOptions` | `null` | File Storage | `RootPath` and future storage settings |
-
-> 💡 **Tip:** Calling `AddImanFramework()` with no arguments registers every service with its default configuration. Pass an `ImanFrameworkDependencyInjectionOptions` instance only when you need to enable optional services (Cache, JWT, Data Access, File Storage) or override an implementation.
-
----
-
-## 🔧 Custom Dependency Injection
-
-The framework supports two ways to override any default implementation:
-
-### Option A — `Action<IServiceCollection>` (Recommended)
-
-```csharp
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddDateTimeProvider = true,
-    DateTimeProviderCustomRegistration = services =>
-    {
-        services.TryAddSingleton<IDateTimeProvider, CustomDateTimeProvider>();
-    }
-});
+```bash
+dotnet restore ImanSoftware.Platform.slnx
+dotnet build ImanSoftware.Platform.slnx --configuration Release
 ```
 
-### Option B — `ImanFrameworkDependencyInjectionCustomImplementation<T>` (Type-Based)
+Package versions are managed centrally in `Directory.Packages.props`, and shared build settings live in `Directory.Build.props`. Each package is versioned independently in its own `.csproj`, and `publish.ps1` packs and pushes packages to NuGet.
 
-```csharp
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddJwtService = true,
-    JwtCustomImplementation = typeof(MyCustomJwtService) // Implicitly converts from Type
-});
+## Repository layout
+
+```text
+.
+├── ImanSoftware.Platform.slnx
+├── Directory.Build.props
+├── Directory.Packages.props
+├── nuget.config
+├── publish.ps1
+└── src/
+    ├── ImanSoftware.Branding/
+    ├── ImanSoftware.Caching/
+    ├── ImanSoftware.CQRS/
+    ├── ImanSoftware.CurrentUserAccessor/
+    ├── ImanSoftware.DataAccess/
+    ├── ImanSoftware.DataAccess.Dapper/
+    ├── ImanSoftware.DateTimeProvider/
+    ├── ImanSoftware.Domain/
+    ├── ImanSoftware.Extensions/
+    ├── ImanSoftware.FileStorage/
+    ├── ImanSoftware.Framework/
+    ├── ImanSoftware.GuidGenerator/
+    ├── ImanSoftware.Jwt/
+    ├── ImanSoftware.Logging/
+    ├── ImanSoftware.Outcome/
+    ├── ImanSoftware.RateLimiter/
+    └── ImanSoftware.Serialization/
 ```
 
----
+## Contributing
 
-## ⚡ Middleware
+Issues and pull requests are welcome. Please open an issue first for larger changes, keep each package focused, and include tests for new behavior.
 
-### JWT Authentication Middleware
+## License
 
-```csharp
-app.UseJwtAuthentication(); // Must be called after UseRouting()
-```
+Released under the MIT License. See [LICENSE.txt](LICENSE.txt).
 
 ---
 
-## 🧪 Testing
-
-The framework is designed for testability — every service is exposed as an interface, so it can be mocked in isolation:
-
-```csharp
-// Mock IDateTimeProvider
-var mockDateTime = new Mock<IDateTimeProvider>();
-mockDateTime.Setup(x => x.Now).Returns(new DateTime(2024, 1, 1));
-
-// Mock ISqlDataAccessor
-var mockDb = new Mock<ISqlDataAccessor>();
-mockDb.Setup(x => x.QuerySingleAsync<Product>(...))
-      .ReturnsAsync(Result<Product>.Successful(new Product()));
-
-var service = new ProductService(mockDateTime.Object, mockDb.Object);
-```
-
----
-
-## 🛠️ Extending the Framework
-
-### 1. Add a New Service
-
-1. Create the interface in `Abstractions/NewService/INewService.cs`
-2. Create the implementation in `Infrastructure/NewService/NewService.cs`
-3. Create the internal registration in `Abstractions/NewService/NewServiceRegistration.cs`
-4. Add the corresponding option in `ImanFrameworkDependencyInjectionOptions`
-5. Register it inside `FrameworkDependencyInjection.AddImanFramework`
-
-### 2. Provide a Custom Implementation
-
-```csharp
-public class MyCustomDataAccessor : ISqlDataAccessor
-{
-    // Implement all methods
-}
-
-// Register
-builder.Services.AddImanFramework(new ImanFrameworkDependencyInjectionOptions
-{
-    AddDataAccess = true,
-    DataAccessCustomRegistration = services =>
-    {
-        services.TryAddScoped<ISqlDataAccessor, MyCustomDataAccessor>();
-    }
-});
-```
-
----
-
-## 🧑‍💻 Contributing
-
-We welcome contributions! Please:
-
-1. Fork the repository
-2. Create a feature branch
-3. Write tests
-4. Submit a pull request
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE.txt](LICENSE.txt) file for details.
-
----
-
-## 🙏 Acknowledgments
-
-- Built with ❤️ by **ImanSoftware**
-- Powered by **.NET 10**
-- Inspired by **Clean Architecture** and **Domain-Driven Design**
-
----
-
-## 👤 Author & Support
-
-**Iman Estiri**
-GitHub: [github.com/JavadEstiri](https://github.com/JavadEstiri?tab=repositories)
-
-- 🐛 Issues & Feature Requests: open an issue on the repository above
-- 📖 Documentation: this README (kept up to date alongside the codebase)
-
-Made with ❤️ in Iran 🇮🇷
+Made by [Iman Estiri](https://github.com/ImanEstiri) in Iran 🇮🇷
