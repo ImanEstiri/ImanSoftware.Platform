@@ -21,11 +21,11 @@
     <Company>ImanSoftware</Company>
     <Copyright>Copyright (c) $([System.DateTime]::Now.Year) ImanSoftware</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://imansoftware.tech</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/ImanEstiri/ImanSoftware.Platform</PackageProjectUrl>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-
+    <RepositoryUrl>https://github.com/ImanEstiri/ImanSoftware.Platform</RepositoryUrl>
     <PackageReadmeFile Condition="Exists('README.md')">README.md</PackageReadmeFile>
     <PackageIcon>icon.png</PackageIcon>
   </PropertyGroup>
