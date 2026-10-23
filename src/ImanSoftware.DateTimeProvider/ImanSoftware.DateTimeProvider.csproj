@@ -1,20 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
-
   <PropertyGroup>
     <PackageId>ImanSoftware.DateTimeProvider</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>Abstraction over DateTime.Now to improve testability and control over time in your application.</Description>
     <PackageTags>datetime;time;abstraction;testability;timeprovider</PackageTags>
   </PropertyGroup>
-  
 </Project>

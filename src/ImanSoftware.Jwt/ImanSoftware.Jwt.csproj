@@ -1,24 +1,18 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Http" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
   </ItemGroup>
-
-
   <PropertyGroup>
     <PackageId>ImanSoftware.Jwt</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>JWT token generation, validation, and authentication middleware for ASP.NET Core.</Description>
     <PackageTags>jwt;authentication;tokens;security;middleware</PackageTags>
   </PropertyGroup>
-
-
 </Project>

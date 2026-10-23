@@ -1,20 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
   </ItemGroup>
-  
   <PropertyGroup>
     <PackageId>ImanSoftware.Logging</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Structured logger adapter with ILogger abstraction, supporting scopes and standard log levels.</Description>
     <PackageTags>logging;logger;abstraction;structured-logging;diagnostics</PackageTags>
   </PropertyGroup>
-  
 </Project>

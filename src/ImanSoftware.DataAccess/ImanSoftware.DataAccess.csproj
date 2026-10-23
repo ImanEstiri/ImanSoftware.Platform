@@ -1,25 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
-
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
   </ItemGroup>
-
   <ItemGroup>
     <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
-
   <PropertyGroup>
     <PackageId>ImanSoftware.DataAccess</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.0.1</Version>
     <Description>Database-agnostic data access abstractions (connection factory, transaction scope, query executor).</Description>
     <PackageTags>dataaccess;sql;abstraction;repository;database</PackageTags>
   </PropertyGroup>
-
-
 </Project>

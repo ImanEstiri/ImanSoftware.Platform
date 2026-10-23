@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup>
     <PackageId>ImanSoftware.Framework</PackageId>
-    <Version>1.0.11</Version>
+    <Version>1.0.23</Version>
     <Description>Umbrella package that bundles all ImanSoftware modules for a unified development experience.</Description>
     <PackageTags>framework;all-in-one;umbrella;dotnet;imansoftware</PackageTags>
   </PropertyGroup>
