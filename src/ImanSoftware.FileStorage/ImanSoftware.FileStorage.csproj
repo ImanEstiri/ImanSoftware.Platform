@@ -12,6 +12,9 @@
     <PackageReference Include="ImanSoftware.Logging" />
     <PackageReference Include="ImanSoftware.Outcome" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ImanSoftware.Tests" />
+  </ItemGroup>
   <PropertyGroup>
     <PackageId>ImanSoftware.FileStorage</PackageId>
     <Version>2.1.3</Version>

@@ -9,6 +9,9 @@
     <PackageReference Include="ImanSoftware.Caching" />
     <PackageReference Include="ImanSoftware.Logging" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ImanSoftware.Tests" />
+  </ItemGroup>
   <PropertyGroup>
     <PackageId>ImanSoftware.Branding</PackageId>
     <Version>1.0.14</Version>

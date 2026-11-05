@@ -11,6 +11,9 @@
   <ItemGroup>
     <PackageReference Include="ImanSoftware.Serialization" />
   </ItemGroup>
+  <ItemGroup>
+    <InternalsVisibleTo Include="ImanSoftware.Tests" />
+  </ItemGroup>
   <PropertyGroup>
     <PackageId>ImanSoftware.Caching</PackageId>
     <Version>1.0.3</Version>

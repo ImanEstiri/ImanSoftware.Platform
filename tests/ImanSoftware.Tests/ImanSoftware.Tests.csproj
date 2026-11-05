@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CA1707</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="coverlet.collector">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="NSubstitute" />
+    <PackageReference Include="Microsoft.Data.Sqlite" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\ImanSoftware.Branding\ImanSoftware.Branding.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Caching\ImanSoftware.Caching.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.CQRS\ImanSoftware.CQRS.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.CurrentUserAccessor\ImanSoftware.CurrentUserAccessor.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.DataAccess\ImanSoftware.DataAccess.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.DataAccess.Dapper\ImanSoftware.DataAccess.Dapper.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.DateTimeProvider\ImanSoftware.DateTimeProvider.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Domain\ImanSoftware.Domain.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Extensions\ImanSoftware.Extensions.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.FileStorage\ImanSoftware.FileStorage.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Framework\ImanSoftware.Framework.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.GuidGenerator\ImanSoftware.GuidGenerator.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Jwt\ImanSoftware.Jwt.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Logging\ImanSoftware.Logging.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Outcome\ImanSoftware.Outcome.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.RateLimiter\ImanSoftware.RateLimiter.csproj" />
+    <ProjectReference Include="..\..\src\ImanSoftware.Serialization\ImanSoftware.Serialization.csproj" />
+  </ItemGroup>
+
+</Project>
