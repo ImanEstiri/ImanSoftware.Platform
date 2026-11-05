@@ -35,4 +35,7 @@
   <Folder Name="/src/Umbrella/">
     <Project Path="src/ImanSoftware.Framework/ImanSoftware.Framework.csproj" />
   </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/ImanSoftware.Tests/ImanSoftware.Tests.csproj" Id="f2a9c7d4-3b6e-4c1a-9d8f-5e0b7c2a4d19" />
+  </Folder>
 </Solution>
